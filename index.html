@@ -3,99 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KRFTINTO GHO - Breakdown Rescue</title>
+<title>KRFTINTO GHO - Mechanic Network BW</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial} body{background:#0f0f0f;color:#fff}
-.top{background:#b91c1c;padding:12px;display:flex;justify-content:space-between;align-items:center}
-.top button{background:#000;color:#fff;border:1px solid #fff;padding:8px 14px;border-radius:20px;font-weight:900;font-size:12px}
-#map{height:38vh}
+.top{background:#b91c1c;padding:10px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:999}
+.top b{font-size:15px}.top button{padding:7px 12px;border-radius:20px;border:1px solid #fff;background:#000;color:#fff;font-weight:900;font-size:11px}
+#map{height:32vh}
 .card{background:#1e1e1e;margin:8px;padding:12px;border-radius:14px;border:1px solid #333}
 .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
-.svc{background:#2a2a2a;border:2px solid #333;padding:10px;border-radius:10px;text-align:center;cursor:pointer}
+.svc{background:#2a2a2a;border:2px solid #333;padding:10px;border-radius:10px;text-align:center;font-size:12px}
 .svc.on{border-color:#f59e0b;background:#3d2f14}
-.btn{width:100%;padding:14px;border-radius:12px;font-weight:900;border:none;color:#fff;margin-top:8px;font-size:15px}
-.o{background:#ea580c} .g{background:#16a34a} .d{background:#000;border:1px solid #444}
+.btn{width:100%;padding:13px;border-radius:12px;font-weight:900;border:none;color:#fff;margin-top:7px}
+.o{background:#ea580c}.g{background:#16a34a}.d{background:#000;border:1px solid #444}.bl{background:#2563eb}
 input,select{width:100%;padding:11px;border-radius:8px;background:#111;border:1px solid #444;color:#fff;margin-top:6px}
 .req{background:#111;padding:10px;border-radius:10px;margin-top:8px;border-left:4px solid #ea580c}
+.badge{padding:3px 8px;border-radius:20px;font-size:10px;font-weight:900}
+.online{background:#16a34a}.offline{background:#666}
 </style>
 </head>
 <body>
 <div class="top">
 <b>🚛 KRFTINTO GHO</b>
-<div><button onclick="showCust()">CUSTOMER</button> <button onclick="showMech()">MECHANIC</button></div>
+<div><button onclick="showView('cust')">CUSTOMER</button> <button onclick="showView('mech')">MECHANIC</button></div>
 </div>
-
 <div id="map"></div>
 
+<!-- CUSTOMER VIEW -->
 <div id="custView">
 <div class="card">
-<div style="display:flex;justify-content:space-between"><small style="color:#aaa">SELECT BREAKDOWN SERVICE</small><b style="background:#fff;color:#111;padding:2px 10px;border-radius:20px" id="priceTag">P250</b></div>
+<div style="display:flex;justify-content:space-between"><small style="color:#aaa">SELECT SERVICE</small><b id="priceTag" style="background:#fff;color:#111;padding:2px 10px;border-radius:20px">P250</b></div>
 <div class="grid" style="margin-top:8px">
-<div class="svc on" onclick="pick(this,'Tow Truck',250,'🚛')"><div>🚛</div>Tow</div>
-<div class="svc" onclick="pick(this,'Mechanic',200,'🔧')"><div>🔧</div>Mech</div>
-<div class="svc" onclick="pick(this,'Tyre',120,'🛞')"><div>🛞</div>Tyre</div>
-<div class="svc" onclick="pick(this,'Battery',100,'🔋')"><div>🔋</div>Batt</div>
-<div class="svc" onclick="pick(this,'Fuel',150,'⛽')"><div>⛽</div>Fuel</div>
-<div class="svc" onclick="pick(this,'Rescue',300,'🚨')"><div>🚨</div>Rescue</div>
+<div class="svc on" onclick="pick(this,'Tow Truck',250,'🚛')">🚛<br>Tow</div>
+<div class="svc" onclick="pick(this,'Mechanic',200,'🔧')">🔧<br>Mech</div>
+<div class="svc" onclick="pick(this,'Tyre',120,'🛞')">🛞<br>Tyre</div>
+<div class="svc" onclick="pick(this,'Battery',100,'🔋')">🔋<br>Batt</div>
+<div class="svc" onclick="pick(this,'Fuel',150,'⛽')">⛽<br>Fuel</div>
+<div class="svc" onclick="pick(this,'Rescue',300,'🚨')">🚨<br>Rescue</div>
 </div>
-<input id="cName" placeholder="Your Name - e.g. Orefile">
+<select id="custTown">
+<option>Gaborone</option><option>Mahalapye</option><option>Palapye</option><option>Serowe</option><option>Francistown</option><option>Maun</option><option>Kanye</option><option>Molepolole</option><option>Lobatse</option><option>Letlhakane</option>
+</select>
+<input id="cName" placeholder="Your Name">
 <input id="cPhone" placeholder="Phone 72xxxxxx">
 <input id="cLoc" readonly style="color:#4ade80" value="GPS: Getting...">
+<div style="background:#111;padding:8px;border-radius:8px;margin-top:6px;font-size:11px">Mechanics in <b id="townLabel" style="color:#f59e0b">Gaborone</b>: <span id="mechCount">2 online</span> | ETA 7-15 mins</div>
 <button class="btn o" onclick="requestNow()">🚀 REQUEST RESCUE NOW</button>
-<div style="display:flex;gap:6px"><div style="flex:1;background:#111;padding:8px;border-radius:8px;margin-top:6px;font-size:11px"><span style="color:#aaa">Nearest Team</span><br><span style="color:#f59e0b">2 Teams online<br>ETA 7-12 mins</span></div><div style="flex:1;background:#111;padding:8px;border-radius:8px;margin-top:6px;font-size:11px"><span style="color:#aaa">Payment</span><br><span style="color:#fff">Cash / Orange Money</span></div></div>
 </div>
-<div class="card" id="custTrack" style="display:none;border-color:#16a34a">
-<h3>🟢 Rescue Team Coming!</h3><p id="trackInfo" style="font-size:13px;margin-top:6px"></p><div id="trackMapInfo" style="background:#000;padding:8px;border-radius:8px;margin-top:6px;font-size:12px"></div>
-<button class="btn g" onclick="callMech()">📞 Call Rescue Team</button><button class="btn d" onclick="cancel()">Cancel Request</button>
+<div class="card" id="custTrack" style="display:none;border:2px solid #16a34a">
+<h3>🟢 Help is Coming!</h3><p id="trackInfo" style="font-size:13px;margin-top:6px"></p><p id="trackTown" style="font-size:12px;color:#aaa;margin-top:4px"></p>
+<button class="btn g" onclick="callMain()">📞 Call Control Room</button><button class="btn d" onclick="cancelReq()">Cancel</button>
 </div>
 </div>
 
+<!-- MECHANIC VIEW -->
 <div id="mechView" style="display:none">
-<div class="card" style="border-color:#f59e0b">
-<h3>🔧 MECHANIC CONTROL CENTER</h3>
-<label style="font-size:12px;color:#aaa"><input type="checkbox" id="online" checked onchange="toggleOnline()"> I'm ONLINE - Receive requests</label>
-<div style="background:#000;padding:8px;border-radius:8px;margin-top:8px;font-size:12px">Team: Orefile | Hilux 4x4 | <span id="mechStatus" style="color:#4ade80">ONLINE</span></div>
+<div class="card" id="regCard">
+<h3>🔧 JOIN AS MECHANIC</h3><p style="color:#aaa;font-size:11px">Register to get breakdown jobs in your town</p>
+<input id="mName" placeholder="Your Name - e.g. Kabelo">
+<input id="mPhone" placeholder="Your Phone 72xxxxxx">
+<select id="mTown">
+<option>Gaborone</option><option>Mahalapye</option><option>Palapye</option><option>Serowe</option><option>Francistown</option><option>Maun</option><option>Kanye</option><option>Molepolole</option><option>Lobatse</option><option>Letlhakane</option>
+</select>
+<select id="mService"><option>Tow Truck & All</option><option>Mechanic Only</option><option>Tyre Specialist</option><option>Battery & Fuel</option></select>
+<button class="btn bl" onclick="registerMech()">✅ REGISTER AS MECHANIC</button>
 </div>
-<div class="card"><h4>📋 Live Breakdown Requests</h4><div id="reqList"><p style="color:#666;font-size:13px;margin-top:8px">No requests yet. Stay online!</p></div><button class="btn d" onclick="clearAll()">Clear All</button></div>
+
+<div class="card" id="dashCard" style="display:none;border-color:#f59e0b">
+<h3>🔧 Mechanic Dashboard <span id="mechBadge" class="badge online">ONLINE</span></h3>
+<div style="background:#000;padding:8px;border-radius:8px;margin-top:8px;font-size:12px">
+<div id="mechInfo"></div>
+<label style="font-size:12px"><input type="checkbox" id="onlineChk" checked onchange="toggleOn()"> I'm ONLINE in <b id="myTownLabel"></b></label>
+</div>
+<div style="margin-top:10px"><h4>📋 Jobs in <span id="jobTown"></span></h4><div id="reqList"></div></div>
+<button class="btn d" onclick="logout()">Logout</button> <button class="btn d" onclick="clearAllReqs()">Clear My Jobs</button>
+<div style="margin-top:10px;background:#111;padding:8px;border-radius:8px"><small style="color:#aaa">All Mechanics Network</small><div id="allMechs" style="font-size:11px;margin-top:4px"></div></div>
+</div>
 </div>
 
 <script>
-let lat=-24.56177,lng=25.82888,svc="Tow Truck",price=250,icon="🚛";
-let map=L.map('map').setView([lat,lng],14);
+let lat=-24.6282,lng=25.9231,svc="Tow Truck",price=250,icon="🚛";
+let map=L.map('map').setView([lat,lng],7);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-let me=L.marker([lat,lng]).addTo(map), mech=L.marker([lat+0.01,lng+0.01]).addTo(map).bindPopup("Rescue Team");
+let meMarker=L.marker([lat,lng]).addTo(map);
 
-navigator.geolocation.getCurrentPosition(p=>{lat=p.coords.latitude;lng=p.coords.longitude;me.setLatLng([lat,lng]);map.setView([lat,lng],14);document.getElementById('cLoc').value="GPS: "+lat.toFixed(5)+", "+lng.toFixed(5);});
+const towns={Gaborone:[-24.6282,25.9231],Mahalapye:[-23.1047,26.8146],Palapye:[-22.5465,27.1253],Serowe:[-22.3855,26.7126],Francistown:[-21.1705,27.5079],Maun:[ -19.9953,23.4181],Kanye:[-24.9613,25.3328],Molepolole:[-24.4062,25.4956],Lobatse:[-25.2225,25.666],Letlhakane:[-21.4173,25.5869]};
+
+navigator.geolocation.getCurrentPosition(p=>{lat=p.coords.latitude;lng=p.coords.longitude;meMarker.setLatLng([lat,lng]);document.getElementById('cLoc').value="GPS: "+lat.toFixed(5)+", "+lng.toFixed(5); detectTown();});
+
+function detectTown(){
+ let town=document.getElementById('custTown').value;
+ if(towns[town]){ map.setView(towns[town],10); meMarker.setLatLng(towns[town]); }
+ document.getElementById('townLabel').innerText=town; document.getElementById('jobTown').innerText=town;
+ updateCounts();
+}
+document.getElementById('custTown').addEventListener('change',detectTown);
 
 function pick(el,s,p,i){document.querySelectorAll('.svc').forEach(x=>x.classList.remove('on'));el.classList.add('on');svc=s;price=p;icon=i;document.getElementById('priceTag').innerText="P"+p;}
-function showCust(){document.getElementById('custView').style.display="block";document.getElementById('mechView').style.display="none";}
-function showMech(){document.getElementById('custView').style.display="none";document.getElementById('mechView').style.display="block";loadReqs();}
+function showView(v){document.getElementById('custView').style.display=v=='cust'?"block":"none";document.getElementById('mechView').style.display=v=='mech'?"block":"none"; if(v=='mech') checkLogin(); if(v=='cust') updateCounts();}
+
+function registerMech(){
+ let n=document.getElementById('mName').value, ph=document.getElementById('mPhone').value, t=document.getElementById('mTown').value, s=document.getElementById('mService').value;
+ if(!n||!ph){alert("Fill name & phone");return;}
+ let mech={name:n,phone:ph,town:t,service:s,online:true,joined:Date.now()};
+ let all=JSON.parse(localStorage.getItem('krft_mechs')||"[]"); all.push(mech); localStorage.setItem('krft_mechs',JSON.stringify(all));
+ localStorage.setItem('krft_mymech',JSON.stringify(mech));
+ checkLogin(); alert("Welcome "+n+"! You are now online in "+t+"! You will get jobs from "+t);
+}
+function checkLogin(){
+ let my=JSON.parse(localStorage.getItem('krft_mymech')||"null");
+ if(my){document.getElementById('regCard').style.display="none";document.getElementById('dashCard').style.display="block";
+ document.getElementById('mechInfo').innerHTML=`👤 ${my.name} | 📞 ${my.phone}<br>🔧 ${my.service} | 📍 ${my.town}`;
+ document.getElementById('myTownLabel').innerText=my.town; document.getElementById('jobTown').innerText=my.town;
+ loadRequestsForTown(my.town); showAllMechs();
+ } else {document.getElementById('regCard').style.display="block";document.getElementById('dashCard').style.display="none";}
+}
+function updateCounts(){
+ let town=document.getElementById('custTown').value;
+ let mechs=JSON.parse(localStorage.getItem('krft_mechs')||"[]").filter(m=>m.town==town && m.online);
+ document.getElementById('mechCount').innerText=mechs.length+" online";
+}
+function showAllMechs(){
+ let all=JSON.parse(localStorage.getItem('krft_mechs')||"[]");
+ let html=""; all.forEach(m=>{ html+=`• ${m.name} - ${m.town} - ${m.online?"🟢":"🔴"} ${m.service}<br>`; });
+ document.getElementById('allMechs').innerHTML=html||"No mechanics yet";
+}
+
 function requestNow(){
- let n=document.getElementById('cName').value||"Customer"; let ph=document.getElementById('cPhone').value;
- if(!ph){alert("Please add phone number!");return;}
- let req={id:Date.now(),name:n,phone:ph,service:svc,price:price,lat:lat,lng:lng,time:new Date().toLocaleTimeString()};
- let all=JSON.parse(localStorage.getItem('krftinto_reqs')||"[]"); all.unshift(req); localStorage.setItem('krftinto_reqs',JSON.stringify(all));
+ let n=document.getElementById('cName').value||"Customer", ph=document.getElementById('cPhone').value, town=document.getElementById('custTown').value;
+ if(!ph){alert("Add phone");return;}
+ let req={id:Date.now(),name:n,phone:ph,town:town,service:svc,price:price,lat:lat,lng:lng,time:new Date().toLocaleTimeString()};
+ let all=JSON.parse(localStorage.getItem('krft_reqs')||"[]"); all.unshift(req); localStorage.setItem('krft_reqs',JSON.stringify(all));
  document.getElementById('custTrack').style.display="block";
- document.getElementById('trackInfo').innerHTML=`${icon} ${svc} for ${n} - P${price}<br>Team Orefile - 2.1km away - ETA 8 mins<br>Hilux 4x4 - 72 665 835`;
- document.getElementById('trackMapInfo').innerHTML=`📍 Your location: <a href="https://www.google.com/maps?q=${lat},${lng}" target="_blank" style="color:#4ade80">Open in Google Maps</a><br>💰 Pay: P${price} Cash`;
- let msg=`🚨 BREAKDOWN RESCUE REQUEST%0A${icon} ${svc} P${price}%0A👤 ${n} ${ph}%0A📍 https://www.google.com/maps?q=${lat},${lng}%0A%0ACheck Mechanic Dashboard`;
+ document.getElementById('trackInfo').innerHTML=`${icon} ${svc} - P${price} for ${n}<br>Searching mechanics in ${town}...`;
+ document.getElementById('trackTown').innerHTML=`📍 Town: ${town} | <a href="https://www.google.com/maps?q=${lat},${lng}" target="_blank" style="color:#4ade80">My Location Map</a><br>Mechanics in ${town} have been notified!`;
+ let mechs=JSON.parse(localStorage.getItem('krft_mechs')||"[]").filter(m=>m.town==town);
+ let msg=`🚨 BREAKDOWN IN ${town.toUpperCase()}%0A${icon} ${svc} P${price}%0A👤 ${n} ${ph}%0A📍 Town: ${town}%0A🌍 https://www.google.com/maps?q=${lat},${lng}%0A%0A${mechs.length} mechanics in ${town} notified`;
  window.open(`https://wa.me/26772665835?text=${msg}`,'_blank');
 }
-function loadReqs(){
- let all=JSON.parse(localStorage.getItem('krftinto_reqs')||"[]");
+
+function loadRequestsForTown(town){
+ let all=JSON.parse(localStorage.getItem('krft_reqs')||"[]").filter(r=>r.town==town);
  let html=""; all.forEach(r=>{
- html+=`<div class="req"><b>${r.service} - P${r.price}</b> - ${r.time}<br><small>👤 ${r.name} - ${r.phone}</small><br><small>📍 ${r.lat.toFixed(4)},${r.lng.toFixed(4)}</small><br><div style="display:flex;gap:6px;margin-top:6px"><button class="btn g" style="padding:8px" onclick="acceptReq('${r.phone}','${r.name}')">✅ ACCEPT JOB</button><a class="btn o" style="padding:8px;text-align:center;text-decoration:none" href="https://www.google.com/maps?q=${r.lat},${r.lng}" target="_blank">🗺️ NAVIGATE</a></div></div>`;
+ html+=`<div class="req"><b>${r.service} P${r.price}</b> - ${r.time}<br>👤 ${r.name} ${r.phone} - 📍 ${r.town}<br><small>${r.lat.toFixed(4)},${r.lng.toFixed(4)}</small><br><div style="display:flex;gap:6px;margin-top:6px"><button class="btn g" style="padding:8px" onclick="acceptJob('${r.phone}','${r.name}')">✅ ACCEPT</button><a class="btn o" style="padding:8px;text-align:center;text-decoration:none" href="https://www.google.com/maps?q=${r.lat},${r.lng}" target="_blank">🗺️ GO</a></div></div>`;
  });
- document.getElementById('reqList').innerHTML=html||"<p style='color:#666'>No requests</p>";
+ document.getElementById('reqList').innerHTML=html||`<p style="color:#666;font-size:12px">No jobs in ${town} yet. Stay ONLINE - you will get alert when someone in ${town} requests!</p>`;
 }
-function acceptReq(phone,name){ window.open(`https://wa.me/${phone}?text=Hi%20${name}%20KRFTINTO%20GHO%20here!%20I%20accepted%20your%20request!%20I'm%20coming%20now%20🚛%20ETA%208mins`,'_blank'); }
-function clearAll(){ localStorage.removeItem('krftinto_reqs'); loadReqs(); }
-function toggleOnline(){ let on=document.getElementById('online').checked; document.getElementById('mechStatus').innerText=on?"ONLINE":"OFFLINE"; document.getElementById('mechStatus').style.color=on?"#4ade80":"#ef4444"; }
-function cancel(){ document.getElementById('custTrack').style.display="none"; }
-function callMech(){ window.open('tel:+26772665835'); }
-setInterval(()=>{ if(document.getElementById('mechView').style.display!="none") loadReqs(); },3000);
+function acceptJob(phone,name){ window.open(`https://wa.me/${phone}?text=Hi%20${name}%20I'm%20a%20mechanic%20from%20KRFTINTO%20GHO%20in%20your%20area!%20I%20accepted%20your%20request!%20I'm%20coming%20now%20🚛%20Share%20live%20location`,'_blank'); }
+function toggleOn(){ let my=JSON.parse(localStorage.getItem('krft_mymech')); let on=document.getElementById('onlineChk').checked; my.online=on; localStorage.setItem('krft_mymech',JSON.stringify(my)); let all=JSON.parse(localStorage.getItem('krft_mechs')||"[]"); let idx=all.findIndex(m=>m.phone==my.phone); if(idx>=0){all[idx].online=on; localStorage.setItem('krft_mechs',JSON.stringify(all));} document.getElementById('mechBadge').innerText=on?"ONLINE":"OFFLINE"; document.getElementById('mechBadge').className="badge "+(on?"online":"offline"); showAllMechs();}
+function logout(){ localStorage.removeItem('krft_mymech'); checkLogin(); }
+function clearAllReqs(){ if(confirm("Clear jobs in your town?")){ let town=JSON.parse(localStorage.getItem('krft_mymech')).town; let all=JSON.parse(localStorage.getItem('krft_reqs')||"[]").filter(r=>r.town!=town); localStorage.setItem('krft_reqs',JSON.stringify(all)); loadRequestsForTown(town);} }
+function cancelReq(){ document.getElementById('custTrack').style.display="none"; }
+function callMain(){ window.open('tel:+26772665835'); }
+setInterval(()=>{ let my=JSON.parse(localStorage.getItem('krft_mymech')||"null"); if(my) loadRequestsForTown(my.town); updateCounts(); },3000);
 </script>
 </body>
 </html>
