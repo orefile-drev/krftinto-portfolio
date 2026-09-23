@@ -1,178 +1,124 @@
-<!DOCTYPE html>
-<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>KRFTINTO GHO</title>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>KRFTINTO GHO - Botswana Rescue</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;900&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial}
-body{background:#f5f5f5;overflow:hidden;height:100vh}
-#map{position:absolute;top:0;left:0;right:0;bottom:0;z-index:1}
-.top-bar{position:absolute;top:0;left:0;right:0;z-index:1000;background:#fff;padding:10px 12px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 10px rgba(0,0,0,.1)}
-.menu-btn{width:40px;height:40px;border-radius:50%;background:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:18px;border:none}
-.search-box{flex:1;background:#f2f2f2;border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:8px}
-.search-box input{border:none;background:transparent;flex:1;outline:none;font-size:14px}
-.logo-badge{background:#000;color:#fff;padding:6px 12px;border-radius:20px;font-weight:900;font-size:12px;letter-spacing:.5px}
-.logo-badge span{color:#FFCC00}
-.bottom-sheet{position:absolute;bottom:0;left:0;right:0;z-index:1000;background:#fff;border-radius:24px 24px 0 0;max-height:82vh;overflow-y:auto;box-shadow:0 -4px 30px rgba(0,0,0,.15);transition:.3s}
-.handle{width:40px;height:4px;background:#ddd;border-radius:2px;margin:10px auto}
-.login-sheet{padding:20px 20px 30px}
-.yango-title{font-size:24px;font-weight:900;line-height:1.2}
-.yango-title span{color:#888;font-weight:400;font-size:14px;display:block;margin-top:4px}
-.yango-input{width:100%;background:#f5f5f5;border:1px solid #eee;border-radius:12px;padding:14px 16px;margin-top:10px;font-size:15px;outline:none}
-.yango-input:focus{border-color:#000;background:#fff}
-.yango-btn{width:100%;background:#FFCC00;border:none;border-radius:14px;padding:16px;font-weight:900;font-size:16px;margin-top:16px;color:#000}
-.yango-btn:active{transform:scale(.98)}
-.cat-scroll{display:flex;gap:10px;overflow-x:auto;padding:12px 16px;scrollbar-width:none}
-.cat-scroll::-webkit-scrollbar{display:none}
-.cat{flex:0 0 auto;background:#f5f5f5;border:2px solid #f5f5f5;border-radius:16px;padding:10px 14px;text-align:center;min-width:82px;cursor:pointer}
-.cat.on{background:#000;color:#fff;border-color:#000}
-.cat.on small{color:#FFCC00}
-.cat b{display:block;font-size:13px;margin-top:4px}
-.cat small{display:block;font-size:10px;color:#888;margin-top:2px}
-.route-card{margin:14px 16px;background:#f9f9f9;border-radius:16px;padding:14px;display:flex;align-items:center;gap:12px}
-.dot-line{display:flex;flex-direction:column;align-items:center;gap:4px}
-.dot{width:10px;height:10px;border-radius:50%}
-.dot.green{background:#00c853}
-.dot.red{background:#ff3b30}
-.line{width:2px;height:22px;background:#ddd}
-.loc-text{flex:1}
-.loc-text div{font-size:14px;font-weight:600}
-.loc-text small{font-size:12px;color:#888}
-.price-row{padding:16px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid #f0f0f0}
-.price-row b{font-size:22px}
-.price-row span{font-size:12px;color:#888}
-.pay-row{display:flex;gap:8px;padding:0 16px 10px;overflow-x:auto}
-.pay-chip{background:#f5f5f5;border:1px solid #eee;padding:8px 14px;border-radius:20px;font-size:12px;white-space:nowrap;cursor:pointer}
-.pay-chip.on{background:#000;color:#fff;border-color:#000}
-.mechanic-card{background:#000;color:#fff;margin:16px;border-radius:20px;padding:16px;display:flex;gap:12px;align-items:center}
-.mechanic-avatar{width:56px;height:56px;border-radius:50%;background:#FFCC00;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;color:#000}
-.eta-badge{background:#FFCC00;color:#000;padding:4px 10px;border-radius:8px;font-weight:900;font-size:12px}
-.action-btns{display:flex;gap:10px;padding:0 16px 20px}
-.action-btns button{flex:1;padding:14px;border-radius:14px;border:none;font-weight:700}
-.btn-call{background:#000;color:#fff}
-.btn-wa{background:#25D366;color:#fff}
-.btn-cancel{background:#f5f5f5;color:#000}
-.tabs{display:flex;background:#f5f5f5;margin:12px 16px;border-radius:12px;padding:4px}
-.tabs button{flex:1;padding:10px;border:none;background:transparent;border-radius:8px;font-weight:700;font-size:13px}
-.tabs button.on{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',-apple-system,Arial}
+body{background:#fff;height:100vh;overflow:hidden}
+#map{position:absolute;inset:0;z-index:1}
+.top{position:absolute;top:12px;left:12px;right:12px;z-index:1000;display:flex;gap:10px;align-items:center}
+.icon-btn{width:48px;height:48px;background:#fff;border-radius:50%;border:none;box-shadow:0 8px 20px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;font-size:20px}
+.search-wrap{flex:1;background:#fff;border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.12);padding:4px 6px 4px 14px;display:flex;align-items:center;gap:10px}
+.search-wrap input{border:none;outline:none;flex:1;padding:12px 4px;font-size:14px;font-weight:600}
+.badge{width:48px;height:48px;background:#0a0a0a;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:9px;line-height:10px;letter-spacing:.5px;box-shadow:0 8px 20px rgba(0,0,0,.2)}
+.badge span{color:#E30613;font-size:12px}
+.my-loc{position:absolute;right:16px;bottom:340px;z-index:900;width:48px;height:48px;background:#fff;border-radius:50%;border:none;box-shadow:0 6px 18px rgba(0,0,0,.2);font-size:20px}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:1000;background:#fff;border-radius:28px 28px 0 0;box-shadow:0 -12px 40px rgba(0,0,0,.18);max-height:88vh;display:flex;flex-direction:column;overflow:hidden}
+.handle{width:36px;height:5px;background:#e5e5e5;border-radius:10px;margin:10px auto 6px}
+.sheet-scroll{overflow-y:auto;padding-bottom:env(safe-area-inset-bottom)}
+.login{padding:18px 20px 26px}
+.brand{font-size:30px;font-weight:900;letter-spacing:-1px;line-height:.95}.brand small{display:block;font-size:12px;color:#777;font-weight:600;letter-spacing:0;margin-top:6px}
+.input{width:100%;background:#f4f4f5;border:2px solid #f4f4f5;border-radius:14px;padding:15px 16px;margin-top:12px;font-size:15px;outline:none;font-weight:500;transition:.2s}.input:focus{background:#fff;border-color:#111}
+.row{display:flex;gap:10px}
+.btn{width:100%;background:#111;color:#fff;border:none;border-radius:16px;padding:17px;font-weight:900;font-size:16px;margin-top:16px;letter-spacing:.2px}.btn-red{background:#E30613;color:#fff}
+.btn:active{transform:scale(.98)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px 16px}
+.card{border:2px solid #f2f2f2;background:#fafafa;border-radius:18px;padding:14px 8px;text-align:center;cursor:pointer;transition:.15s}.card.on{background:#111;border-color:#111;color:#fff;transform:translateY(-1px)}.card.on small{color:#ff4d5a!important}.card b{font-size:13px;display:block;margin-top:6px}.card small{font-size:11px;color:#888;font-weight:600}
+.route{margin:12px 16px;background:#f8f8f8;border:1px solid #f0f0f0;border-radius:18px;padding:14px;display:flex;gap:12px;align-items:center}
+.dotcol{display:flex;flex-direction:column;align-items:center}.dot{width:10px;height:10px;border-radius:50%}.dot.g{background:#0acf83}.dot.r{background:#E30613}.line{width:2px;height:28px;background:#e5e5e5;margin:4px 0}
+.payrow{display:flex;gap:8px;padding:0 16px 14px;overflow-x:auto;scrollbar-width:none}.payrow::-webkit-scrollbar{display:none}
+.chip{background:#f3f3f3;border:1px solid #eee;padding:9px 16px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}.chip.on{background:#111;color:#fff;border-color:#111}
+.priceBar{margin:0 16px;padding:16px;background:#111;color:#fff;border-radius:18px;display:flex;justify-content:space-between;align-items:center}
+.priceBar b{font-size:26px;letter-spacing:-.5px}.priceBar small{color:#aaa;font-size:12px}
+.trackHead{padding:16px 20px;text-align:center}.trackHead h3{font-size:22px;font-weight:900}.trackHead p{color:#777;font-size:13px;margin-top:4px}
+.driver{margin:12px 16px;background:#111;color:#fff;border-radius:20px;padding:16px;display:flex;gap:14px;align-items:center}
+.avatar{width:58px;height:58px;border-radius:50%;background:#E30613;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px}
+.eta{background:#fff;color:#111;padding:5px 10px;border-radius:10px;font-weight:900;font-size:12px}
+.actions{display:flex;gap:10px;padding:12px 16px 24px}.actions button{flex:1;padding:15px;border-radius:14px;border:none;font-weight:800}
+.call{background:#111;color:#fff}.wa{background:#12d66a;color:#fff}.cancel{background:#f3f3f3}
+.req{margin:10px 16px;background:#fff;border:1.5px solid #f0f0f0;border-radius:18px;padding:14px;box-shadow:0 4px 18px rgba(0,0,0,.05)}
 .hidden{display:none!important}
-.req-card{background:#fff;border:1px solid #eee;border-radius:16px;padding:14px;margin:10px 16px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
 </style></head><body>
 <div id="map"></div>
-
-<div class="top-bar">
-<button class="menu-btn" onclick="logoutAll()">☰</button>
-<div class="search-box">🔍 <input id="searchLoc" placeholder="Where is your car?" value="Gaborone - Breakdown location"></div>
-<div class="logo-badge">KRFTINTO <span>GHO</span></div>
+<button class="my-loc" onclick="centerMe()">◎</button>
+<div class="top">
+<button class="icon-btn" onclick="if(confirm('Logout?')){localStorage.clear();location.reload()}">☰</button>
+<div class="search-wrap">🔍 <input id="searchBox" placeholder="Breakdown location - Gaborone, Francistown..." value="Gaborone - Near Main Mall"><span style="background:#f3f3f3;padding:8px 10px;border-radius:10px;font-size:12px">BW</span></div>
+<div class="badge">KRFTINTO<span>GHO</span></div>
 </div>
 
-<div class="bottom-sheet" id="sheet">
-
-<!-- LOGIN VIEW = LIKE YANGO LOGIN -->
-<div id="loginView" class="login-sheet">
-<div class="yango-title">Welcome to<br>KRFTINTO GHO<small>Gaborone Heroes Onsite • Like Yango but for mechanics</small></div>
-<select id="loginType" class="yango-input" onchange="toggleMech(this.value)">
-<option value="customer">I need a mechanic (Customer)</option>
-<option value="mechanic">I am a mechanic (Driver)</option>
-</select>
-<input id="loginName" class="yango-input" placeholder="Full name">
-<input id="loginPhone" class="yango-input" placeholder="Phone number 72xxxxxx" type="tel">
-<input id="loginPass" class="yango-input" placeholder="Password" type="password">
-<input id="loginVehicle" class="yango-input hidden" placeholder="Your rescue vehicle e.g. Tow Truck BW 123 B">
-<select id="loginBank" class="yango-input hidden"><option value="">Payment account</option><option>Orange Money</option><option>MyZaka</option><option>Smega</option><option>FNB</option><option>Stanbic</option><option>ABSA</option><option>Cash</option></select>
-<input id="loginBankAcc" class="yango-input hidden" placeholder="Account number">
-<button class="yango-btn" onclick="doLogin()">Continue</button>
-<div style="text-align:center;margin-top:12px;font-size:11px;color:#999">By continuing you agree to KRFTINTO GHO terms • Secure & Verified</div>
-</div>
-
-<!-- CUSTOMER VIEW = YANGO RIDE SCREEN -->
-<div id="custView" class="hidden">
+<div class="sheet" id="sheet">
 <div class="handle"></div>
-<div class="route-card">
-<div class="dot-line"><div class="dot green"></div><div class="line"></div><div class="dot red"></div></div>
-<div class="loc-text">
-<div id="custNameDisplay" style="font-size:12px;color:#888"></div>
-<div style="margin-top:6px"><small>FROM</small><div id="fromText">Your location</div></div>
-<div style="margin-top:10px"><small>BREAKDOWN</small><div><input id="cDesc" style="border:none;background:transparent;width:100%;font-size:14px;font-weight:600;outline:none" placeholder="Describe issue e.g. Flat tyre near Mall"></div></div>
-</div>
+<div class="sheet-scroll">
+
+<div id="v-login" class="login">
+<div class="brand">KRFTINTO<br>GHO<small>🇧🇼 Gaborone Heroes Onsite • 24/7 Roadside Rescue Botswana</small></div>
+<div class="row"><select id="type" class="input" style="flex:1" onchange="tog(this.value)"><option value="customer">I need rescue • Customer</option><option value="mechanic">I am a mechanic • GHO Driver</option></select>
+<select id="town" class="input" style="flex:1" onchange="moveTown()"><option>Gaborone</option><option>Francistown</option><option>Maun</option><option>Palapye</option><option>Mahalapye</option><option>Serowe</option><option>Molepolole</option><option>Kanye</option><option>Kasane</option><option>Letlhakane</option></select></div>
+<input id="name" class="input" placeholder="Full name - Orefile Bagayi"><input id="phone" class="input" placeholder="Phone - 72xxxxxx" type="tel"><input id="pass" class="input" placeholder="Create password" type="password">
+<div id="mechExtra" class="hidden"><input id="vehicle" class="input" placeholder="Rescue vehicle - Tow Truck BW 123 B"><select id="bank" class="input"><option value="">Payment to receive money</option><option>Orange Money</option><option>MyZaka</option><option>Smega</option><option>FNB</option><option>Stanbic</option><option>ABSA</option><option>Cash</option></select><input id="bankAcc" class="input" placeholder="Account / Number"></div>
+<button class="btn btn-red" onclick="login()">Continue →</button>
+<div style="text-align:center;margin-top:12px;color:#999;font-size:11px">Trusted by 1,200+ drivers in BW • Secure & Verified</div>
 </div>
 
-<div style="padding:0 16px"><small style="font-size:11px;font-weight:800;letter-spacing:1px;color:#999">SELECT RESCUE TYPE</small></div>
-<div class="cat-scroll" id="catScroll">
-<div class="cat on" onclick="pick(this,'Tow Truck',250)"><div>🚛</div><b>Tow</b><small>P250 base</small></div>
-<div class="cat" onclick="pick(this,'Flat Tyre',120)"><div>🛞</div><b>Tyre</b><small>P120</small></div>
-<div class="cat" onclick="pick(this,'Battery',100)"><div>🔋</div><b>Battery</b><small>P100</small></div>
-<div class="cat" onclick="pick(this,'Fuel',150)"><div>⛽</div><b>Fuel</b><small>P150</small></div>
-<div class="cat" onclick="pick(this,'No Start',200)"><div>🔧</div><b>No Start</b><small>P200</small></div>
-<div class="cat" onclick="pick(this,'Accident',350)"><div>💥</div><b>Accident</b><small>P350</small></div>
+<div id="v-cust" class="hidden">
+<div class="route"><div class="dotcol"><div class="dot g"></div><div class="line"></div><div class="dot r"></div></div><div style="flex:1"><div style="font-size:11px;color:#999;font-weight:800;letter-spacing:1px">CURRENT LOCATION</div><div id="fromTxt" style="font-weight:700;font-size:14px">Getting GPS...</div><div style="height:10px"></div><div style="font-size:11px;color:#E30613;font-weight:800;letter-spacing:1px">BREAKDOWN DETAILS</div><textarea id="desc" style="border:none;background:transparent;width:100%;font-weight:600;font-size:14px;outline:none;resize:none" rows="2" placeholder="What happened? e.g. Flat tyre, car won't start near Game City"></textarea></div><div style="font-size:18px">🇧🇼</div></div>
+<div style="padding:0 16px 2px"><span style="font-size:11px;font-weight:900;letter-spacing:1px;color:#999">CHOOSE RESCUE</span></div>
+<div class="grid">
+<div class="card on" onclick="sel(this,'Tow Truck',250)"><div style="font-size:22px">🚛</div><b>Tow</b><small>P250 base</small></div>
+<div class="card" onclick="sel(this,'Flat Tyre',120)"><div style="font-size:22px">🛞</div><b>Tyre</b><small>P120</small></div>
+<div class="card" onclick="sel(this,'Battery',100)"><div style="font-size:22px">🔋</div><b>Battery</b><small>P100</small></div>
+<div class="card" onclick="sel(this,'Fuel',150)"><div style="font-size:22px">⛽</div><b>Fuel</b><small>P150</small></div>
+<div class="card" onclick="sel(this,'No Start',200)"><div style="font-size:22px">🔧</div><b>Engine</b><small>P200</small></div>
+<div class="card" onclick="sel(this,'Accident',350)"><div style="font-size:22px">🚨</div><b>Accident</b><small>P350</small></div>
+</div>
+<div class="payrow"><div class="chip on" onclick="paySel(this,'Cash')">Cash</div><div class="chip" onclick="paySel(this,'Orange Money')">Orange Money</div><div class="chip" onclick="paySel(this,'MyZaka')">MyZaka</div><div class="chip" onclick="paySel(this,'Smega')">Smega</div><div class="chip" onclick="paySel(this,'FNB')">FNB eWallet</div></div>
+<div class="priceBar"><div><b>P<span id="total">320</span></b><br><small><span id="km">2.4</span> km • <span id="svc">Tow Truck</span> • <span id="eta">~8 min</span> • <span id="townL">Gaborone</span></small></div><div style="background:#1e1e1e;padding:8px 12px;border-radius:12px;font-size:12px;font-weight:700">⚡ Fast GHO</div></div>
+<button class="btn btn-red" style="margin:14px 16px;width:calc(100% - 32px)" onclick="requestGHO()">Request GHO Now • P<span id="btnP">320</span></button>
 </div>
 
-<div class="pay-row">
-<div class="pay-chip on" onclick="setPay(this,'Cash')">Cash</div>
-<div class="pay-chip" onclick="setPay(this,'Orange Money')">Orange Money</div>
-<div class="pay-chip" onclick="setPay(this,'MyZaka')">MyZaka</div>
-<div class="pay-chip" onclick="setPay(this,'FNB')">FNB</div>
-<div class="pay-chip" onclick="setPay(this,'Smega')">Smega</div>
+<div id="v-track" class="hidden">
+<div class="trackHead"><h3 id="stTitle">Finding GHO nearby...</h3><p id="stSub">Broadcasting to verified mechanics within 150km</p></div>
+<div id="driverBox" class="driver hidden"><div class="avatar" id="dAv">K</div><div style="flex:1"><div style="display:flex;gap:8px;align-items:center"><b id="dName" style="font-size:16px"></b><span class="eta" id="dEta">8 min</span></div><div id="dPhone" style="font-size:13px;color:#aaa;margin-top:2px"></div><div id="dVeh" style="font-size:12px;color:#888"></div><div style="margin-top:6px;display:flex;gap:8px"><span id="dDist" style="color:#ff5a65;font-weight:800;font-size:12px"></span><span id="dStat" style="background:#222;padding:4px 8px;border-radius:8px;font-size:11px"></span></div></div></div>
+<div id="info" style="margin:12px 16px;background:#f7f7f7;border-radius:14px;padding:12px;font-size:13px;color:#555"></div>
+<div class="actions"><button class="call" onclick="callD()">📞 Call</button><button class="wa" onclick="waD()">WhatsApp</button><button class="cancel" onclick="cancelR()">Cancel</button></div>
 </div>
 
-<div class="price-row">
-<div><b>P<span id="totalPrice">320</span></b><br><span><span id="kmShow">2.4</span> km • <span id="svcName">Tow Truck</span> • <span id="eta">8 min</span></span></div>
-<div style="text-align:right"><div style="background:#f5f5f5;padding:8px 12px;border-radius:10px;font-size:12px">📍 <span id="cTown">Gaborone</span></div><select id="custTown" onchange="townChanged()" style="margin-top:6px;border:none;background:transparent;font-size:12px;color:#888"><option>Gaborone</option><option>Francistown</option><option>Maun</option><option>Palapye</option><option>Mahalapye</option><option>Serowe</option><option>Kasane</option></select></div>
-</div>
-<input id="cLoc" type="hidden">
-<button class="yango-btn" style="margin:0 16px 20px;width:calc(100% - 32px)" onclick="requestNow()">Request GHO • P<span id="btnPrice">320</span></button>
-</div>
-
-<!-- TRACKING VIEW = YANGO DRIVER ON WAY -->
-<div id="trackView" class="hidden">
-<div class="handle"></div>
-<div style="padding:16px;text-align:center"><div style="width:60px;height:3px;background:#000;margin:0 auto;border-radius:2px"></div><h3 id="statusTitle" style="margin-top:14px;font-size:20px;font-weight:900">Searching GHO drivers...</h3><p id="statusSub" style="color:#888;font-size:13px;margin-top:6px">We are finding the closest verified mechanic</p></div>
-<div id="mechanicProfile" class="mechanic-card hidden">
-<div class="mechanic-avatar" id="mAvatar">K</div>
-<div style="flex:1"><div style="display:flex;align-items:center;gap:8px"><b id="mNameShow" style="font-size:16px"></b><span class="eta-badge" id="mEta">8 min</span></div><div id="mPhoneShow" style="font-size:13px;color:#aaa;margin-top:2px"></div><div id="mVehicleShow" style="font-size:12px;color:#888"></div><div style="margin-top:6px"><span id="mDistance" style="font-size:12px;color:#FFCC00;font-weight:700"></span> <span id="mStatus" style="font-size:11px;background:#222;padding:3px 8px;border-radius:6px;margin-left:6px"></span></div></div>
-</div>
-<div id="trackInfo" style="margin:16px;background:#f9f9f9;border-radius:14px;padding:12px;font-size:13px;color:#555"></div>
-<div class="action-btns"><button class="btn-call" onclick="callMechanic()">📞 Call</button><button class="btn-wa" onclick="chatMechanic()">WhatsApp</button><button class="btn-cancel" onclick="cancelJob()">Cancel</button></div>
+<div id="v-mech" class="hidden">
+<div style="padding:12px 16px;display:flex;justify-content:space-between;align-items:center"><h3 style="font-weight:900">● Online • <span id="mechName"></span></h3><span style="background:#E30613;color:#fff;padding:6px 12px;border-radius:10px;font-size:11px;font-weight:900">GHO DRIVER</span></div>
+<div id="mechMeta" style="margin:0 16px;background:#f6f6f6;border-radius:14px;padding:10px;font-size:12px;color:#666"></div>
+<div id="list"></div>
+<div id="active" class="hidden" style="margin:16px;background:#111;color:#fff;border-radius:20px;padding:16px"><h4 style="color:#ff5a65">🛠️ Active Rescue</h4><p id="activeInfo" style="font-size:13px;color:#aaa;margin-top:8px"></p><button class="btn btn-red" onclick="nav()">Open Navigation</button><button class="btn" style="background:#fff;color:#000;margin-top:10px" onclick="done()">Complete Job</button></div>
 </div>
 
-<!-- MECHANIC VIEW = YANGO DRIVER APP -->
-<div id="mechView" class="hidden">
-<div class="handle"></div>
-<div class="tabs"><button id="tabOnline" class="on" onclick="setTab('online')">Online</button><button id="tabEarn" onclick="setTab('earn')">Earnings</button></div>
-<div style="padding:10px 16px"><h3 style="font-weight:900">● You are online • <span id="mechLoggedName"></span></h3><div id="mechInfo" style="background:#f5f5f5;padding:10px;border-radius:12px;margin-top:8px;font-size:12px;color:#666"></div></div>
-<div id="reqList"></div>
-<div id="activeJob" class="hidden" style="margin:16px;background:#000;color:#fff;border-radius:20px;padding:16px"><h4 style="color:#FFCC00">Active rescue</h4><p id="activeJobInfo" style="font-size:13px;color:#aaa;margin-top:8px"></p><button class="yango-btn" onclick="openNavigation()">Navigate to customer</button><button class="yango-btn" style="background:#fff" onclick="completeJob()">Complete job</button></div>
-</div>
-
-</div>
+</div></div>
 
 <script>
 const firebaseConfig={databaseURL:"https://krftinto-gho-default-rtdb.firebaseio.com"};firebase.initializeApp(firebaseConfig);const db=firebase.database();
-let lat=-24.6282,lng=25.9231,svc="Tow Truck",basePrice=250,pay="Cash",distanceKm=2.5,currentReqId=null,mechMarker=null,custMarker=null,watchId=null,realMech=null,currentUser=null,activeJobKey=null;
-let map=L.map('map',{zoomControl:false}).setView([-24.643,25.913],13);L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:20}).addTo(map);
-L.control.zoom({position:'bottomright'}).addTo(map);
-custMarker=L.marker([lat,lng],{icon:L.divIcon({html:'<div style="background:#000;width:14px;height:14px;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3)"></div>',iconSize:[20,20]})}).addTo(map);
-const townsCoords={Gaborone:[-24.6282,25.9231],Francistown:[-21.1705,27.5079],Maun:[-19.9953,23.4181],Palapye:[-22.5465,27.1253],Mahalapye:[-23.1047,26.8146],Serowe:[-22.3855,26.7126],Kasane:[-17.8,25.15]};
-if(navigator.geolocation){navigator.geolocation.getCurrentPosition(p=>{lat=p.coords.latitude;lng=p.coords.longitude;custMarker.setLatLng([lat,lng]);map.setView([lat,lng],14);calculatePrice();});}
-function getDistance(a,b,c,d){let R=6371;let dLa=(c-a)*Math.PI/180;let dLo=(d-b)*Math.PI/180;let x=Math.sin(dLa/2)**2+Math.cos(a*Math.PI/180)*Math.cos(c*Math.PI/180)*Math.sin(dLo/2)**2;return R*2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x));}
-function calculatePrice(){let coord=townsCoords[document.getElementById('custTown').value]||[lat,lng];distanceKm=getDistance(lat,lng,coord[0],coord[1])+2.4;distanceKm=Math.max(1.5,distanceKm);let total=50+Math.round(distanceKm*10)+basePrice;document.getElementById('kmShow').innerText=distanceKm.toFixed(1);document.getElementById('eta').innerText=Math.max(5,Math.round(distanceKm*3))+' min';document.getElementById('svcName').innerText=svc;document.getElementById('totalPrice').innerText=total;document.getElementById('btnPrice').innerText=total;document.getElementById('fromText').innerText=lat.toFixed(4)+', '+lng.toFixed(4);return total;}
-function toggleMech(v){let isMech=v==='mechanic';document.getElementById('loginVehicle').classList.toggle('hidden',!isMech);document.getElementById('loginBank').classList.toggle('hidden',!isMech);document.getElementById('loginBankAcc').classList.toggle('hidden',!isMech);}
-function doLogin(){let type=document.getElementById('loginType').value,name=document.getElementById('loginName').value,phone=document.getElementById('loginPhone').value,pass=document.getElementById('loginPass').value,veh=document.getElementById('loginVehicle').value,bank=document.getElementById('loginBank').value,acc=document.getElementById('loginBankAcc').value;if(!name||!phone||!pass){alert('Fill all fields');return;}if(type==='mechanic'&&(!veh||!bank)){alert('Mechanics: add vehicle & bank');return;}let user={name,phone,password:pass,type,vehicle:veh||'',bank:bank?(bank+' - '+acc):'',town:document.getElementById('custTown').value,lat,lng};localStorage.setItem('krft_user',JSON.stringify(user));currentUser=user;if(type==='mechanic'){db.ref('mechanics_bw/'+phone).set({...user,online:true});startMechGPS(phone);showView('mech');}else{db.ref('customers_bw/'+phone).set(user);showView('cust');}document.getElementById('custNameDisplay').innerText=name+' • '+phone;document.getElementById('mechLoggedName').innerText=name;calculatePrice();}
-function checkExisting(){let u=JSON.parse(localStorage.getItem('krft_user')||'null');if(u){currentUser=u;document.getElementById('custNameDisplay').innerText=u.name+' • '+u.phone;document.getElementById('mechLoggedName').innerText=u.name;if(u.type==='customer')showView('cust');else{showView('mech');startMechGPS(u.phone);}calculatePrice();}else{showView('login');}}checkExisting();
-function startMechGPS(phone){if(watchId)navigator.geolocation.clearWatch(watchId);watchId=navigator.geolocation.watchPosition(p=>{lat=p.coords.latitude;lng=p.coords.longitude;db.ref('mechanics_bw/'+phone).update({lat,lng,lastUpdate:Date.now()});if(activeJobKey)db.ref('requests_bw/'+activeJobKey).update({mechanicLat:lat,mechanicLng:lng});},{},{enableHighAccuracy:true});}
-function pick(el,s,p){document.querySelectorAll('.cat').forEach(x=>x.classList.remove('on'));el.classList.add('on');svc=s;basePrice=p;calculatePrice();}
-function setPay(el,m){document.querySelectorAll('.pay-chip').forEach(x=>x.classList.remove('on'));el.classList.add('on');pay=m;}
-function showView(v){document.getElementById('loginView').classList.add('hidden');document.getElementById('custView').classList.add('hidden');document.getElementById('trackView').classList.add('hidden');document.getElementById('mechView').classList.add('hidden');if(v==='login')document.getElementById('loginView').classList.remove('hidden');if(v==='cust')document.getElementById('custView').classList.remove('hidden');if(v==='track')document.getElementById('trackView').classList.remove('hidden');if(v==='mech'){document.getElementById('mechView').classList.remove('hidden');checkMechLogin();}}
-function townChanged(){let t=document.getElementById('custTown').value;document.getElementById('cTown').innerText=t;if(townsCoords[t]){map.setView(townsCoords[t],12);custMarker.setLatLng(townsCoords[t]);lat=townsCoords[t][0];lng=townsCoords[t][1];}calculatePrice();}
-function checkMechLogin(){let my=JSON.parse(localStorage.getItem('krft_user')||'null');if(my&&my.type==='mechanic'){document.getElementById('mechInfo').innerHTML=`${my.name} • ${my.phone}<br>🚛 ${my.vehicle}<br>💳 ${my.bank}<br>📍 ${my.town}`;listenForJobs(my);}}
-function requestNow(){if(!currentUser){showView('login');return;}let town=document.getElementById('custTown').value,desc=document.getElementById('cDesc').value;if(!desc){alert('Describe breakdown');return;}let total=calculatePrice();let id=Date.now();currentReqId=id;let req={id,customerName:currentUser.name,customerPhone:currentUser.phone,town,service:svc,totalPrice:total,desc,pay,lat,lng,time:new Date().toLocaleString(),status:'searching'};db.ref('requests_bw/'+id).set(req);showView('track');document.getElementById('statusTitle').innerText='Searching GHO drivers...';document.getElementById('trackInfo').innerHTML=`<b>${svc} • P${total}</b><br>${town} • ${desc}<br>Payment: ${pay}<br><br>We broadcast to all verified GHO mechanics within 150km`;listenForAccept(id);}
-function listenForAccept(id){db.ref('requests_bw/'+id).on('value',snap=>{let r=snap.val();if(!r)return;if(r.status==='accepted'){document.getElementById('statusTitle').innerText='GHO on the way!';document.getElementById('statusSub').innerText=r.mechanicName+' • '+Math.round(r.mechanicDistance||2)+' km • ETA '+Math.round((r.mechanicDistance||2)*3)+' min';document.getElementById('mechanicProfile').classList.remove('hidden');document.getElementById('mNameShow').innerText=r.mechanicName;document.getElementById('mAvatar').innerText=r.mechanicName.charAt(0);document.getElementById('mPhoneShow').innerText=r.mechanicPhone;document.getElementById('mVehicleShow').innerText='🚛 '+r.mechanicVehicle+' • 💳 '+r.mechanicBank;document.getElementById('mDistance').innerText=(r.mechanicDistance||'2.5')+' km away';document.getElementById('mStatus').innerText='ON THE WAY';document.getElementById('mEta').innerText=Math.round((r.mechanicDistance||2)*3)+' min';realMech=r;if(!mechMarker){mechMarker=L.marker([r.mechanicLat,r.mechanicLng],{icon:L.divIcon({html:'<div style="background:#000;color:#FFCC00;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid #FFCC00;font-size:20px;font-weight:900">G</div>'})}).addTo(map);}db.ref('requests_bw/'+id).on('value',s2=>{let r2=s2.val();if(r2&&r2.mechanicLat){mechMarker.setLatLng([r2.mechanicLat,r2.mechanicLng]);let d=getDistance(r2.mechanicLat,r2.mechanicLng,r2.lat,r2.lng);document.getElementById('mDistance').innerText=d.toFixed(1)+' km away';document.getElementById('mEta').innerText=Math.max(2,Math.round(d*3))+' min';}});}});}
-function listenForJobs(myMech){db.ref('requests_bw').on('value',snap=>{let html='';snap.forEach(child=>{let r=child.val();if(r.status!=='searching')return;let dist=getDistance(myMech.lat,myMech.lng,r.lat,r.lng);if(dist<150){html+=`<div class="req-card"><div style="display:flex;justify-content:space-between"><b>🔥 ${r.service} • P${r.totalPrice}</b><b style="color:#00c853">P${Math.round(r.totalPrice*0.8)} yours</b></div><div style="margin-top:6px;font-size:13px">👤 ${r.customerName} • ${r.customerPhone}</div><div style="font-size:12px;color:#888">📍 ${r.town} • ${dist.toFixed(1)}km • ${r.desc}</div><div style="font-size:12px;margin-top:4px">💳 ${r.pay}</div><button class="yango-btn" style="margin-top:10px" onclick="acceptJob('${child.key}',${dist.toFixed(1)})">Accept • Go to customer</button></div>`;}});document.getElementById('reqList').innerHTML=html||'<div style="padding:20px;text-align:center;color:#999">No requests nearby<br>Stay online - requests appear here like Yango driver app</div>';});}
-function acceptJob(key,dist){let my=JSON.parse(localStorage.getItem('krft_user'));activeJobKey=key;db.ref('requests_bw/'+key).update({status:'accepted',mechanicName:my.name,mechanicPhone:my.phone,mechanicVehicle:my.vehicle,mechanicBank:my.bank,mechanicLat:lat,mechanicLng:lng,mechanicDistance:dist});db.ref('requests_bw/'+key).once('value',s=>{let r=s.val();document.getElementById('activeJob').classList.remove('hidden');document.getElementById('activeJobInfo').innerHTML=`<b>${r.service} • P${r.totalPrice}</b><br>👤 ${r.customerName} • ${r.customerPhone}<br>📍 ${r.town} • ${r.desc}`;});}
-function openNavigation(){db.ref('requests_bw/'+activeJobKey).once('value',s=>{let r=s.val();window.open(`https://www.google.com/maps/dir/${lat},${lng}/${r.lat},${r.lng}`,'_blank');});}
-function completeJob(){if(!activeJobKey)return;db.ref('requests_bw/'+activeJobKey).update({status:'completed'});document.getElementById('activeJob').classList.add('hidden');activeJobKey=null;alert('Job completed! Payment will be released to '+currentUser.bank);}
-function callMechanic(){if(realMech)window.open('tel:'+realMech.mechanicPhone);}
-function chatMechanic(){if(realMech)window.open(`https://wa.me/267${realMech.mechanicPhone.replace(/^0/,'').replace(/^267/,'')}?text=Hi ${realMech.mechanicName} - KRFTINTO GHO`,'_blank');}
-function cancelJob(){if(confirm('Cancel request?')&&currentReqId){db.ref('requests_bw/'+currentReqId).update({status:'cancelled'});showView('cust');}}
-function logoutAll(){if(confirm('Logout? Clear account?')){localStorage.clear();location.reload();}}
-function setTab(t){document.getElementById('tabOnline').classList.toggle('on',t==='online');document.getElementById('tabEarn').classList.toggle('on',t==='earn');}
+let lat=-24.6282,lng=25.9231,service="Tow Truck",base=250,payment="Cash",distKm=2.4,curId=null,mechMark=null,custMark=null,watch=null,activeKey=null,realDriver=null,user=null;
+const towns={Gaborone:[-24.6282,25.9231],Francistown:[-21.1705,27.5079],Maun:[-19.9953,23.4181],Palapye:[-22.5465,27.1253],Mahalapye:[-23.1047,26.8146],Serowe:[-22.3855,26.7126],Molepolole:[-24.4067,25.4956],Kanye:[-24.34,25.33],Kasane:[-17.8,25.15],Letlhakane:[-21.41,25.59]};
+let map=L.map('map',{zoomControl:false,attributionControl:false}).setView([-24.6282,25.9231],12);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19}).addTo(map);
+custMark=L.marker([lat,lng],{icon:L.divIcon({html:'<div style="width:16px;height:16px;background:#111;border:4px solid #fff;border-radius:50%;box-shadow:0 4px 12px rgba(0,0,0,.4)"></div>',iconSize:[24,24],iconAnchor:[12,12]})}).addTo(map);
+L.circle([-24.6282,25.9231],{radius:35000,color:'#E30613',fillColor:'#E30613',fillOpacity:.06,weight:1}).addTo(map);
+function d(a,b,c,d){const R=6371,dl=(c-a)*Math.PI/180,dlo=(d-b)*Math.PI/180,x=Math.sin(dl/2)**2+Math.cos(a*Math.PI/180)*Math.cos(c*Math.PI/180)*Math.sin(dlo/2)**2;return R*2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x))}
+function calc(){let t=document.getElementById('town').value;let co=towns[t]||[lat,lng];distKm=Math.max(1.8,d(towns[t][0],towns[t][1],lat,lng)+2.2);let tot=70+Math.round(distKm*12)+base;document.getElementById('km').innerText=distKm.toFixed(1);document.getElementById('eta').innerText=Math.max(6,Math.round(distKm*3.2))+' min';document.getElementById('svc').innerText=service;document.getElementById('townL').innerText=t;document.getElementById('total').innerText=tot;document.getElementById('btnP').innerText=tot;return tot}
+function tog(v){document.getElementById('mechExtra').classList.toggle('hidden',v!=='mechanic')}
+function login(){let ty=document.getElementById('type').value,n=document.getElementById('name').value,p=document.getElementById('phone').value,pw=document.getElementById('pass').value,veh=document.getElementById('vehicle').value,bk=document.getElementById('bank').value,acc=document.getElementById('bankAcc').value,tw=document.getElementById('town').value;if(!n||!p||!pw)return alert('Fill name, phone, password');if(ty==='mechanic'&&(!veh||!bk))return alert('Mechanics: add vehicle & payment');user={name:n,phone:p,password:pw,type:ty,vehicle:veh||'',bank:bk?(bk+' - '+acc):'',town:tw,lat,lng,time:Date.now()};localStorage.setItem('krft_user',JSON.stringify(user));if(ty==='mechanic'){db.ref('mechanics_bw/'+p).set({...user,online:true});startGPS(p);show('mech')}else{db.ref('customers_bw/'+p).set(user);show('cust')}document.getElementById('mechName').innerText=n;calc()}
+function init(){let u=JSON.parse(localStorage.getItem('krft_user')||'null');if(u){user=u;document.getElementById('town').value=u.town||'Gaborone';document.getElementById('mechName').innerText=u.name;if(u.type==='customer')show('cust');else{show('mech');startGPS(u.phone)} }else show('login'); if(navigator.geolocation){navigator.geolocation.getCurrentPosition(pos=>{lat=pos.coords.latitude;lng=pos.coords.longitude;custMark.setLatLng([lat,lng]);map.setView([lat,lng],14);document.getElementById('fromTxt').innerText=lat.toFixed(4)+', '+lng.toFixed(4)+' • GPS locked';calc()})}else{document.getElementById('fromTxt').innerText='Gaborone - Main Mall area';calc()}}init();
+function startGPS(phone){if(watch)navigator.geolocation.clearWatch(watch);watch=navigator.geolocation.watchPosition(pos=>{lat=pos.coords.latitude;lng=pos.coords.longitude;db.ref('mechanics_bw/'+phone).update({lat,lng,last:Date.now()});if(activeKey)db.ref('requests_bw/'+activeKey).update({mechanicLat:lat,mechanicLng:lng})},{},{enableHighAccuracy:true})}
+function sel(el,s,p){document.querySelectorAll('.card').forEach(c=>c.classList.remove('on'));el.classList.add('on');service=s;base=p;calc()}
+function paySel(el,m){document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));el.classList.add('on');payment=m}
+function show(v){['v-login','v-cust','v-track','v-mech'].forEach(id=>document.getElementById(id).classList.add('hidden'));if(v==='login')document.getElementById('v-login').classList.remove('hidden');if(v==='cust')document.getElementById('v-cust').classList.remove('hidden');if(v==='track')document.getElementById('v-track').classList.remove('hidden');if(v==='mech'){document.getElementById('v-mech').classList.remove('hidden');loadMech()}}
+function moveTown(){let t=document.getElementById('town').value;if(towns[t]){map.setView(towns[t],11);custMark.setLatLng(towns[t]);lat=towns[t][0];lng=towns[t][1];document.getElementById('fromTxt').innerText=t+' - Center';}calc()}
+function centerMe(){map.setView([lat,lng],14)}
+function loadMech(){let my=JSON.parse(localStorage.getItem('krft_user')||'null');if(!my)return;document.getElementById('mechMeta').innerHTML=`${my.name} • ${my.phone}<br>🚛 ${my.vehicle} • 💳 ${my.bank} • 📍 ${my.town}`;db.ref('requests_bw').on('value',snap=>{let h='';snap.forEach(ch=>{let r=ch.val();if(r.status!=='searching')return;let dis=d(my.lat,my.lng,r.lat,r.lng);if(dis<180){h+=`<div class="req"><div style="display:flex;justify-content:space-between"><b>🚨 ${r.service} • P${r.totalPrice}</b><b style="color:#E30613">You: P${Math.round(r.totalPrice*0.82)}</b></div><div style="margin-top:6px;font-size:13px;font-weight:600">👤 ${r.customerName} • ${r.customerPhone}</div><div style="font-size:12px;color:#777;margin-top:2px">📍 ${r.town} • ${dis.toFixed(1)}km • ${r.desc}</div><div style="font-size:11px;margin-top:4px;background:#f6f6f6;display:inline-block;padding:4px 10px;border-radius:8px">💳 ${r.pay} • ⏱ ${r.time}</div><button class="btn btn-red" style="margin-top:10px" onclick="accept('${ch.key}',${dis.toFixed(1)})">Accept • Navigate to Customer</button></div>`}});document.getElementById('list').innerHTML=h||'<div style="padding:24px;text-align:center;color:#999;font-size:13px">No jobs within 180km<br>Stay online - jobs appear like driver app<br><br>🇧🇼 Covering all Botswana</div>'})}
+function requestGHO(){if(!user)return show('login');let tw=document.getElementById('town').value,ds=document.getElementById('desc').value;if(!ds)return alert('Describe breakdown - e.g. Flat tyre near...');let tot=calc();let id=Date.now();curId=id;let req={id,customerName:user.name,customerPhone:user.phone,town:tw,service:service,totalPrice:tot,desc:ds,pay:payment,lat,lng,time:new Date().toLocaleString(),status:'searching'};db.ref('requests_bw/'+id).set(req);show('track');document.getElementById('stTitle').innerText='Searching GHO nearby...';document.getElementById('info').innerHTML=`<b style="font-size:15px">${service} • P${tot}</b><br>${tw} • ${ds}<br>Payment: ${payment}<br><br>Broadcasting to all verified GHO mechanics • You will get driver details in seconds`;listen(id)}
+function listen(id){db.ref('requests_bw/'+id).on('value',s=>{let r=s.val();if(!r)return;if(r.status==='accepted'){document.getElementById('stTitle').innerText='GHO is on the way! 🚛';document.getElementById('stSub').innerText=r.mechanicName+' • '+r.mechanicDistance+' km away • Live tracking ON';document.getElementById('driverBox').classList.remove('hidden');document.getElementById('dName').innerText=r.mechanicName;document.getElementById('dAv').innerText=r.mechanicName.charAt(0);document.getElementById('dPhone').innerText=r.mechanicPhone;document.getElementById('dVeh').innerText='🚛 '+r.mechanicVehicle+' • 💳 '+r.mechanicBank;document.getElementById('dDist').innerText=(r.mechanicDistance||'2.5')+' km away';document.getElementById('dStat').innerText='ON THE WAY';document.getElementById('dEta').innerText=Math.round((r.mechanicDistance||2.5)*3)+' min';realDriver=r;if(!mechMark){mechMark=L.marker([r.mechanicLat,r.mechanicLng],{icon:L.divIcon({html:'<div style="background:#111;color:#fff;width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid #E30613;font-weight:900;box-shadow:0 6px 18px rgba(0,0,0,.3)">G</div>',iconSize:[46,46]})}).addTo(map)} db.ref('requests_bw/'+id).on('value',s2=>{let rr=s2.val();if(rr&&rr.mechanicLat){mechMark.setLatLng([rr.mechanicLat,rr.mechanicLng]);let dd=d(rr.mechanicLat,rr.mechanicLng,rr.lat,rr.lng);document.getElementById('dDist').innerText=dd.toFixed(1)+' km away';document.getElementById('dEta').innerText=Math.max(2,Math.round(dd*3))+' min'}})}})}
+function accept(key,dis){let my=JSON.parse(localStorage.getItem('krft_user'));activeKey=key;db.ref('requests_bw/'+key).update({status:'accepted',mechanicName:my.name,mechanicPhone:my.phone,mechanicVehicle:my.vehicle,mechanicBank:my.bank,mechanicLat:lat,mechanicLng:lng,mechanicDistance:dis});db.ref('requests_bw/'+key).once('value',s=>{let r=s.val();document.getElementById('active').classList.remove('hidden');document.getElementById('activeInfo').innerHTML=`<b>${r.service} • P${r.totalPrice}</b><br>👤 ${r.customerName} • ${r.customerPhone}<br>📍 ${r.town} • ${r.desc}<br>💳 ${r.pay}`})}
+function nav(){db.ref('requests_bw/'+activeKey).once('value',s=>{let r=s.val();window.open(`https://www.google.com/maps/dir/${lat},${lng}/${r.lat},${r.lng}`,'_blank')})}
+function done(){if(!activeKey)return;db.ref('requests_bw/'+activeKey).update({status:'completed'});document.getElementById('active').classList.add('hidden');activeKey=null;alert('Completed! Earnings will go to '+user.bank)}
+function callD(){if(realDriver)window.open('tel:'+realDriver.mechanicPhone)}
+function waD(){if(realDriver)window.open(`https://wa.me/267${realDriver.mechanicPhone.replace(/^0/,'')}?text=Hi ${realDriver.mechanicName} - I requested GHO ${realDriver.service}`,'_blank')}
+function cancelR(){if(confirm('Cancel rescue?')&&curId){db.ref('requests_bw/'+curId).update({status:'cancelled'});show('cust')}}
 </script></body></html>
