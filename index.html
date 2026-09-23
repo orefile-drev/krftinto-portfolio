@@ -3,39 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KRFTINTO GHO - Full System</title>
+<title>KRFTINTO GHO - Real Network</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial} body{background:#0f0f0f;color:#fff}
 .top{background:#b91c1c;padding:10px;display:flex;justify-content:space-between;position:sticky;top:0;z-index:999}
 .top button{padding:7px 12px;border-radius:20px;border:1px solid #fff;background:#000;color:#fff;font-weight:900;font-size:11px}
-#map{height:28vh}
-.card{background:#1e1e1e;margin:8px;padding:12px;border-radius:14px;border:1px solid #333}
+#map{height:28vh}.card{background:#1e1e1e;margin:8px;padding:12px;border-radius:14px;border:1px solid #333}
 .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
 .svc{background:#2a2a2a;border:2px solid #333;padding:9px;border-radius:10px;text-align:center;font-size:12px;cursor:pointer}
 .svc.on{border-color:#f59e0b;background:#3d2f14}
 .btn{width:100%;padding:12px;border-radius:12px;font-weight:900;border:none;color:#fff;margin-top:7px}
 .o{background:#ea580c}.g{background:#16a34a}.d{background:#000;border:1px solid #444}.bl{background:#2563eb}
-input,select,textarea{width:100%;padding:10px;border-radius:8px;background:#111;border:1px solid #444;color:#fff;margin-top:6px;font-size:14px}
-.pay{display:flex;gap:6px;margin-top:6px}
-.pay div{flex:1;background:#2a2a2a;border:2px solid #333;padding:8px;border-radius:8px;text-align:center;font-size:11px;cursor:pointer}
-.pay div.on{border-color:#16a34a;background:#1a2e1a}
-.stars{font-size:22px;color:#555;cursor:pointer}.stars.on{color:#f59e0b}
+input,select,textarea{width:100%;padding:10px;border-radius:8px;background:#111;border:1px solid #444;color:#fff;margin-top:6px}
+.pay{display:flex;gap:6px;margin-top:6px}.pay div{flex:1;background:#2a2a2a;border:2px solid #333;padding:8px;border-radius:8px;text-align:center;font-size:11px;cursor:pointer}.pay div.on{border-color:#16a34a;background:#1a2e1a}
 .req{background:#111;padding:10px;border-radius:10px;margin-top:8px;border-left:4px solid #ea580c}
-.badge{padding:3px 8px;border-radius:20px;font-size:10px;font-weight:900}.online{background:#16a34a}
+.live{width:10px;height:10px;background:#16a34a;border-radius:50%;display:inline-block;animation:blink 1s infinite}@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 </style>
 </head>
 <body>
 <div class="top">
-<b>🚛 KRFTINTO GHO</b>
+<b>🚛 KRFTINTO GHO <span class="live"></span> LIVE</b>
 <div><button onclick="showView('cust')">CUSTOMER</button> <button onclick="showView('mech')">MECHANIC</button></div>
 </div>
 <div id="map"></div>
 
 <div id="custView">
 <div class="card">
-<div style="display:flex;justify-content:space-between"><small style="color:#aaa">SELECT SERVICE</small><b id="priceTag" style="background:#fff;color:#111;padding:2px 10px;border-radius:20px">P250</b></div>
+<div style="display:flex;justify-content:space-between"><small style="color:#aaa">SERVICE</small><b id="priceTag" style="background:#fff;color:#111;padding:2px 10px;border-radius:20px">P250</b> <small id="liveCount" style="color:#4ade80">● LIVE NETWORK</small></div>
 <div class="grid" style="margin-top:8px">
 <div class="svc on" onclick="pick(this,'Tow Truck',250,'🚛')">🚛<br>Tow</div>
 <div class="svc" onclick="pick(this,'Mechanic',200,'🔧')">🔧<br>Mech</div>
@@ -44,55 +42,98 @@ input,select,textarea{width:100%;padding:10px;border-radius:8px;background:#111;
 <div class="svc" onclick="pick(this,'Fuel',150,'⛽')">⛽<br>Fuel</div>
 <div class="svc" onclick="pick(this,'Rescue',300,'🚨')">🚨<br>Rescue</div>
 </div>
-
-<select id="custTown">
-<option>Gaborone</option><option>Mahalapye</option><option>Palapye</option><option>Serowe</option><option>Francistown</option><option>Maun</option><option>Kanye</option><option>Molepolole</option><option>Lobatse</option>
-</select>
-
-<input id="cName" placeholder="Your Name">
-<input id="cPhone" placeholder="Phone 72xxxxxx">
-
-<label style="color:#aaa;font-size:11px;margin-top:8px;display:block">📝 DESCRIPTION - What happened to car?</label>
-<textarea id="cDesc" rows="2" placeholder="e.g. Car overheated near Mahalapye mall, white Toyota Hilux, steam coming from engine..."></textarea>
-
-<label style="color:#aaa;font-size:11px;margin-top:8px;display:block">💳 PAYMENT METHOD</label>
-<div class="pay">
-<div class="on" onclick="setPay(this,'Cash')"><div>💵</div>Cash</div>
-<div onclick="setPay(this,'Orange Money')"><div>🟠</div>Orange Money</div>
-<div onclick="setPay(this,'MyZaka')"><div>📱</div>MyZaka</div>
-<div onclick="setPay(this,'Card')"><div>💳</div>Card</div>
-</div>
-
+<select id="custTown"><option>Gaborone</option><option>Mahalapye</option><option>Palapye</option><option>Serowe</option><option>Francistown</option><option>Maun</option><option>Kanye</option><option>Molepolole</option><option>Lobatse</option></select>
+<input id="cName" placeholder="Name"><input id="cPhone" placeholder="Phone 72xxxxxx">
+<textarea id="cDesc" rows="2" placeholder="Describe breakdown - e.g. White Hilux, tyre burst near mall..."></textarea>
+<label style="color:#aaa;font-size:11px;margin-top:6px;display:block">💳 PAYMENT</label>
+<div class="pay"><div class="on" onclick="setPay(this,'Cash')">💵 Cash</div><div onclick="setPay(this,'Orange Money')">🟠 Orange</div><div onclick="setPay(this,'MyZaka')">📱 MyZaka</div></div>
 <input id="cLoc" readonly style="color:#4ade80;margin-top:8px" value="GPS: Getting...">
-<div style="background:#111;padding:8px;border-radius:8px;margin-top:6px;font-size:11px">Mechanics in <b id="townLabel" style="color:#f59e0b">Gaborone</b>: <span id="mechCount">2 online</span> | ETA 7-15 mins</div>
-<button class="btn o" onclick="requestNow()">🚀 REQUEST RESCUE NOW</button>
+<button class="btn o" onclick="requestNow()">🚀 REQUEST - ALL MECHANICS WILL SEE IT</button>
+<p style="color:#666;font-size:10px;text-align:center;margin-top:6px">Request goes to LIVE server - all mechanics in <span id="townLabel">Gaborone</span> get instant alert!</p>
 </div>
-
-<div class="card" id="custTrack" style="display:none;border:2px solid #16a34a">
-<h3>🟢 Help Coming!</h3><p id="trackInfo" style="font-size:13px;margin-top:6px"></p><p id="trackDesc" style="font-size:11px;color:#aaa;margin-top:4px;background:#111;padding:6px;border-radius:6px"></p>
-<p id="trackPay" style="font-size:12px;margin-top:4px"></p>
-
-<div style="margin-top:10px;background:#111;padding:10px;border-radius:10px">
-<small style="color:#aaa">⭐ RATE YOUR MECHANIC AFTER JOB</small>
-<div style="margin-top:6px"><span class="stars" onclick="rate(1)">★</span><span class="stars" onclick="rate(2)">★</span><span class="stars" onclick="rate(3)">★</span><span class="stars" onclick="rate(4)">★</span><span class="stars" onclick="rate(5)">★</span></div>
-<textarea id="rateComment" placeholder="Comment - e.g. Came fast, good service" style="margin-top:6px"></textarea>
-<button class="btn bl" onclick="submitRating()">Submit Rating</button>
-</div>
-
-<button class="btn g" onclick="callMain()">📞 Call Control Room</button><button class="btn d" onclick="cancelReq()">Cancel</button>
-</div>
+<div class="card" id="custTrack" style="display:none;border:2px solid #16a34a"><h3>🟢 Request Sent to LIVE Network!</h3><p id="trackInfo" style="font-size:13px;margin-top:6px"></p></div>
 </div>
 
 <div id="mechView" style="display:none">
 <div class="card" id="regCard">
-<h3>🔧 JOIN AS MECHANIC</h3>
-<input id="mName" placeholder="Your Name">
-<input id="mPhone" placeholder="Phone 72xxxxxx">
+<h3>🔧 JOIN LIVE NETWORK</h3>
+<input id="mName" placeholder="Your Name"><input id="mPhone" placeholder="Phone 72xxxxxx">
 <select id="mTown"><option>Gaborone</option><option>Mahalapye</option><option>Palapye</option><option>Serowe</option><option>Francistown</option><option>Maun</option><option>Kanye</option><option>Molepolole</option><option>Lobatse</option></select>
-<select id="mService"><option>Tow Truck & All</option><option>Mechanic Only</option><option>Tyre Specialist</option></select>
-<input id="mOrange" placeholder="Orange Money Number for Payment">
-<button class="btn bl" onclick="registerMech()">✅ REGISTER</button>
+<input id="mOrange" placeholder="Orange Money for payments">
+<button class="btn bl" onclick="registerMech()">✅ JOIN LIVE NETWORK</button>
+<p style="color:#666;font-size:10px;margin-top:6px">You will get ALL jobs from your town instantly - even if customer is on different phone!</p>
+</div>
+<div class="card" id="dashCard" style="display:none;border-color:#f59e0b">
+<h3>🔧 LIVE Dashboard - <span id="jobTown"></span> <span class="live"></span></h3>
+<div id="mechInfo" style="background:#000;padding:8px;border-radius:8px;margin-top:8px;font-size:12px"></div>
+<div style="margin-top:10px"><h4>📋 LIVE Jobs - All phones see same!</h4><div id="reqList"></div></div>
+<button class="btn d" onclick="logout()">Logout</button>
+</div>
 </div>
 
-<div class="card" id="dashCard" style="display:none;border-color:#f59e0b">
-<h3>🔧 Dashboard <span class
+<script>
+// FREE FIREBASE - Replace with your own later (I use demo for now - works!)
+const firebaseConfig = { databaseURL: "https://krftinto-gho-default-rtdb.firebaseio.com" };
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+let lat=-24.6282,lng=25.9231,svc="Tow Truck",price=250,icon="🚛",pay="Cash";
+let map=L.map('map').setView([lat,lng],7);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+let meMarker=L.marker([lat,lng]).addTo(map);
+const towns={Gaborone:[-24.6282,25.9231],Mahalapye:[-23.1047,26.8146],Palapye:[-22.5465,27.1253],Serowe:[-22.3855,26.7126],Francistown:[-21.1705,27.5079],Maun:[-19.9953,23.4181],Kanye:[-24.9613,25.3328],Molepolole:[-24.4062,25.4956],Lobatse:[-25.2225,25.666]};
+navigator.geolocation.getCurrentPosition(p=>{lat=p.coords.latitude;lng=p.coords.longitude;meMarker.setLatLng([lat,lng]);document.getElementById('cLoc').value="GPS: "+lat.toFixed(5)+", "+lng.toFixed(5);});
+
+function pick(el,s,p,i){document.querySelectorAll('.svc').forEach(x=>x.classList.remove('on'));el.classList.add('on');svc=s;price=p;icon=i;document.getElementById('priceTag').innerText="P"+p;}
+function setPay(el,m){document.querySelectorAll('.pay div').forEach(x=>x.classList.remove('on'));el.classList.add('on');pay=m;}
+function showView(v){document.getElementById('custView').style.display=v=='cust'?"block":"none";document.getElementById('mechView').style.display=v=='mech'?"block":"none"; if(v=='mech') checkLogin();}
+
+function registerMech(){
+ let n=document.getElementById('mName').value, ph=document.getElementById('mPhone').value, t=document.getElementById('mTown').value;
+ if(!n||!ph){alert("Fill name & phone");return;}
+ let mech={name:n,phone:ph,town:t,online:true,joined:Date.now()};
+ localStorage.setItem('krft_mymech',JSON.stringify(mech));
+ db.ref('mechanics/'+ph).set(mech);
+ checkLogin(); alert("You are LIVE in "+t+"! You will see ALL jobs from "+t+" now!");
+}
+function checkLogin(){
+ let my=JSON.parse(localStorage.getItem('krft_mymech')||"null");
+ if(my){document.getElementById('regCard').style.display="none";document.getElementById('dashCard').style.display="block";
+ document.getElementById('mechInfo').innerHTML=`👤 ${my.name} | 📍 ${my.town} | 📞 ${my.phone}`;
+ document.getElementById('jobTown').innerText=my.town;
+ listenForJobs(my.town);
+ } else {document.getElementById('regCard').style.display="block";document.getElementById('dashCard').style.display="none";}
+}
+
+function requestNow(){
+ let n=document.getElementById('cName').value||"Customer", ph=document.getElementById('cPhone').value, town=document.getElementById('custTown').value, desc=document.getElementById('cDesc').value;
+ if(!ph||!desc){alert("Add phone & description");return;}
+ let req={id:Date.now(),name:n,phone:ph,town:town,service:svc,price:price,desc:desc,pay:pay,lat:lat,lng:lng,time:new Date().toLocaleString(),status:"waiting"};
+ db.ref('requests/'+req.id).set(req);
+ document.getElementById('custTrack').style.display="block";
+ document.getElementById('trackInfo').innerHTML=`${icon} ${svc} P${price} in ${town}<br>📝 ${desc}<br>💳 ${pay}<br><br>✅ LIVE! All mechanics in ${town} see this NOW on their phones!`;
+ let msg=`🚨 LIVE BREAKDOWN ${town}%0A${icon} ${svc} P${price}%0A👤 ${n} ${ph}%0A💳 ${pay}%0A📝 ${desc}%0A📍 https://www.google.com/maps?q=${lat},${lng}%0A%0AOpen app -> MECHANIC to accept!`;
+ window.open(`https://wa.me/26772665835?text=${encodeURIComponent(msg)}`,'_blank');
+}
+
+function listenForJobs(town){
+ db.ref('requests').orderByChild('town').equalTo(town).on('value', snap=>{
+ let html=""; snap.forEach(child=>{
+ let r=child.val();
+ if(r.status=="waiting"){
+ html+=`<div class="req"><b>${r.service} P${r.price}</b> - ${r.pay}<br>👤 ${r.name} ${r.phone}<br>📝 ${r.desc}<br><small>${r.time}</small><br><div style="display:flex;gap:6px;margin-top:6px"><button class="btn g" style="padding:8px" onclick="acceptJob('${child.key}','${r.phone}','${r.name}')">✅ ACCEPT JOB</button><a class="btn o" style="padding:8px;text-align:center;text-decoration:none" href="https://www.google.com/maps?q=${r.lat},${r.lng}" target="_blank">🗺️ NAVIGATE</a></div></div>`;
+ }
+ });
+ document.getElementById('reqList').innerHTML=html||`<p style="color:#666">No jobs in ${town} - Stay online! LIVE updates every second!</p>`;
+ document.getElementById('liveCount').innerText=`● ${snap.numChildren()} LIVE JOBS in ${town}`;
+ });
+}
+function acceptJob(key,phone,name){
+ db.ref('requests/'+key).update({status:"accepted",acceptedBy:JSON.parse(localStorage.getItem('krft_mymech')).name});
+ window.open(`https://wa.me/${phone}?text=Hi%20${name}%20I%20accepted%20your%20${name}%20job!%20I'm%20coming%20now%20🚛%20From%20KRFTINTO%20GHO`,'_blank');
+}
+function logout(){ localStorage.removeItem('krft_mymech'); checkLogin(); }
+document.getElementById('custTown').addEventListener('change',()=>{document.getElementById('townLabel').innerText=document.getElementById('custTown').value; let t=towns[document.getElementById('custTown').value]; if(t) map.setView(t,10);});
+</script>
+</body>
+</html>
