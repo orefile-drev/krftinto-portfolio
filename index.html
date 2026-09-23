@@ -4,10 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KRFTINTO GHO - Tow & Rescue</title>
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiS1JGVElOVE8gR0hPIFRvdyIsInNob3J0X25hbWUiOiJLUkZUSU5UTyIsInN0YXJ0X3VybCI6Ii4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjYjkxYzFjIiwidGhlbWVfY29sb3IiOiIjYjkxYzFjIn0=">
+<meta name="theme-color" content="#b91c1c">
+<link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3774/3774080.png">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
 body{background:#111;color:#fff}
-.header{background:#b91c1c;padding:20px;text-align:center}
+.header{background:#b91c1c;padding:22px;text-align:center}
+.header img{width:90px;height:90px;background:#fff;border-radius:20px;padding:10px;margin-bottom:10px}
 .card{background:#1f1f1f;border-radius:16px;padding:20px;margin:20px;border:1px solid #333}
 .btn{display:block;width:100%;padding:16px;background:#dc2626;color:#fff;text-align:center;border-radius:12px;font-weight:bold;font-size:18px;text-decoration:none;margin-top:12px}
 .btn-green{background:#16a34a}
@@ -17,6 +21,7 @@ body{background:#111;color:#fff}
 </head>
 <body>
 <div class="header">
+<img src="https://cdn-icons-png.flaticon.com/512/3774/3774080.png" alt="tow">
 <h1>KRFTINTO GHO</h1>
 <p>24/7 Tow & Road Rescue - Gaborone</p>
 </div>
@@ -25,26 +30,33 @@ body{background:#111;color:#fff}
 <h2>🚨 Need Tow NOW?</h2>
 <a class="btn" href="tel:+26772665835">📞 CALL: 72 665 835</a>
 <a class="btn btn-green" href="tel:+26775985570">📞 CALL: 75 985 570</a>
-<a class="btn btn-blue" href="https://wa.me/26772665835?text=Hello%20KRFTINTO%20I%20need%20tow">💬 WhatsApp Location</a>
+<a class="btn btn-blue" href="https://wa.me/26772665835?text=Hello%20KRFTINTO%20I%20need%20tow%20-%20My%20location:%20">💬 WhatsApp + Location</a>
 </div>
 
 <div class="card">
-<h2>📍 Location</h2>
+<h2>📍 Your Location</h2>
 <p id="loc">Getting GPS...</p>
+<p style="color:#aaa;font-size:12px;margin-top:8px">Allow location to show Lat/Lng for rescue team</p>
 </div>
 
 <div class="card">
 <h2>📞 Official Contacts</h2>
 <div class="contact-box">
 +267 72 665 835 / +267 75 985 570<br>
-KRFTINTO GHO - Gaborone
+KRFTINTO GHO - Gaborone<br>
+Metsimotlhaba & Gaborone
 </div>
+</div>
+
+<div class="card" style="text-align:center;color:#aaa;font-size:13px">
+⚙️ Hilux 4x4 - Recovery • Jump Start • Tyre • Fuel<br>
+24/7 Service Botswana
 </div>
 
 <script>
 navigator.geolocation.getCurrentPosition(p=>{
 document.getElementById('loc').innerText=`Lat:${p.coords.latitude.toFixed(5)} Lng:${p.coords.longitude.toFixed(5)}`
-})
+},e=>{document.getElementById('loc').innerText="Tap allow location 🔒"})
 </script>
 </body>
 </html>
