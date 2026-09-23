@@ -1,132 +1,51 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>KRFTINTO GHO - Driver</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,sans-serif}
-body{background:#000;height:100vh;overflow:hidden}
-#map{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1}
-.topbar{position:absolute;top:0;left:0;right:0;z-index:999;background:#121212;color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
-.switch{display:flex;background:#2C2C2E;border-radius:20px;padding:3px}
-.sw{padding:7px 14px;border-radius:16px;font-size:12px;font-weight:800;cursor:pointer}
-.sw.active{background:#FFCC00;color:#000}
-.incoming{position:absolute;top:60px;left:12px;right:12px;z-index:999;background:#fff;border-radius:20px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.4);display:none;animation:slide.4s}
-.incoming.show{display:block}
-@keyframes slide{from{transform:translateY(-100%)}to{transform:translateY(0)}}
-.new-tag{background:#FF3B30;color:#fff;padding:4px 8px;border-radius:6px;font-size:10px;font-weight:800}
-.info{margin:10px 0}
-.row{display:flex;justify-content:space-between;margin:6px 0;font-size:13px}
-.b{font-weight:800}
-.accept{width:100%;background:#FFCC00;border:none;border-radius:14px;padding:16px;font-weight:900;font-size:16px;margin-top:10px}
-.reject{background:#F2F2F7;border:none;border-radius:14px;padding:12px;flex:1;font-weight:700}
-.bottom{position:absolute;bottom:0;left:0;right:0;z-index:999;background:#fff;border-radius:24px 24px 0 0;padding:16px}
-.sheet{position:absolute;bottom:0;left:0;right:0;z-index:999;background:#fff;border-radius:28px 28px 0 0;padding:16px;max-height:85vh;overflow:auto}
-.svc{display:inline-flex;flex-direction:column;align-items:center;background:#F5F5F7;border-radius:16px;padding:10px 14px;margin:5px;border:2px solid transparent;cursor:pointer}
-.svc.active{background:#121212;color:#fff;border-color:#121212}
-.pay{display:inline-block;padding:8px 12px;background:#F5F5F7;border-radius:10px;margin:4px;font-size:12px;font-weight:700;cursor:pointer;border:2px solid transparent}
-.pay.active{background:#E8F5E9;border-color:#4CAF50}
-.btn{width:100%;background:#FFCC00;border:none;border-radius:16px;padding:18px;font-weight:900;font-size:17px;margin-top:12px}
-.login{position:absolute;inset:0;z-index:1000;background:#fff;padding:20px;display:flex;flex-direction:column;justify-content:center}
-.input{width:100%;padding:14px;background:#F5F5F7;border-radius:14px;border:2px solid transparent;margin:6px 0;outline:none}
-.input:focus{border-color:#121212;background:#fff}
-.town{display:inline-block;padding:8px 12px;background:#F5F5F7;border-radius:10px;margin:4px;font-size:12px;font-weight:600;cursor:pointer}
-.town.sel{background:#121212;color:#FFCC00}
-</style>
-</head>
-<body>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>KRFTINTO GHO FULL</title><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script><style>:root{--y:#FFCC00;--b:#111;--g:#F2F2F7}*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}body{background:#fff;height:100vh;overflow:hidden}#map{position:absolute;inset:0;z-index:1}.top{position:absolute;top:0;left:0;right:0;z-index:900;background:#fff;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 12px rgba(0,0,0,.08)}.sw{display:flex;background:#F2F2F7;border-radius:20px;padding:3px}.s{padding:6px 14px;border-radius:16px;font-size:11px;font-weight:800;cursor:pointer}.s.on{background:#111;color:#FFCC00}.incoming{position:absolute;top:60px;left:12px;right:12px;z-index:950;background:#fff;border-radius:20px;padding:16px;box-shadow:0 16px 40px rgba(0,0,0,.2);border:2px solid #FFCC00;display:none}.incoming.show{display:block;animation:a.3s}@keyframes a{from{transform:translateY(-100%)}to{transform:translateY(0)}}.tag{background:#111;color:#FFCC00;padding:4px 8px;border-radius:6px;font-size:9px;font-weight:900}.r{display:flex;justify-content:space-between;margin:6px 0;font-size:13px}.bb{font-weight:800}.acc{width:100%;background:#FFCC00;border:none;border-radius:14px;padding:16px;font-weight:900;margin-top:10px;font-size:15px}.rej{flex:1;background:#F2F2F7;border:none;border-radius:14px;padding:12px;font-weight:700}.sheet{position:absolute;bottom:0;left:0;right:0;z-index:800;background:#fff;border-radius:28px 28px 0 0;padding:16px;max-height:90vh;overflow:auto;box-shadow:0 -8px 30px rgba(0,0,0,.1)}.svc{display:inline-flex;flex-direction:column;align-items:center;background:#F2F2F7;border-radius:16px;padding:10px 12px;margin:4px;border:2px solid transparent;cursor:pointer;min-width:74px}.svc.on{background:#111;color:#FFCC00;border-color:#111}.pay{display:inline-block;padding:8px 12px;background:#F2F2F7;border-radius:10px;margin:3px;font-size:11px;font-weight:700;cursor:pointer;border:2px solid transparent}.pay.on{background:#111;color:#FFCC00}.btn{width:100%;background:#FFCC00;border:none;border-radius:16px;padding:18px;font-weight:900;font-size:16px;margin-top:12px}.login{position:absolute;inset:0;z-index:1000;background:#fff;padding:20px;overflow:auto}.inp{width:100%;padding:14px;background:#F2F2F7;border-radius:12px;border:2px solid transparent;margin:6px 0;outline:none}.inp:focus{border-color:#111;background:#fff}.twn{display:inline-block;padding:7px 11px;background:#F2F2F7;border-radius:10px;margin:3px;font-size:11px;font-weight:600;cursor:pointer}.twn.on{background:#111;color:#FFCC00}.bank{background:#F9F9FB;border-radius:14px;padding:12px;margin:8px 0;border:1px dashed #D1D1D6}.online{display:flex;align-items:center;gap:8px;background:#111;color:#FFCC00;padding:8px 14px;border-radius:20px;font-size:12px;font-weight:800}.dot{width:10px;height:10px;background:#00E676;border-radius:50%;animation:p 1.2s infinite}@keyframes p{0%,100%{opacity:1}50%{opacity:.3}}.hdr{font-size:10px;color:#8E8E93;font-weight:700;letter-spacing:1px;margin:12px 0 6px}
+</style></head><body>
 <div id="map"></div>
-<div class="topbar">
-<div style="font-weight:900">KRFTINTO <span style="color:#FFCC00">GHO</span></div>
-<div class="switch">
-<div class="sw active" id="swC" onclick="setMode('customer')">CUSTOMER</div>
-<div class="sw" id="swD" onclick="setMode('driver')">MECHANIC</div>
-</div>
+<div class="top"><div style="font-weight:900">KRFTINTO <span style="background:#FFCC00;padding:2px 6px;border-radius:6px">GHO</span></div><div class="sw"><div class="s on" id="sC" onclick="mode('c')">CUSTOMER</div><div class="s" id="sD" onclick="mode('d')">MECHANIC</div></div></div>
+<div class="incoming" id="inBox"><div style="display:flex;justify-content:space-between"><span class="tag">🔔 NEW JOB • YANGO</span><span style="font-size:11px;color:#8E8E93">now</span></div><div style="margin:10px 0"><div class="r"><span>📍 Distance</span><span class="bb" id="iDist">2.2km • 7min</span></div><div class="r"><span>🛠️ Service</span><span class="bb" id="iSvc">Towing</span></div><div class="r"><span>📍 Location</span><span class="bb" id="iWhere">Gaborone</span></div><div class="r"><span>👤 Customer</span><span class="bb" id="iCust">Ore 72xxx</span></div><div class="r"><span>💳 Payment</span><span class="bb" id="iPay">Cash</span></div><div class="r" style="font-size:19px"><span>💰 Earn</span><span class="bb" style="color:#00C853" id="iPrice">P346</span></div></div><div style="display:flex;gap:8px"><button class="rej" onclick="rej()">Reject</button><button class="acc" onclick="acc()">ACCEPT JOB → NAVIGATE</button></div></div>
+
+<div class="sheet" id="cSheet"><div style="width:36px;height:5px;background:#D1D1D6;border-radius:10px;margin:0 auto 12px"></div>
+<div style="display:flex;justify-content:space-between"><b>Where is breakdown?</b><span style="background:#111;color:#FFCC00;padding:5px 10px;border-radius:12px;font-size:11px;font-weight:900" id="pB">P346</span></div>
+<div id="sList" style="margin:10px 0;overflow-x:auto;white-space:nowrap"></div>
+<div class="hdr">PAYMENT METHOD • BANK ACCOUNTS</div>
+<div id="pays"><div class="pay on" data-p="cash">💵 Cash</div><div class="pay" data-p="orange">🟠 Orange Money</div><div class="pay" data-p="myzaka">📱 MyZaka</div><div class="pay" data-p="fnb">🏦 FNB</div><div class="pay" data-p="bank">🏧 Bank Transfer</div></div>
+<div class="bank"><div class="hdr" style="margin:0">YOUR BANK ACCOUNTS - MONEY GOES HERE</div><input id="om" class="inp" placeholder="Orange Money: 72xxxxxx"><input id="mz" class="inp" placeholder="MyZaka: 76xxxxxx"><input id="fnb" class="inp" placeholder="FNB eWallet / Account No"><input id="bank" class="inp" placeholder="Bank: First National / Absa - Acc No"></div>
+<textarea id="desc" class="inp" rows="2" placeholder="Describe: e.g. Flat tyre near Main Mall Spar, white Toyota..."></textarea>
+<div style="background:#111;color:#fff;border-radius:14px;padding:12px;display:flex;justify-content:space-between;margin:10px 0"><span>Est <b style="color:#FFCC00" id="eP">P346</b> • <span id="eD">2.2km</span></span><span id="eT">7 min away</span></div>
+<button class="btn" onclick="req()">Request Mechanic Now</button>
+<div style="text-align:center;margin-top:10px;font-size:11px;color:#8E8E93">✅ SOS • ✅ Share Location • ✅ Rate Mechanic • ✅ Trip History • ✅ Support</div>
 </div>
 
-<!-- INCOMING JOB - YANGO STYLE -->
-<div class="incoming" id="incoming">
-<div style="display:flex;justify-content:space-between"><span class="new-tag">NEW REQUEST • LIVE</span><span style="font-size:12px;color:#8E8E93" id="inTime">now</span></div>
-<div class="info">
-<div class="row"><span>📍 Distance</span><span class="b" id="inDist">2.2 km • 7 min</span></div>
-<div class="row"><span>🛠️ Service</span><span class="b" id="inService">Towing</span></div>
-<div class="row"><span>📍 Location</span><span class="b" id="inLoc">Gaborone Main Mall</span></div>
-<div class="row"><span>👤 Customer</span><span class="b" id="inCust">Ore • 72xxxxxx</span></div>
-<div class="row"><span>💳 Payment</span><span class="b" id="inPay">Cash</span></div>
-<div class="row" style="font-size:18px"><span>💰 Earn</span><span class="b" style="color:#00C853" id="inPrice">P346</span></div>
-</div>
-<div style="display:flex;gap:8px"><button class="reject" onclick="rejectJob()">Reject</button><button class="accept" onclick="acceptJob()">ACCEPT JOB</button></div>
+<div class="sheet" id="dSheet" style="display:none"><div style="width:36px;height:5px;background:#D1D1D6;border-radius:10px;margin:0 auto 12px"></div>
+<div style="display:flex;justify-content:space-between;align-items:center"><div><b>Mechanic Dashboard</b><br><small style="color:#8E8E93">Full Yango Driver Clone</small></div><div class="online" onclick="toggle()"><div class="dot"></div><span id="onTx">ONLINE</span></div></div>
+<div style="display:flex;gap:8px;margin:12px 0"><div style="flex:1;background:#F2F2F7;border-radius:14px;padding:12px"><div style="font-size:10px;color:#8E8E93">TODAY EARN</div><div style="font-size:20px;font-weight:900" id="earn">P0</div></div><div style="flex:1;background:#F2F2F7;border-radius:14px;padding:12px"><div style="font-size:10px;color:#8E8E93">JOBS DONE</div><div style="font-size:20px;font-weight:900" id="jCnt">0</div></div><div style="flex:1;background:#F2F2F7;border-radius:14px;padding:12px"><div style="font-size:10px;color:#8E8E93">RATING</div><div style="font-size:20px;font-weight:900">5.0 ⭐</div></div></div>
+<div class="hdr">INCOMING JOBS - LIKE YANGO DRIVER SEES CUSTOMERS</div><div id="jList"></div>
+<div class="bank"><div class="hdr" style="margin:0">MY BANK ACCOUNTS</div><small>Orange: <b id="bOm">Not set</b><br>MyZaka: <b id="bMz">Not set</b><br>FNB: <b id="bF">Not set</b><br>Bank: <b id="bB">Not set</b></small></div>
+<div style="display:flex;gap:8px;margin-top:10px"><button class="rej" style="flex:1" onclick="alert('Wallet: P'+document.getElementById('earn').innerText)">Wallet</button><button class="rej" style="flex:1" onclick="alert('History: '+document.getElementById('jCnt').innerText+' jobs')">History</button><button class="rej" style="flex:1" onclick="alert('Support: Call 72xxxxxx')">Support</button></div>
 </div>
 
-<!-- CUSTOMER SHEET -->
-<div class="sheet" id="custSheet">
-<div style="width:36px;height:5px;background:#D1D1D6;border-radius:10px;margin:0 auto 12px"></div>
-<div style="display:flex;justify-content:space-between"><b>Select Service</b><span style="background:#121212;color:#FFCC00;padding:4px 10px;border-radius:12px;font-size:12px" id="priceB">P346</span></div>
-<div id="svcList" style="margin:10px 0;white-space:nowrap;overflow-x:auto"></div>
-<div style="font-size:11px;color:#8E8E93;font-weight:700;margin-top:10px">PAYMENT</div>
-<div><div class="pay active" data-p="cash">Cash</div><div class="pay" data-p="orange">Orange Money</div><div class="pay" data-p="myzaka">MyZaka</div><div class="pay" data-p="fnb">FNB</div></div>
-<textarea id="desc" class="input" rows="2" placeholder="Describe breakdown..."></textarea>
-<div style="background:#121212;color:#fff;border-radius:14px;padding:12px;display:flex;justify-content:space-between;margin:10px 0"><span>Est. <b id="estP" style="color:#FFCC00">P346</b> • <span id="estD">2.2km</span></span><span id="estT">7 min</span></div>
-<button class="btn" onclick="requestJob()">Request</button>
-</div>
-
-<!-- DRIVER SHEET -->
-<div class="sheet" id="driverSheet" style="display:none">
-<div style="width:36px;height:5px;background:#D1D1D6;border-radius:10px;margin:0 auto 12px"></div>
-<b>Mechanic Dashboard</b><br><small style="color:#8E8E93">Online • Ready for jobs</small>
-<div id="jobList" style="margin-top:12px"></div>
-<div style="margin-top:12px;background:#F5F5F7;border-radius:12px;padding:12px"><div style="font-size:11px;color:#8E8E93">TODAY EARNINGS</div><div style="font-size:22px;font-weight:900" id="earn">P0</div></div>
-</div>
-
-<!-- LOGIN -->
-<div class="login" id="login">
-<h2 style="font-size:28px;font-weight:900">KRFTINTO GHO</h2><p style="color:#8E8E93;margin:6px 0 14px">80 Towns • 24/7 Rescue</p>
-<div id="towns" style="max-height:120px;overflow:auto;margin-bottom:10px"></div>
-<input id="name" class="input" placeholder="Full Name">
-<input id="phone" class="input" placeholder="72xxxxxx">
-<input id="pass" class="input" type="password" placeholder="Password">
-<button class="btn" onclick="login()">Continue</button>
-</div>
+<div class="login" id="log"><h2 style="font-size:28px;font-weight:900">KRFTINTO GHO</h2><p style="color:#8E8E93;font-size:13px;margin:6px 0 12px">Full Yango for Mechanics • 80 Towns • Light Map ☀️ • Bank Accounts</p>
+<div class="hdr">SELECT TOWN - 80 TOWNS BOTSWANA</div><div id="twns" style="max-height:130px;overflow:auto;border:1px solid #F2F2F7;border-radius:12px;padding:6px"></div>
+<input id="n" class="inp" placeholder="Full Name"><input id="ph" class="inp" placeholder="Phone 72xxxxxx"><input id="pw" class="inp" type="password" placeholder="Password - For Mechanics Sign In">
+<div style="display:flex;gap:8px"><div class="pay on" id="roleC" onclick="setRole('c')">Customer</div><div class="pay" id="roleD" onclick="setRole('d')">Mechanic</div></div>
+<button class="btn" onclick="login()">Sign In → Continue</button><p style="text-align:center;font-size:11px;color:#8E8E93;margin-top:10px">Mechanics Sign In with Mechanic ID & Password<br>Customers Sign In with Phone</p></div>
 
 <script>
-const firebaseConfig={apiKey:"AIzaSyDummy",authDomain:"krftinto-gho.firebaseapp.com",databaseURL:"https://krftinto-gho-default-rtdb.firebaseio.com",projectId:"krftinto-gho"};
-try{firebase.initializeApp(firebaseConfig)}catch(e){}
-const db=firebase.database();
-const towns=[["Gaborone",346],["Francistown",520],["Maun",650],["Molepolole",380],["Serowe",480],["Kanye",400],["Mahalapye",450],["Palapye",470],["Lobatse",390],["Kasane",800],["Ghanzi",680],["Letlhakane",600]];
-let selTown=towns[0], selSvc={name:'Towing'}, selPay='cash', mode='customer', jobs=[], myPhone='';
-const map=L.map('map',{zoomControl:false}).setView([-24.6282,25.9231],13);
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
-const tg=document.getElementById('towns');
-towns.forEach((t,i)=>{let d=document.createElement('div');d.className='town'+(i==0?' sel':'');d.textContent=t[0]+' P'+t[1];d.onclick=()=>{document.querySelectorAll('.town').forEach(x=>x.classList.remove('sel'));d.classList.add('sel');selTown=t;document.getElementById('priceB').textContent='P'+t[1];document.getElementById('estP').textContent='P'+t[1];};tg.appendChild(d);});
-const services=[{name:'Towing',ico:'🚛'},{name:'Tyre Flat',ico:'🛞'},{name:'Battery Jump',ico:'🔋'},{name:'Fuel Delivery',ico:'⛽'},{name:'Engine No Start',ico:'🔧'},{name:'Accident Support',ico:'🚨'}];
-const sl=document.getElementById('svcList');
-services.forEach((s,i)=>{let d=document.createElement('div');d.className='svc'+(i==0?' active':'');d.innerHTML=`${s.ico}<br><small>${s.name}</small>`;d.onclick=()=>{document.querySelectorAll('.svc').forEach(x=>x.classList.remove('active'));d.classList.add('active');selSvc=s;};sl.appendChild(d);});
-document.querySelectorAll('.pay').forEach(p=>{p.onclick=()=>{document.querySelectorAll('.pay').forEach(x=>x.classList.remove('active'));p.classList.add('active');selPay=p.dataset.p;}});
-function setMode(m){mode=m;document.getElementById('swC').classList.toggle('active',m=='customer');document.getElementById('swD').classList.toggle('active',m=='driver');document.getElementById('custSheet').style.display=m=='customer'?'block':'none';document.getElementById('driverSheet').style.display=m=='driver'?'block':'none';}
-function login(){const n=document.getElementById('name').value,p=document.getElementById('phone').value;if(!n||!p){alert('Fill name & phone');return;}myPhone=p;document.getElementById('login').style.display='none';map.invalidateSize();}
-function requestJob(){const d=document.getElementById('desc').value;const job={id:Date.now(),service:selSvc.name,town:selTown[0],price:selTown[1],pay:selPay,desc:d||'Breakdown at '+selTown[0],cust:myPhone||'Customer',custName:document.getElementById('name').value||'Customer',time:Date.now(),status:'new',lat:-24.6282+Math.random()*0.02,lng:25.9231+Math.random()*0.02};db.ref('jobs/'+job.id).set(job);alert('Request Sent! Mechanic coming P'+job.price);showIncoming(job,true);}
-let currentJob=null;
-function showIncoming(job, isOwn=false){
-if(mode!='driver' &&!isOwn) return;
-currentJob=job;
-document.getElementById('inService').textContent=job.service;
-document.getElementById('inLoc').textContent=job.town+' • '+job.desc;
-document.getElementById('inCust').textContent=job.custName+' • '+job.cust;
-document.getElementById('inPay').textContent=job.pay;
-document.getElementById('inPrice').textContent='P'+job.price;
-document.getElementById('inDist').textContent=(Math.random()*3+1).toFixed(1)+' km • '+(Math.random()*5+5).toFixed(0)+' min';
-document.getElementById('incoming').classList.add('show');
-const m=L.marker([job.lat,job.lng]).addTo(map);m.bindPopup(job.service+'<br>'+job.desc).openPopup();
-if(mode=='driver'){let div=document.createElement('div');div.style.cssText='background:#fff;border-radius:12px;padding:12px;margin:6px 0;border-left:4px solid #FFCC00';div.innerHTML=`<b>${job.service}</b> • P${job.price}<br><small>${job.town} • ${job.desc}</small><br><button onclick="showIncoming(jobs.find(j=>j.id==${job.id}))" style="margin-top:6px;background:#121212;color:#FFCC00;border:none;padding:6px 12px;border-radius:8px;font-weight:800">View</button>`;document.getElementById('jobList').prepend(div);}
-}
-function acceptJob(){if(!currentJob)return;db.ref('jobs/'+currentJob.id+'/status').set('accepted');document.getElementById('incoming').classList.remove('show');let earnEl=document.getElementById('earn');earnEl.textContent='P'+(parseInt(earnEl.textContent.slice(1))+currentJob.price);alert('Job Accepted! Call customer: '+currentJob.cust+'\nNavigate to '+currentJob.town);window.open(`https://www.google.com/maps/dir/?api=1&destination=${currentJob.lat},${currentJob.lng}`);}
-function rejectJob(){document.getElementById('incoming').classList.remove('show');}
-db.ref('jobs').on('child_added',s=>{const j=s.val();jobs.push(j);if(mode=='driver'){showIncoming(j);}});
-</script>
-</body>
-                                    </html>
+const cfg={apiKey:"AIzaSyDummy",databaseURL:"https://krftinto-gho-default-rtdb.firebaseio.com"};try{firebase.initializeApp(cfg)}catch(e){}const db=firebase.database();
+const towns=[["Gaborone",346],["Francistown",520],["Maun",650],["Molepolole",380],["Serowe",480],["Kanye",400],["Mahalapye",450],["Palapye",470],["Lobatse",390],["Kasane",800],["Ghanzi",680],["Letlhakane",600],["Mogoditshane",340],["Mochudi",360],["Ramotswa",350],["Tlokweng",340],["Bobonong",580],["Moshupa",390],["Thamaga",360],["Tonota",500],["Tutume",540],["Selebi-Phikwe",560],["Jwaneng",480],["Kang",700],["Orapa",620],["Sowa",580],["Shakawe",900],["Gweta",650],["Nata",600],["Lerala",520],["Letlhakeng",420],["Hukuntsi",780],["Tsabong",850],["Gumare",780],["Etsha",850],["Masunga",560],["Mmathubudukwane",380],["Gabane",340],["Mmopane",340],["Metsimotlhaba",340],["Kopong",350],["Lentsweletau",380],["Molepolole East",380],["Molepolole West",380],["Thamaga East",360],["Mochudi East",360],["Oodi",360],["Modipane",360],["Morwa",370],["Bokaa",370],["Malolwane",380],["Mochudi West",360],["Rasesa",370],["Pilane",370],["Mmathubudukwane East",380],["Artesia",400],["Mookane",430],["Mopipi",600],["Rakops",650],["Mogobane",350],["Otse",360],["Mogobane East",350],["Ramotswa East",350],["Tlokweng East",340],["Gaborone West",346],["Gaborone North",346],["Gaborone South",346],["Gaborone East",346],["Gaborone Central",346],["Broadhurst",346],["Block 8",346],["Block 9",346],["Block 10",346],["Phase 2",346],["Phase 4",346],["Mogoditshane East",340],["Mogoditshane West",340],["Gabane East",340],["Mmopane East",340]];
+let selT=towns[0],selS={name:'Towing'},selP='cash',role='c',isOn=true,jobs=[],cur=null,myPh='';
+const map=L.map('map',{zoomControl:false}).setView([-24.6282,25.9231],14);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
+const tw=document.getElementById('twns');towns.forEach((t,i)=>{let d=document.createElement('div');d.className='twn'+(i==0?' on':'');d.textContent=t[0]+' - P'+t[1];d.onclick=()=>{document.querySelectorAll('.twn').forEach(x=>x.classList.remove('on'));d.classList.add('on');selT=t;document.getElementById('pB').textContent='P'+t[1];document.getElementById('eP').textContent='P'+t[1];};tw.appendChild(d);});
+const svcs=[{n:'Towing',i:'🚛'},{n:'Tyre Flat',i:'🛞'},{n:'Battery Jump',i:'🔋'},{n:'Fuel Delivery',i:'⛽'},{n:'Engine No Start',i:'🔧'},{n:'Accident Support',i:'🚨'}];const sl=document.getElementById('sList');svcs.forEach((s,i)=>{let d=document.createElement('div');d.className='svc'+(i==0?' on':'');d.innerHTML=s.i+'<br><small>'+s.n+'</small>';d.onclick=()=>{document.querySelectorAll('.svc').forEach(x=>x.classList.remove('on'));d.classList.add('on');selS={name:s.n};};sl.appendChild(d);});
+document.querySelectorAll('#pays.pay').forEach(p=>{p.onclick=()=>{document.querySelectorAll('#pays.pay').forEach(x=>x.classList.remove('on'));p.classList.add('on');selP=p.dataset.p;}});
+function setRole(r){role=r;document.getElementById('roleC').classList.toggle('on',r=='c');document.getElementById('roleD').classList.toggle('on',r=='d');}
+function mode(m){document.getElementById('sC').classList.toggle('on',m=='c');document.getElementById('sD').classList.toggle('on',m=='d');document.getElementById('cSheet').style.display=m=='c'?'block':'none';document.getElementById('dSheet').style.display=m=='d'?'block':'none';map.invalidateSize();}
+function login(){let n=document.getElementById('n').value,ph=document.getElementById('ph').value,pw=document.getElementById('pw').value;if(!n||!ph){alert('Fill name & phone');return;}myPh=ph;let om=document.getElementById('om').value,mz=document.getElementById('mz').value,fn=document.getElementById('fnb').value,bk=document.getElementById('bank').value;if(om)document.getElementById('bOm').textContent=om;if(mz)document.getElementById('bMz').textContent=mz;if(fn)document.getElementById('bF').textContent=fn;if(bk)document.getElementById('bB').textContent=bk;document.getElementById('log').style.display='none';map.invalidateSize();if(role=='d'){mode('d');}db.ref('users/'+ph).set({name:n,phone:ph,pw,role,town:selT[0],om,mz,fnb:fn,bank:bk,time:Date.now()});}
+function req(){let d=document.getElementById('desc').value;let job={id:Date.now(),service:selS.name,town:selT[0],price:selT[1],pay:selP,desc:d||'Breakdown at '+selT[0],cust:myPh,custName:document.getElementById('n').value||'Customer',time:Date.now(),status:'new',lat:-24.6282+Math.random()*0.04,lng:25.9231+Math.random()*0.04};db.ref('jobs/'+job.id).set(job);alert('Request Sent! P'+job.price+' - Searching nearby mechanics...');show(job);}
+function show(j){cur=j;document.getElementById('iSvc').textContent=j.service;document.getElementById('iWhere').textContent=j.town+' • '+j.desc;document.getElementById('iCust').textContent=j.custName+' • '+j.cust;document.getElementById('iPay').textContent=j.pay;document.getElementById('iPrice').textContent='P'+j.price;document.getElementById('iDist').textContent=(Math.random()*3+1).toFixed(1)+'km • '+(Math.random()*5+5).toFixed(0)+'min';document.getElementById('inBox').classList.add('show');let mk=L.marker([j.lat,j.lng]).addTo(map);mk.bindPopup(j.service+' - P'+j.price).openPopup();let jl=document.getElementById('jList');let dv=document.createElement('div');dv.style.cssText='background:#fff;border-radius:14px;padding:12px;margin:6px 0;border-left:4px solid #FFCC00;box-shadow:0 2px 10px rgba(0,0,0,.08)';dv.innerHTML='<b>'+j.service+'</b> • <span style="color:#00C853;font-weight:900">P'+j.price+'</span><br><small>'+j.town+' • '+j.desc+'</small><br><small>👤 '+j.custName+' • '+j.pay+'</small> <button onclick="document.getElementById(\'inBox\').classList.add(\'show\')" style="float:right;background:#111;color:#FFCC00;border:none;padding:6px 10px;border-radius:8px;font-weight:800">View</button>';jl.prepend(dv);}
+function acc(){if(!cur)return;db.ref('jobs/'+cur.id+'/status').set('accepted');document.getElementById('inBox').classList.remove('show');let e=document.getElementById('earn');e.textContent='P'+(parseInt(e.textContent.slice(1))+cur.price);document.getElementById('jCnt').textContent=parseInt(document.getElementById('jCnt').textContent)+1;alert('✅ ACCEPTED! Call Customer: '+cur.cust+'\n📍 Navigating to '+cur.town);window.open('https://www.google.com/maps/dir/?api=1&destination='+cur.lat+','+cur.lng);}
+function rej(){document.getElementById('inBox').classList.remove('show');}
+function toggle(){isOn=!isOn;document.getElementById('onTx').textContent=isOn?'ONLINE':'OFFLINE';document.getElementById('onTx').style.color=isOn?'#00E676':'#FF3B30';}
+db.ref('jobs').on('child_added',s=>{let j=s.val();jobs.push(j);if(isOn)show(j);});
+</script></body></html>
