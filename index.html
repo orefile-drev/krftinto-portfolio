@@ -1,28 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KRFTINTO GHO - Tow & Rescue</title>
-<meta name="theme-color" content="#b91c1c">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:#0f0f0f;color:#fff}
-.header{background:#b91c1c;padding:30px;text-align:center}
-.logo{font-size:70px;background:#fff;width:100px;height:100px;border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
-.card{background:#1e1e1e;margin:16px;border-radius:18px;padding:20px;border:1px solid #333}
-.btn{display:block;width:100%;padding:18px;border-radius:14px;font-weight:900;font-size:18px;text-align:center;color:#fff;text-decoration:none;margin-top:12px}
-.red{background:#dc2626} .green{background:#16a34a} .blue{background:#2563eb}
-.white{background:#fff;color:#111;padding:15px;border-radius:12px;text-align:center;font-weight:900;margin-top:10px}
-.loc{color:#4ade80;font-family:monospace;margin-top:8px}
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KRFTINTO GHO</title>
 </head>
-<body>
-<div class="header">
-<div class="logo">🚛</div>
+<body style="margin:0;background:#111;color:#fff;font-family:Arial">
+<div style="background:#b91c1c;padding:25px;text-align:center">
+<div style="background:#fff;width:90px;height:90px;border-radius:20px;margin:0 auto 10px;font-size:60px;display:flex;align-items:center;justify-content:center">🚛</div>
 <h1>KRFTINTO GHO</h1>
 <p>24/7 Tow & Road Rescue - Gaborone</p>
 </div>
 
-<div class="card">
-<h2>🚨
+<div style="background:#1e1e1e;margin:15px;padding:20px;border-radius:15px">
+<h2>🚨 Need Tow NOW?</h2>
+<a href="tel:+26772665835" style="display:block;background:#dc2626;color:#fff;padding:18px;border-radius:12px;text-align:center;font-weight:bold;text-decoration:none;margin-top:12px;font-size:18px">📞 CALL 72 665 835</a>
+<a href="tel:+26775985570" style="display:block;background:#16a34a;color:#fff;padding:18px;border-radius:12px;text-align:center;font-weight:bold;text-decoration:none;margin-top:12px;font-size:18px">📞 CALL 75 985 570</a>
+<a href="https://wa.me/26772665835?text=Hello%20KRFTINTO%20I%20need%20tow%20https://maps.google.com/?q=-24.56187,25.82736" style="display:block;background:#2563eb;color:#fff;padding:18px;border-radius:12px;text-align:center;font-weight:bold;text-decoration:none;margin-top:12px;font-size:18px">💬 WhatsApp + Location</a>
+</div>
+
+<div style="background:#1e1e1e;margin:15px;padding:20px;border-radius:15px">
+<h2>📍 Your Location</h2>
+<p id="g" style="color:#4ade80;margin-top:10px;font-family:monospace">Lat: -24.56187 Lng: 25.82736<br>Metsimotlhaba, Gaborone</p>
+</div>
+
+<div style="background:#1e1e1e;margin:15px;padding:20px;border-radius:15px;text-align:center">
+<div style="background:#fff;color:#111;padding:15px;border-radius:10px;font-weight:bold">+267 72 665 835<br>+267 75 985 570<br>KRFTINTO GHO - Gaborone</div>
+<p style="color:#aaa;font-size:12px;margin-top:12px">Tow • Recovery • Jump Start • Tyre • Fuel<br>Hilux 4x4 • 24/7</p>
+</div>
+
+<script>
+navigator.geolocation.getCurrentPosition(function(p){
+document.getElementById('g').innerHTML="Lat: "+p.coords.latitude.toFixed(5)+" Lng: "+p.coords.longitude.toFixed(5)+"<br>GPS Live - Share to rescue team";
+});
+</script>
+</body>
+</html>
