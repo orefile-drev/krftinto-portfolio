@@ -2,39 +2,47 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KRFTINTO GHO - All Car Services</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>KRFTINTO GHO LIVE - Botswana</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}body{background:#0f0f0f;color:#fff}
-.top{background:#b91c1c;padding:10px;display:flex;justify-content:space-between;position:sticky;top:0;z-index:9999}
-.top button{padding:8px 12px;border-radius:20px;border:1px solid #fff;background:#000;color:#fff;font-weight:900;font-size:11px}
-#map{height:32vh}.card{background:#1e1e1e;margin:8px;padding:10px;border-radius:14px;border:1px solid #333}
-.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px}
-.svc{background:#2a2a2a;border:2px solid #333;padding:7px;border-radius:10px;text-align:center;font-size:10px;cursor:pointer;min-height:58px}
-.svc.on{border-color:#f59e0b;background:#3d2f14;transform:scale(1.02)}
-.btn{width:100%;padding:13px;border-radius:12px;font-weight:900;border:none;color:#fff;margin-top:7px;font-size:14px}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}body{background:#0f0f0f;color:#fff;padding-bottom:20px}
+.top{background:#b91c1c;padding:12px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:9999}
+.top b{font-size:14px}.top button{padding:8px 14px;border-radius:20px;border:1px solid #fff;background:#000;color:#fff;font-weight:900;font-size:11px;margin-left:4px}
+#installBanner{background:linear-gradient(90deg,#f59e0b,#ea580c);color:#000;padding:12px;text-align:center;font-weight:900;display:none;position:sticky;top:48px;z-index:9998;font-size:13px}
+#installBanner button{background:#000;color:#fff;border:none;padding:8px 16px;border-radius:20px;margin-left:10px;font-weight:900}
+#map{height:34vh;width:100%;border-bottom:3px solid #b91c1c}
+.card{background:#1e1e1e;margin:8px;padding:12px;border-radius:16px;border:1px solid #333;box-shadow:0 4px 10px rgba(0,0,0,0.5)}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.svc{background:#2a2a2a;border:2px solid #333;padding:8px 4px;border-radius:12px;text-align:center;font-size:10px;cursor:pointer;min-height:62px;transition:0.2s}
+.svc.on{border-color:#f59e0b;background:#3d2f14;transform:scale(1.03)}
+.svc div{font-size:18px}
+.btn{width:100%;padding:14px;border-radius:12px;font-weight:900;border:none;color:#fff;margin-top:8px;font-size:14px;cursor:pointer}
 .o{background:#ea580c}.g{background:#16a34a}.d{background:#222;border:1px solid #444}.bl{background:#2563eb}
-input,select,textarea{width:100%;padding:10px;border-radius:10px;background:#111;border:1px solid #444;color:#fff;margin-top:5px;font-size:14px}
-.pay{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-top:6px}.pay div{background:#2a2a2a;border:2px solid #333;padding:7px;border-radius:8px;text-align:center;font-size:9px;cursor:pointer}.pay div.on{border-color:#16a34a;background:#1a2e1a}
-.price-box{background:#000;border:2px solid #f59e0b;padding:8px;border-radius:10px;margin-top:8px}
-.price-row{display:flex;justify-content:space-between;font-size:11px;margin-top:3px;color:#aaa}
-.price-total{display:flex;justify-content:space-between;font-size:14px;font-weight:900;margin-top:6px;border-top:1px solid #333;padding-top:6px}
-.req{background:#111;padding:9px;border-radius:10px;margin-top:8px;border-left:4px solid #ea580c}
-.progress{height:4px;background:#333;border-radius:2px;margin-top:6px;overflow:hidden}.progress-fill{height:100%;background:#f59e0b;width:0%;transition:0.5s}
+input,select,textarea{width:100%;padding:11px;border-radius:10px;background:#111;border:1px solid #444;color:#fff;margin-top:6px;font-size:14px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:#f59e0b}
+.pay{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:8px}.pay div{background:#2a2a2a;border:2px solid #333;padding:8px 4px;border-radius:10px;text-align:center;font-size:10px;cursor:pointer;line-height:12px}.pay div.on{border-color:#16a34a;background:#1a2e1a}
+.price-box{background:#000;border:2px solid #f59e0b;padding:10px;border-radius:12px;margin-top:10px}
+.price-row{display:flex;justify-content:space-between;font-size:11px;margin-top:4px;color:#aaa}
+.price-total{display:flex;justify-content:space-between;font-size:15px;font-weight:900;margin-top:7px;border-top:1px solid #333;padding-top:7px}
+.req{background:#111;padding:10px;border-radius:12px;margin-top:8px;border-left:4px solid #ea580c;font-size:11px;line-height:14px}
+.progress{height:6px;background:#333;border-radius:3px;margin-top:8px;overflow:hidden}.progress-fill{height:100%;background:linear-gradient(90deg,#f59e0b,#ea580c);width:0%;transition:0.5s}
+.shareBox{background:#000;border:1px dashed #f59e0b;padding:10px;border-radius:12px;margin-top:10px;text-align:center}
 </style>
 </head>
 <body>
 <div class="top"><b>🇧🇼 KRFTINTO GHO LIVE</b><div><button onclick="showView('cust')" id="btnCust" style="background:#fff;color:#000">CUSTOMER</button><button onclick="showView('mech')" id="btnMech">MECHANIC</button></div></div>
+<div id="installBanner">📲 INSTALL KRFTINTO APP ON YOUR PHONE! <button onclick="installApp()">INSTALL NOW</button> <span onclick="this.parentElement.style.display='none'" style="margin-left:12px;cursor:pointer;font-size:16px">✕</span></div>
 <div id="map"></div>
 
 <div id="custView">
 <div class="card" id="requestCard">
-<small style="color:#f59e0b">ALL CAR PROBLEMS - 18 Services + All Banks</small>
-<div class="grid" style="margin-top:6px">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><small style="color:#f59e0b;font-weight:900">🔧 ALL CAR PROBLEMS - 18 Services</small><button onclick="installApp()" style="background:#f59e0b;color:#000;border:none;padding:6px 12px;border-radius:20px;font-weight:900;font-size:10px">📲 INSTALL</button></div>
+
+<div class="grid">
 <div class="svc on" onclick="pick(this,'Tow Truck',250)"><div>🚛</div><b>Tow</b><br>P250</div>
 <div class="svc" onclick="pick(this,'Flat Tyre',120)"><div>🛞</div><b>Flat Tyre</b><br>P120</div>
 <div class="svc" onclick="pick(this,'Battery Dead',100)"><div>🔋</div><b>Battery</b><br>P100</div>
@@ -51,52 +59,125 @@ input,select,textarea{width:100%;padding:10px;border-radius:10px;background:#111
 <div class="svc" onclick="pick(this,'Exhaust Smoke',190)"><div>💨</div><b>Smoke</b><br>P190</div>
 <div class="svc" onclick="pick(this,'Stuck in Mud/Sand',270)"><div>🏜️</div><b>Stuck</b><br>P270</div>
 <div class="svc" onclick="pick(this,'Heavy Rescue',400)"><div>🚨</div><b>Heavy</b><br>P400</div>
-<div class="svc" onclick="pick(this,'Jump Start',90)"><div>⚡</div><b>JumpStart</b><br>P90</div>
+<div class="svc" onclick="pick(this,'Jump Start',90)"><div>⚡</div><b>Jump</b><br>P90</div>
 <div class="svc" onclick="pick(this,'Other Breakdown',200)"><div>❓</div><b>Other</b><br>P200</div>
 </div>
+
 <select id="custTown" onchange="townChanged()"><option>Gaborone</option><option>Francistown</option><option>Molepolole</option><option>Maun</option><option>Serowe</option><option>Kanye</option><option>Mahalapye</option><option>Mochudi</option><option>Lobatse</option><option>Palapye</option><option>Kasane</option><option>Ghanzi</option><option>Letlhakane</option><option>Bobonong</option><option>Other</option></select>
-<input id="cName" placeholder="Your Name"><input id="cPhone" placeholder="Phone 72xxxxxx"><textarea id="cDesc" rows="2" placeholder="e.g. Toyota Hilux, steam, tyre burst near mall..."></textarea>
-<label style="color:#aaa;font-size:11px;margin-top:6px;display:block">💳 PAYMENT - ALL BW</label>
+<input id="cName" placeholder="Your Name e.g. Kabelo">
+<input id="cPhone" placeholder="Phone 72xxxxxx">
+<textarea id="cDesc" rows="2" placeholder="Car + problem e.g. Toyota Hilux, tyre burst near mall"></textarea>
+
+<label style="color:#f59e0b;font-size:11px;margin-top:8px;display:block;font-weight:900">💳 PAYMENT - ALL BOTSWANA BANKS</label>
 <div class="pay">
-<div class="on" onclick="setPay(this,'Cash')">💵 Cash</div><div onclick="setPay(this,'Orange Money')">🟠 Orange</div><div onclick="setPay(this,'MyZaka')">📱 MyZaka</div><div onclick="setPay(this,'Smega')">💳 Smega</div><div onclick="setPay(this,'FNB')">🏦 FNB</div><div onclick="setPay(this,'Stanbic')">🏦 Stanbic</div><div onclick="setPay(this,'ABSA')">🏦 ABSA</div><div onclick="setPay(this,'BSB')">🏦 BSB</div><div onclick="setPay(this,'First Capital')">🏦 FirstCap</div>
+<div class="on" onclick="setPay(this,'Cash')">💵<br>Cash</div>
+<div onclick="setPay(this,'Orange Money')">🟠<br>Orange</div>
+<div onclick="setPay(this,'MyZaka')">📱<br>MyZaka</div>
+<div onclick="setPay(this,'Smega')">💳<br>Smega</div>
+<div onclick="setPay(this,'FNB')">🏦<br>FNB</div>
+<div onclick="setPay(this,'Stanbic')">🏦<br>Stanbic</div>
+<div onclick="setPay(this,'ABSA')">🏦<br>ABSA</div>
+<div onclick="setPay(this,'BSB')">🏦<br>BSB</div>
+<div onclick="setPay(this,'First Capital')">🏦<br>FirstCap</div>
 </div>
-<input id="cLoc" readonly style="color:#4ade80;margin-top:6px" value="GPS..."><input id="cDist" readonly style="color:#f59e0b;background:#000;margin-top:5px;font-size:11px" value="Calculating...">
-<div class="price-box"><div class="price-row"><span>Base P50</span><span></span></div><div class="price-row"><span>Distance <span id="kmShow">0</span>km x P10</span><span>P<span id="distPrice">0</span></span></div><div class="price-row"><span>Service <span id="svcName">Tow Truck</span></span><span>P<span id="svcPrice">250</span></span></div><div class="price-total"><span>TOTAL</span><span style="color:#f59e0b">P<span id="totalPrice">300</span></span></div></div>
-<button class="btn o" onclick="requestNow()">🚀 REQUEST - P<span id="priceBtn">300</span></button>
+
+<input id="cLoc" readonly style="color:#4ade80;margin-top:8px;font-size:12px" value="📍 GPS locating...">
+<input id="cDist" readonly style="color:#f59e0b;background:#000;margin-top:5px;font-size:11px" value="Calculating distance...">
+
+<div class="price-box">
+<div class="price-row"><span>Base Fee</span><span>P50</span></div>
+<div class="price-row"><span>Distance: <span id="kmShow">0</span>km x P10/km</span><span>P<span id="distPrice">0</span></span></div>
+<div class="price-row"><span>Service: <span id="svcName">Tow Truck</span></span><span>P<span id="svcPrice">250</span></span></div>
+<div class="price-total"><span>TOTAL TO PAY</span><span style="color:#f59e0b">P<span id="totalPrice">300</span></span></div>
 </div>
-<div class="card" id="trackCard" style="display:none;border:2px solid #f59e0b"><h3 id="statusTitle">Searching...</h3><div class="progress"><div class="progress-fill" id="progressFill"></div></div><div id="mechanicProfile" style="display:none;margin-top:8px;background:#000;padding:8px;border-radius:8px"><b id="mNameShow">Kabelo</b> - <span id="mDetails">⭐ 4.9</span><br><small id="mDistance" style="color:#f59e0b">2km</small> <small id="mStatus" style="background:#16a34a;padding:2px 6px;border-radius:6px">ON WAY</small></div><p id="trackInfo" style="margin-top:6px;background:#111;padding:7px;border-radius:8px;font-size:11px"></p><div style="display:flex;gap:5px;margin-top:6px"><button class="btn g" style="flex:1" onclick="callMechanic()">CALL</button><button class="btn bl" style="flex:1" onclick="chatMechanic()">CHAT</button><button class="btn d" style="flex:1" onclick="cancelJob()">CANCEL</button></div></div>
+
+<button class="btn o" onclick="requestNow()">🚀 REQUEST NOW - P<span id="priceBtn">300</span></button>
+
+<div class="shareBox">
+<small style="color:#f59e0b">🔗 Share App to Customers & Mechanics:</small><br>
+<b style="font-size:11px;word-break:break-all">https://orefile-drev.github.io/krftinto-portfolio/</b><br>
+<button class="btn bl" style="padding:10px;font-size:12px" onclick="shareApp()">📤 SHARE TO WHATSAPP / FACEBOOK</button>
+<button class="btn g" style="padding:10px;font-size:12px" onclick="installApp()">📲 INSTALL APP ON PHONE</button>
+</div>
+</div>
+
+<div class="card" id="trackCard" style="display:none;border:2px solid #f59e0b">
+<h3 id="statusTitle">🔍 Searching mechanics...</h3>
+<div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+<div id="mechanicProfile" style="display:none;margin-top:10px;background:#000;padding:10px;border-radius:10px;border:1px solid #333">
+<b id="mNameShow" style="color:#f59e0b">Kabelo</b> - <span style="color:#aaa">⭐ 4.9 (127 jobs)</span><br>
+<small id="mDistance" style="color:#f59e0b;font-weight:900">2.5km ETA 8min</small> - <small id="mStatus" style="background:#16a34a;padding:3px 8px;border-radius:6px;font-weight:900">ON WAY 🚛</small><br>
+<small style="color:#aaa">Vehicle: Toyota Hilux BW 123 B - Tow Truck</small>
+</div>
+<p id="trackInfo" style="margin-top:8px;background:#111;padding:8px;border-radius:8px;font-size:11px;line-height:14px"></p>
+<div style="display:flex;gap:6px;margin-top:8px">
+<button class="btn g" style="flex:1" onclick="callMechanic()">📞 CALL</button>
+<button class="btn bl" style="flex:1" onclick="chatMechanic()">💬 CHAT</button>
+<button class="btn d" style="flex:1" onclick="cancelJob()">✕ CANCEL</button>
+</div>
+</div>
 </div>
 
 <div id="mechView" style="display:none">
-<div class="card" id="regCard"><h3>JOIN - All Car Services + All Banks</h3><input id="mName" placeholder="Name"><input id="mPhone" placeholder="Phone"><select id="mTown"><option>Gaborone</option><option>Francistown</option><option>Maun</option><option>Mahalapye</option><option>Palapye</option><option>Serowe</option><option>Kasane</option><option>Ghanzi</option><option>Letlhakane</option><option>Mochudi</option><option>Kanye</option></select><select id="mSpec"><option>All 18 Services - Tow & Mechanic</option><option>Tow Truck Only</option><option>Tyre & Battery Specialist</option><option>Engine Specialist</option><option>Accident Recovery Specialist</option></select><input id="mVehicle" placeholder="Vehicle BW 123 B"><select id="mBank1"><option value="">Primary Bank</option><option>Orange Money</option><option>MyZaka</option><option>Smega</option><option>FNB</option><option>Stanbic</option><option>ABSA</option><option>BSB</option><option>First Capital</option><option>Cash</option></select><input id="mBankAcc1" placeholder="Account number"><button class="btn bl" onclick="registerMech()">GO ONLINE - All Services</button></div>
-<div class="card" id="dashCard" style="display:none"><h3>ONLINE ● <span id="jobTown"></span></h3><div id="mechInfo" style="background:#000;padding:7px;border-radius:8px;margin-top:6px;font-size:11px"></div><div style="display:flex;justify-content:space-between;margin-top:6px;font-size:10px;background:#111;padding:5px;border-radius:8px"><span>💰 <b id="todayEarn">P0</b></span><span>⭐ <span id="myRating">5.0</span></span><span>🔧 <span id="myJobs">0</span></span></div><div style="margin-top:8px"><h4>JOBS LIVE - All Car Problems</h4><div id="reqList"></div></div><button class="btn d" onclick="logout()">Offline</button></div>
+<div class="card" id="regCard">
+<h3>🔧 JOIN AS MECHANIC - Earn P!</h3>
+<button onclick="installApp()" class="btn o" style="padding:10px;margin-bottom:8px">📲 INSTALL APP FIRST - Earn Faster!</button>
+<input id="mName" placeholder="Full Name e.g. Kabelo M.">
+<input id="mPhone" placeholder="Phone e.g. 72xxxxxx">
+<select id="mTown"><option>Gaborone</option><option>Francistown</option><option>Maun</option><option>Mahalapye</option><option>Palapye</option><option>Serowe</option><option>Kasane</option><option>Ghanzi</option><option>Letlhakane</option><option>Mochudi</option><option>Kanye</option><option>Lobatse</option><option>Bobonong</option></select>
+<select id="mSpec"><option>All 18 Services - Tow & Mechanic Expert</option><option>Tow Truck Only</option><option>Tyre & Battery Specialist</option><option>Engine & Overheat Specialist</option><option>Accident Recovery Specialist</option><option>Electrical & Key Specialist</option></select>
+<input id="mVehicle" placeholder="Vehicle Reg BW 123 B - e.g. Hilux Tow Truck">
+<select id="mBank1"><option value="">Primary Bank - Where to receive money</option><option>Orange Money</option><option>MyZaka</option><option>Smega</option><option>FNB</option><option>Stanbic</option><option>ABSA</option><option>BSB</option><option>First Capital</option><option>Cash</option></select>
+<input id="mBankAcc1" placeholder="Account number / phone for bank">
+<select id="mBank2" style="margin-top:6px"><option value="">Second Bank Optional</option><option>Orange Money</option><option>MyZaka</option><option>Smega</option><option>FNB</option><option>Stanbic</option><option>ABSA</option><option>BSB</option><option>First Capital</option><option>Cash</option></select>
+<input id="mBankAcc2" placeholder="Second account optional">
+<button class="btn bl" onclick="registerMech()">🚀 GO ONLINE - START EARNING!</button>
+<small style="color:#aaa;display:block;margin-top:6px;text-align:center">You earn 80% of total. Example P300 job = P240 to you via your bank!</small>
+</div>
+<div class="card" id="dashCard" style="display:none">
+<h3 style="color:#16a34a">● ONLINE - <span id="jobTown"></span> - Waiting for Jobs</h3>
+<div id="mechInfo" style="background:#000;padding:8px;border-radius:8px;margin-top:8px;font-size:11px;line-height:14px"></div>
+<div style="display:flex;justify-content:space-between;margin-top:8px;font-size:11px;background:#111;padding:8px;border-radius:8px">
+<span>💰 <b id="todayEarn" style="color:#16a34a">P0</b></span><span>⭐ <span id="myRating">5.0</span></span><span>🔧 Jobs <span id="myJobs">0</span></span>
+</div>
+<div style="margin-top:10px"><h4 style="color:#f59e0b">🔥 JOBS LIVE - 18 Services (150km radius)</h4><div id="reqList" style="margin-top:6px"></div></div>
+<button class="btn d" onclick="logout()" style="margin-top:10px">⚫ GO OFFLINE</button>
+</div>
 </div>
 
 <script>
+// PWA Install
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',(e)=>{e.preventDefault();deferredPrompt=e;document.getElementById('installBanner').style.display='block';});
+function installApp(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(r=>{if(r.outcome==='accepted'){document.getElementById('installBanner').style.display='none';}deferredPrompt=null;});}else{alert('TO INSTALL APP:\n\nAndroid Chrome:\n1. Tap ⋮ (3 dots) top right\n2. Tap "Install app" or "Add to Home screen"\n\niPhone Safari:\n1. Tap Share button (square with arrow)\n2. Tap "Add to Home Screen"\n\nNow app will be on your phone like Playstore app!');}}
+function shareApp(){let url='https://orefile-drev.github.io/krftinto-portfolio/';let txt=`🇧🇼 KRFTINTO GHO LIVE! 🚛🔧\n\nBotswana Breakdown App like Yango!\n✅ 18 Car Services (Tow, Tyre, Battery, Accident...)\n✅ 9 Banks (Orange, MyZaka, Smega, FNB, Stanbic, ABSA, BSB, FirstCap, Cash)\n✅ Live Map Tracking\n✅ All Botswana Towns\n\nCustomer: Request help in 1 click!\nMechanic: Go Online & Earn 80%!\n\nInstall Now:\n${url}\n\n📲 Open link → Tap INSTALL APP!`;window.open(`https://wa.me/?text=${encodeURIComponent(txt)}`,'_blank');}
+
+// Firebase + Map Logic
 const firebaseConfig = { databaseURL: "https://krftinto-gho-default-rtdb.firebaseio.com" };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 let lat=-24.6282,lng=25.9231,svc="Tow Truck",basePrice=250,pay="Cash",distanceKm=2.5,currentReq=null,mechMarker=null,moveInt=null;
 let map=L.map('map').setView([-22.5,24.5],6);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19}).addTo(map);
 let custMarker=L.marker([lat,lng]).addTo(map);
 const townsCoords={Gaborone:[-24.6282,25.9231],Francistown:[-21.1705,27.5079],Molepolole:[-24.4062,25.4956],Maun:[-19.9953,23.4181],Serowe:[-22.3855,26.7126],Kanye:[-24.9613,25.3328],Mahalapye:[-23.1047,26.8146],Mochudi:[-24.4156,26.1517],Palapye:[-22.5465,27.1253],Lobatse:[-25.2225,25.666],Kasane:[-17.8,25.15],Ghanzi:[-21.7,21.65],Letlhakane:[-21.4173,25.5869],Bobonong:[-21.9767,28.4287]};
-navigator.geolocation.getCurrentPosition(p=>{lat=p.coords.latitude;lng=p.coords.longitude;custMarker.setLatLng([lat,lng]);map.setView([lat,lng],11);document.getElementById('cLoc').value=`GPS ${lat.toFixed(4)}`;calculatePrice();});
+if(navigator.geolocation){navigator.geolocation.getCurrentPosition(p=>{lat=p.coords.latitude;lng=p.coords.longitude;custMarker.setLatLng([lat,lng]);map.setView([lat,lng],13);document.getElementById('cLoc').value=`📍 GPS ${lat.toFixed(4)}, ${lng.toFixed(4)}`;calculatePrice();},()=>{document.getElementById('cLoc').value=`📍 Gaborone (Default) - Allow GPS for exact`;calculatePrice();});}
 function getDistance(a,b,c,d){let R=6371;let dLa=(c-a)*Math.PI/180;let dLo=(d-b)*Math.PI/180;let x=Math.sin(dLa/2)**2+Math.cos(a*Math.PI/180)*Math.cos(c*Math.PI/180)*Math.sin(dLo/2)**2;return R*2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x));}
-function calculatePrice(){let t=document.getElementById('custTown').value;let coord=townsCoords[t]||[lat,lng];distanceKm=getDistance(lat,lng,coord[0],coord[1])+2+Math.random()*4;distanceKm=Math.max(1.5,distanceKm);let dp=Math.round(distanceKm*10);let total=50+dp+basePrice;document.getElementById('kmShow').innerText=distanceKm.toFixed(1);document.getElementById('distPrice').innerText=dp;document.getElementById('svcName').innerText=svc;document.getElementById('svcPrice').innerText=basePrice;document.getElementById('totalPrice').innerText=total;document.getElementById('priceBtn').innerText=total;document.getElementById('cDist').value=`${distanceKm.toFixed(1)}km Total P${total}`;return total;}
+function calculatePrice(){let t=document.getElementById('custTown').value;let coord=townsCoords[t]||[lat,lng];distanceKm=getDistance(lat,lng,coord[0],coord[1])+2+Math.random()*4;distanceKm=Math.max(1.5,distanceKm);let dp=Math.round(distanceKm*10);let total=50+dp+basePrice;document.getElementById('kmShow').innerText=distanceKm.toFixed(1);document.getElementById('distPrice').innerText=dp;document.getElementById('svcName').innerText=svc;document.getElementById('svcPrice').innerText=basePrice;document.getElementById('totalPrice').innerText=total;document.getElementById('priceBtn').innerText=total;document.getElementById('cDist').value=`📏 ${distanceKm.toFixed(1)}km x P10 = P${dp} | Total P${total}`;return total;}
 function pick(el,s,p){document.querySelectorAll('.svc').forEach(x=>x.classList.remove('on'));el.classList.add('on');svc=s;basePrice=p;calculatePrice();}
 function setPay(el,m){document.querySelectorAll('.pay div').forEach(x=>x.classList.remove('on'));el.classList.add('on');pay=m;}
 function showView(v){document.getElementById('custView').style.display=v=='cust'?'block':'none';document.getElementById('mechView').style.display=v=='mech'?'block':'none';document.getElementById('btnCust').style.background=v=='cust'?'#fff':'#000';document.getElementById('btnCust').style.color=v=='cust'?'#000':'#fff';document.getElementById('btnMech').style.background=v=='mech'?'#fff':'#000';document.getElementById('btnMech').style.color=v=='mech'?'#000':'#fff';if(v=='mech')checkLogin();}
 function townChanged(){let t=document.getElementById('custTown').value;if(townsCoords[t]){map.setView(townsCoords[t],11);custMarker.setLatLng(townsCoords[t]);lat=townsCoords[t][0];lng=townsCoords[t][1];}calculatePrice();}
-function registerMech(){let n=document.getElementById('mName').value,ph=document.getElementById('mPhone').value,town=document.getElementById('mTown').value,bank1=document.getElementById('mBank1').value,acc1=document.getElementById('mBankAcc1').value;if(!n||!ph||!bank1||!acc1){alert('Fill name phone bank');return;}let coord=townsCoords[town]||[lat,lng];let mech={name:n,phone:ph,town:town,lat:coord[0]+(Math.random()-0.5)*0.1,lng:coord[1]+(Math.random()-0.5)*0.1,online:true,rating:5,jobs:0,earned:0,bank1:bank1+' - '+acc1,spec:document.getElementById('mSpec').value};localStorage.setItem('krft_mymech',JSON.stringify(mech));db.ref('mechanics_bw/'+ph).set(mech);checkLogin();}
-function checkLogin(){let my=JSON.parse(localStorage.getItem('krft_mymech')||'null');if(my){document.getElementById('regCard').style.display='none';document.getElementById('dashCard').style.display='block';document.getElementById('mechInfo').innerHTML=`${my.name} | ${my.town}<br>${my.bank1}<br>${my.spec}`;document.getElementById('jobTown').innerText=my.town;document.getElementById('myRating').innerText=my.rating.toFixed(1);document.getElementById('myJobs').innerText=my.jobs;document.getElementById('todayEarn').innerText='P'+(my.earned||0);listenForJobs(my);}else{document.getElementById('regCard').style.display='block';document.getElementById('dashCard').style.display='none';}}
-function requestNow(){let n=document.getElementById('cName').value||'Customer',ph=document.getElementById('cPhone').value,town=document.getElementById('custTown').value,desc=document.getElementById('cDesc').value;if(!ph||!desc){alert('Add phone desc');return;}let total=calculatePrice();let req={id:Date.now(),name:n,phone:ph,town:town,service:svc,totalPrice:total,desc:desc,pay:pay,lat:lat,lng:lng,time:new Date().toLocaleString(),status:'searching'};currentReq=req;db.ref('requests_bw/'+req.id).set(req);document.getElementById('requestCard').style.display='none';document.getElementById('trackCard').style.display='block';document.getElementById('statusTitle').innerText='Searching for '+svc+' in '+town;document.getElementById('trackInfo').innerHTML=`${svc} P${total}<br>${town}<br>${desc}<br>${pay}`;startSearching(req);}
-function startSearching(req){let p=0;let prog=setInterval(()=>{p+=5;document.getElementById('progressFill').style.width=p+'%';if(p>=100)clearInterval(prog);},200);setTimeout(()=>{document.getElementById('statusTitle').innerText='Mechanic found for '+req.service;document.getElementById('mechanicProfile').style.display='block';document.getElementById('mNameShow').innerText='Kabelo - '+req.service;document.getElementById('mDetails').innerText=`⭐ 4.9 Accepts ${req.pay}`;let mLat=req.lat+0.025,mLng=req.lng+0.025;if(mechMarker)map.removeLayer(mechMarker);mechMarker=L.marker([mLat,mLng],{icon:L.divIcon({html:'<div style="background:#f59e0b;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid #fff">🚛</div>'})}).addTo(map);let steps=25,cur=0;moveInt=setInterval(()=>{cur++;let nl=mLat-(mLat-req.lat)*(cur/steps);let ng=mLng-(mLng-req.lng)*(cur/steps);mechMarker.setLatLng([nl,ng]);map.panTo([nl,ng]);document.getElementById('mDistance').innerText=(2.5*(1-cur/steps)).toFixed(1)+'km';document.getElementById('progressFill').style.width=(40+cur*2.4)+'%';if(cur>=steps){clearInterval(moveInt);document.getElementById('statusTitle').innerText='Arrived!';document.getElementById('mStatus').innerText='ARRIVED';}},700);},2000);}
-function listenForJobs(myMech){db.ref('requests_bw').on('value',snap=>{let html='';snap.forEach(child=>{let r=child.val();if(r.status!='searching')return;let dist=getDistance(myMech.lat,myMech.lng,r.lat,r.lng);if(dist<150){html+=`<div class="req"><b>${r.service} P${r.totalPrice}</b> ${dist.toFixed(1)}km<br>${r.name} ${r.phone} ${r.pay}<br>${r.desc}<br>P${Math.round(r.totalPrice*0.8)} -> ${myMech.bank1}<br><button class="btn g" style="padding:9px;margin-top:6px" onclick="acceptJob('${child.key}','${r.phone}',${r.totalPrice})">ACCEPT P${r.totalPrice}</button></div>`;}});document.getElementById('reqList').innerHTML=html||'No jobs - Stay online!';});}
-function acceptJob(key,phone,price){let my=JSON.parse(localStorage.getItem('krft_mymech'));my.jobs=(my.jobs||0)+1;my.earned=(my.earned||0)+Math.round(price*0.8);localStorage.setItem('krft_mymech',JSON.stringify(my));db.ref('mechanics_bw/'+my.phone).update({jobs:my.jobs,earned:my.earned});db.ref('requests_bw/'+key).update({status:'accepted'});window.open(`https://wa.me/${phone}?text=Hi! ${my.name} ${my.spec} accepted ${price}`,'_blank');}
-function callMechanic(){window.open('tel:+26772665835');}function chatMechanic(){window.open(`https://wa.me/26772665835`,'_blank');}
-function cancelJob(){if(confirm('Cancel?')){if(currentReq)db.ref('requests_bw/'+currentReq.id).update({status:'cancelled'});if(moveInt)clearInterval(moveInt);if(mechMarker)map.removeLayer(mechMarker);document.getElementById('trackCard').style.display='none';document.getElementById('requestCard').style.display='block';}}
-function logout(){localStorage.removeItem('krft_mymech');checkLogin();}
+function registerMech(){let n=document.getElementById('mName').value,ph=document.getElementById('mPhone').value,town=document.getElementById('mTown').value,bank1=document.getElementById('mBank1').value,acc1=document.getElementById('mBankAcc1').value,bank2=document.getElementById('mBank2').value,acc2=document.getElementById('mBankAcc2').value;if(!n||!ph||!bank1||!acc1){alert('Please fill: Name, Phone, Primary Bank + Account');return;}let coord=townsCoords[town]||[lat,lng];let mech={name:n,phone:ph,town:town,lat:coord[0]+(Math.random()-0.5)*0.08,lng:coord[1]+(Math.random()-0.5)*0.08,online:true,rating:5,jobs:0,earned:0,bank1:bank1+' - '+acc1,bank2:bank2?bank2+' - '+acc2:'',spec:document.getElementById('mSpec').value,vehicle:document.getElementById('mVehicle').value};localStorage.setItem('krft_mymech',JSON.stringify(mech));db.ref('mechanics_bw/'+ph).set(mech);checkLogin();alert('✅ ONLINE! You will see jobs within 150km');}
+function checkLogin(){let my=JSON.parse(localStorage.getItem('krft_mymech')||'null');if(my){document.getElementById('regCard').style.display='none';document.getElementById('dashCard').style.display='block';document.getElementById('mechInfo').innerHTML=`<b>${my.name}</b> | ${my.town}<br>🚛 ${my.vehicle||''}<br>💳 ${my.bank1}<br>${my.bank2||''}<br>🔧 ${my.spec}`;document.getElementById('jobTown').innerText=my.town;document.getElementById('myRating').innerText=my.rating.toFixed(1);document.getElementById('myJobs').innerText=my.jobs;document.getElementById('todayEarn').innerText='P'+(my.earned||0);listenForJobs(my);}else{document.getElementById('regCard').style.display='block';document.getElementById('dashCard').style.display='none';}}
+function requestNow(){let n=document.getElementById('cName').value||'Customer',ph=document.getElementById('cPhone').value,town=document.getElementById('custTown').value,desc=document.getElementById('cDesc').value;if(!ph||ph.length<7||!desc){alert('Please add Phone (72xxxxxx) + Car problem description');return;}let total=calculatePrice();let req={id:Date.now(),name:n,phone:ph,town:town,service:svc,basePrice:basePrice,distanceKm:distanceKm.toFixed(1),totalPrice:total,desc:desc,pay:pay,lat:lat,lng:lng,time:new Date().toLocaleString(),status:'searching'};currentReq=req;db.ref('requests_bw/'+req.id).set(req);document.getElementById('requestCard').style.display='none';document.getElementById('trackCard').style.display='block';document.getElementById('statusTitle').innerText='🔍 Searching '+svc+' in '+town+'...';document.getElementById('trackInfo').innerHTML=`<b>${svc} - P${total}</b><br>📍 ${town} - ${distanceKm.toFixed(1)}km<br>📝 ${desc}<br>💳 Pay via ${pay}<br>📞 ${ph}`;startSearching(req);}
+function startSearching(req){let p=0;let prog=setInterval(()=>{p+=4;document.getElementById('progressFill').style.width=p+'%';if(p>=100)clearInterval(prog);},180);setTimeout(()=>{document.getElementById('statusTitle').innerText='✅ Mechanic Found for '+req.service+'!';document.getElementById('mechanicProfile').style.display='block';document.getElementById('mNameShow').innerText='Kabelo M. - '+req.service+' Expert';document.getElementById('mDistance').innerText=(2.4).toFixed(1)+'km ETA 7min - Accepts '+req.pay;let mLat=req.lat+0.02,mLng=req.lng+0.02;if(mechMarker)map.removeLayer(mechMarker);mechMarker=L.marker([mLat,mLng],{icon:L.divIcon({html:'<div style="background:#f59e0b;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid #fff;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,0.8)">🚛</div>',iconSize:[38,38]})}).addTo(map);let steps=30,cur=0;moveInt=setInterval(()=>{cur++;let nl=mLat-(mLat-req.lat)*(cur/steps);let ng=mLng-(mLng-req.lng)*(cur/steps);mechMarker.setLatLng([nl,ng]);if(cur%3==0)map.panTo([nl,ng]);document.getElementById('mDistance').innerText=(2.4*(1-cur/steps)).toFixed(1)+'km ETA '+Math.max(1,Math.round(7*(1-cur/steps)))+'min - Accepts '+req.pay;document.getElementById('progressFill').style.width=(35+cur*2.1)+'%';if(cur>=steps){clearInterval(moveInt);document.getElementById('statusTitle').innerText='🎉 Arrived! Mechanic is here!';document.getElementById('mStatus').innerText='ARRIVED ✅';document.getElementById('mStatus').style.background='#16a34a';}},650);},2200);}
+function listenForJobs(myMech){db.ref('requests_bw').on('value',snap=>{let html='';snap.forEach(child=>{let r=child.val();if(r.status!='searching')return;let dist=getDistance(myMech.lat,myMech.lng,r.lat,r.lng);if(dist<150){html+=`<div class="req"><b>🔥 ${r.service} - P${r.totalPrice}</b> - ${dist.toFixed(1)}km away<br>👤 ${r.name} - ${r.phone} - Pays via ${r.pay}<br>📝 ${r.desc}<br>📍 ${r.town} - ${r.distanceKm}km<br>💰 YOU EARN: P${Math.round(r.totalPrice*0.8)} → ${myMech.bank1}<br><button class="btn g" style="padding:10px;margin-top:6px;font-size:12px" onclick="acceptJob('${child.key}','${r.phone}',${r.totalPrice})">✅ ACCEPT JOB - P${r.totalPrice} (You get P${Math.round(r.totalPrice*0.8)})</button></div>`;}});document.getElementById('reqList').innerHTML=html||'<div style="text-align:center;color:#aaa;padding:20px">No jobs yet in 150km radius.<br>Stay ONLINE! Jobs will pop here!</div>';});}
+function acceptJob(key,phone,price){let my=JSON.parse(localStorage.getItem('krft_mymech'));my.jobs=(my.jobs||0)+1;my.earned=(my.earned||0)+Math.round(price*0.8);localStorage.setItem('krft_mymech',JSON.stringify(my));db.ref('mechanics_bw/'+my.phone).update({jobs:my.jobs,earned:my.earned});db.ref('requests_bw/'+key).update({status:'accepted',mechanic:my.name,mechanicPhone:my.phone});window.open(`https://wa.me/267${phone.replace(/^0/,'').replace(/^267/,'')}?text=Hi! I am ${my.name}, ${my.spec} from ${my.town}. I ACCEPTED your ${price} job! I am ${my.vehicle||'on my way'} - ETA 10min. Payment to ${my.bank1}. My number ${my.phone}`,'_blank');}
+function callMechanic(){window.open('tel:+26772665835');}
+function chatMechanic(){let ph=document.getElementById('cPhone').value||'26772665835';window.open(`https://wa.me/267${ph.replace(/^0/,'').replace(/^267/,'')}?text=Hi, need ${svc} help at ${document.getElementById('custTown').value}`,'_blank');}
+function cancelJob(){if(confirm('Cancel this request?')){if(currentReq)db.ref('requests_bw/'+currentReq.id).update({status:'cancelled'});if(moveInt)clearInterval(moveInt);if(mechMarker){map.removeLayer(mechMarker);mechMarker=null;}document.getElementById('trackCard').style.display='none';document.getElementById('requestCard').style.display='block';document.getElementById('progressFill').style.width='0%';}}
+function logout(){if(confirm('Go offline?')){let my=JSON.parse(localStorage.getItem('krft_mymech')||'null');if(my)db.ref('mechanics_bw/'+my.phone).update({online:false});localStorage.removeItem('krft_mymech');checkLogin();}}
 </script>
 </body>
   </html>
