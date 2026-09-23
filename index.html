@@ -3,56 +3,51 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Orefile Drev Portfolio</title>
+<title>KRFTINTO GHO - TOW 24/7</title>
 <style>
-body { font-family: Arial, sans-serif; background:#1a120a; color:white; text-align:center; padding:20px; }
-h1 { color:#ff6a00; }
-.car-box { background:#fafafa; color:black; padding:20px; border-radius:15px; margin:20px auto; max-width:600px; }
-.car-box img { width:100%; border-radius:10px; }
-h2 { color:#ff6a00; }
+body{font-family:Arial,sans-serif;background:#1a120a;color:white;text-align:center;padding:20px;margin:0;}
+h1{color:#ff6a00;}
+.car-box{background:#fafafa;color:black;padding:20px;border-radius:15px;margin:20px auto;max-width:600px;}
+.car-box img{width:100%;border-radius:10px;}
 </style>
 </head>
 <body>
 <h1>Welcome to Orefile's Portfolio</h1>
-<div class="car-box">
-<h2>My Ride</h2>
-<img src="my-car.jpg" alt="Toyota Hilux 4x4 3Y">
-<p><b>Toyota Hilux 4x4 3Y Engine</b><br>Rugged. Reliable. Mine.</p>
+<div class="car-box"><h2>My Ride</h2><img src="my-car.jpg" alt="Hilux"><p><b>Toyota Hilux 4x4 3Y Engine</b><br>Rugged. Reliable. Mine.</p></div>
+<div class="car-box"><h2>About Me</h2><p>Hey, I'm Orefile</p><p>Car lover, 4x4 guy, and building stuff from Gaborone<br>This Hilux 4x4 3Y is my pride and joy.</p></div>
+<div class="car-box"><h2>Contact Me</h2><a href="https://wa.me/26777665815" style="display:inline-block;margin:5px;padding:10px 15px;background:#25D366;color:white;text-decoration:none;border-radius:8px;">WhatsApp</a><a href="https://instagram.com/orefile.drev" style="display:inline-block;margin:5px;padding:10px 15px;background:#E1306C;color:white;text-decoration:none;border-radius:8px;">Instagram</a><a href="mailto:orefilemopay@gmail.com" style="display:inline-block;margin:5px;padding:10px 15px;background:#ff6a00;color:white;text-decoration:none;border-radius:8px;">Email</a></div>
+<div class="car-box"><h2>Gallery</h2><img src="hilux2.jpg" style="width:100%;border-radius:12px;margin-bottom:10px;"><img src="hilux2.jpg" style="width:100%;border-radius:12px;margin-bottom:10px;"><img src="hilux4.jpg" style="width:100%;border-radius:12px;"><p>Front Shot - 4x4 Beast</p></div>
+
+<div style="padding:20px;background:#0f172a;color:white;text-align:center;border-radius:15px;margin:15px auto;max-width:600px;border:2px solid #22c55e;">
+<h2 style="color:#22c55e;margin:0;">KRFTINTO GHO - GPS + MAP</h2>
+<p id="loc" style="font-size:14px;color:#94a3b8;">📍 Locating you in Gaborone...</p>
+<div id="map" style="height:320px;width:100%;border-radius:12px;margin:12px 0;background:#1e293b;border:2px solid #334155;"></div>
+<button onclick="findMechanics()" style="background:#22c55e;color:white;padding:15px 30px;border:none;border-radius:10px;font-size:18px;font-weight:bold;width:100%;">🔧 FIND MECHANIC NEAR ME</button>
+<div id="mechanics" style="margin-top:20px;text-align:left;background:white;color:black;border-radius:12px;padding:15px;display:none;">
+<div style="border-bottom:1px solid #eee;padding:12px 0;"><b>Joe's Garage - G-West</b><br><span style="color:green;">● Open Now</span> - 2.3km ⭐4.8<br><a href="tel:+26712345678" style="background:#0f172a;color:white;padding:8px 15px;border-radius:6px;text-decoration:none;display:inline-block;margin-top:8px;">📞 Call</a></div>
+<div style="border-bottom:1px solid #eee;padding:12px 0;"><b>Mogoditshane Auto</b><br><span style="color:green;">● Open Now</span> - 4.1km ⭐4.6<br><a href="tel:+26787654321" style="background:#0f172a;color:white;padding:8px 15px;border-radius:6px;text-decoration:none;display:inline-block;margin-top:8px;">📞 Call</a></div>
+<div style="padding:12px 0;"><b>Block 8 Quick Fix - 24HRS!</b><br><span style="color:green;">● 24 Hours</span> - 1.2km ⭐4.9<br><a href="tel:+26711223344" style="background:#0f172a;color:white;padding:8px 15px;border-radius:6px;text-decoration:none;display:inline-block;margin-top:8px;">📞 Call</a></div>
 </div>
-<div class="car-box">
-<h2>About Me</h2>
-<p>Hey, I'm Orefile</p>
-<p>Car lover, 4x4 guy, and building stuff from Gaborone<br>This Hilux 4x4 3Y is my pride and joy.</p>
-</div>
-<div class="car-box">
-<h2>Contact Me</h2>
-<a href="https://wa.me/26777665815" style="display:inline-block; margin:5px; padding:10px 15px; background:#25D366; color:white; text-decoration:none; border-radius:8px;">WhatsApp</a>
-<a href="https://instagram.com/orefile.drev" style="display:inline-block; margin:5px; padding:10px 15px; background:#E1306C; color:white; text-decoration:none; border-radius:8px;">Instagram</a>
-<a href="mailto:orefilemopay@gmail.com" style="display:inline-block; margin:5px; padding:10px 15px; background:#ff6a00; color:white; text-decoration:none; border-radius:8px;">Email</a>
-</div>
-<div class="car-box">
-<h2>Gallery</h2>
-<img src="hilux2.jpg" alt="Hilux side view" style="width:100%; border-radius:12px; margin-bottom:10px;">
-<img src="hilux2.jpg" alt="Hilux offroad" style="width:100%; border-radius:12px; margin-bottom:10px;">
-<img src="hilux4.jpg" alt="Hilux front" style="width:100%; border-radius:12px;">
-<p>Front Shot - 4x4 Beast</p>
 </div>
 
-<div style="padding:20px; background:#0f172a; color:white; text-align:center; border-radius:15px; margin:15px auto; max-width:600px; border:2px solid #22c55e;">
-<h2 style="color:#22c55e; margin:0;">KRFTINTO GHO - GPS + MAP</h2>
-<p id="loc" style="font-size:14px; color:#94a3b8;">📍 Locating you in Gaborone...</p>
-<div id="map" style="height:320px; width:100%; border-radius:12px; margin:12px 0; background:#1e293b; border:2px solid #334155;"></div>
-<button onclick="findMechanics()" style="background:#22c55e; color:white; padding:15px 30px; border:none; border-radius:10px; font-size:18px; font-weight:bold; width:100%;">🔧 FIND MECHANIC NEAR ME</button>
-<div id="mechanics" style="margin-top:20px; text-align:left; background:white; color:black; border-radius:12px; padding:15px; display:none;">
-<div style="border-bottom:1px solid #eee; padding:12px 0;"><b>Joe's Garage - G-West</b><br><span style="color:green;">● Open Now</span> - 2.3km ⭐4.8<br><a href="tel:+26712345678" style="background:#0f172a; color:white; padding:8px 15px; border-radius:6px; text-decoration:none; display:inline-block; margin-top:8px;">📞 Call</a> <a href="https://wa.me/26712345678?text=Hi%20from%20KRFTINTO%20GHO%20MAP" style="background:#25D366; color:white; padding:8px 15px; border-radius:6px; text-decoration:none; display:inline-block; margin-top:8px;">WhatsApp</a></div>
-<div style="border-bottom:1px solid #eee; padding:12px 0;"><b>Mogoditshane Auto</b><br><span style="color:green;">● Open Now</span> - 4.1km ⭐4.6<br><a href="tel:+26787654321" style="background:#0f172a; color:white; padding:8px 15px; border-radius:6px; text-decoration:none; display:inline-block; margin-top:8px;">📞 Call</a> <a href="https://wa.me/26787654321" style="background:#25D366; color:white; padding:8px 15px; border-radius:6px; text-decoration:none; display:inline-block; margin-top:8px;">WhatsApp</a></div>
-<div style="padding:12px 0;"><b>Block 8 Quick Fix - 24HRS!</b><br><span style="color:green;">● 24 Hours</span> - 1.2km ⭐4.9<br><a href="tel:+26711223344" style="background:#0f172a; color:white; padding:8px 15px; border-radius:6px; text-decoration:none; display:inline-block; margin-top:8px;">📞 Call</a> <a href="https://wa.me/26711223344" style="background:#25D366; color:white; padding:8px 15px; border-radius:6px; text-decoration:none; display:inline-block; margin-top:8px;">WhatsApp</a></div>
+<div style="padding:20px;background:linear-gradient(135deg,#dc2626,#991b1b);color:white;text-align:center;border-radius:15px;margin:15px auto;max-width:600px;border:2px solid #f87171;box-shadow:0 0 20px rgba(220,38,38,0.5);">
+<h2 style="margin:0;color:white;">🚨 REQUEST TOW TRUCK - 24/7 🚨</h2>
+<p style="color:#fecaca;">Breakdown? Accident? Battery dead? Hilux stuck?</p>
+<select id="problem" style="width:100%;padding:12px;border-radius:8px;margin:10px 0;border:none;font-size:16px;">
+<option>🔴 Breakdown - Car won't start</option>
+<option>🟡 Accident - Need tow</option>
+<option>🔵 Flat tyre / Stuck in mud</option>
+<option>🟢 Battery dead</option>
+<option>⚫ Out of fuel</option>
+</select>
+<button onclick="requestTow()" style="background:white;color:#dc2626;padding:18px 30px;border:none;border-radius:12px;font-size:20px;font-weight:bold;width:100%;margin-top:10px;">🚛 SEND SOS + MY LOCATION</button>
+<p id="towStatus" style="margin-top:15px;font-weight:bold;"></p>
 </div>
-</div>
+
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-var map = L.map('map').setView([-24.6282, 25.9231], 12);
+var map=L.map('map').setView([-24.6282,25.9231],12);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 var youMarker;
 function findMechanics(){
@@ -60,26 +55,39 @@ document.getElementById('mechanics').style.display='block';
 document.getElementById('loc').innerHTML="📍 Found 3 mechanics near you!";
 if(navigator.geolocation){
 navigator.geolocation.getCurrentPosition(function(p){
-var lat=p.coords.latitude, lon=p.coords.longitude;
+var lat=p.coords.latitude,lon=p.coords.longitude;
 document.getElementById('loc').innerHTML="📍 You: G-West, Gaborone - "+lat.toFixed(4)+", "+lon.toFixed(4);
-map.setView([lat, lon], 14);
+map.setView([lat,lon],14);
 if(youMarker) map.removeLayer(youMarker);
-youMarker = L.marker([lat, lon]).addTo(map).bindPopup("YOU ARE HERE - Hilux Beast").openPopup();
-L.marker([lat+0.02, lon+0.01]).addTo(map).bindPopup("Joe's Garage - G-West 2.3km");
-L.marker([lat-0.015, lon+0.02]).addTo(map).bindPopup("Mogoditshane Auto 4.1km");
-L.marker([lat+0.01, lon-0.015]).addTo(map).bindPopup("Block 8 Quick Fix 1.2km - 24HRS!");
-});
-}
+youMarker=L.marker([lat,lon]).addTo(map).bindPopup("YOU ARE HERE - Hilux Beast").openPopup();
+L.marker([lat+0.02,lon+0.01]).addTo(map).bindPopup("Joe's Garage 2.3km");
+L.marker([lat-0.015,lon+0.02]).addTo(map).bindPopup("Mogoditshane Auto 4.1km");
+L.marker([lat+0.01,lon-0.015]).addTo(map).bindPopup("Block 8 Quick Fix 1.2km");
+});}
 }
 if(navigator.geolocation){
 navigator.geolocation.getCurrentPosition(function(p){
-var lat=p.coords.latitude, lon=p.coords.longitude;
-map.setView([lat, lon], 13);
-youMarker = L.marker([lat, lon]).addTo(map).bindPopup("YOU - KRFTINTO GHO").openPopup();
+var lat=p.coords.latitude,lon=p.coords.longitude;
+map.setView([lat,lon],13);
+youMarker=L.marker([lat,lon]).addTo(map).bindPopup("YOU - KRFTINTO GHO").openPopup();
 document.getElementById('loc').innerHTML="📍 Map Ready! Gaborone - GPS Active ✅";
+});}
+function requestTow(){
+var prob=document.getElementById('problem').value;
+document.getElementById('towStatus').innerHTML="⏳ Getting your location for tow truck...";
+if(navigator.geolocation){
+navigator.geolocation.getCurrentPosition(function(p){
+var lat=p.coords.latitude,lon=p.coords.longitude;
+var gmap="https://www.google.com/maps?q="+lat+","+lon;
+var msg="🚨 SOS TOW REQUEST - KRFTINTO GHO 🚨%0A%0AProblem: "+prob+"%0ALocation: "+lat.toFixed(6)+", "+lon.toFixed(6)+"%0AGoogle Maps: "+gmap+"%0A%0APlease come FAST! My Hilux needs help!";
+var url="https://wa.me/26777665815?text="+msg;
+document.getElementById('towStatus').innerHTML="✅ Location locked! Opening WhatsApp...<br><a href='"+gmap+"' target='_blank' style='color:white;text-decoration:underline;'>📍 View my location on Google Maps</a>";
+setTimeout(function(){window.open(url,'_blank');},1000);
 });
+}else{
+document.getElementById('towStatus').innerHTML="❌ GPS not supported, call 77665815";
+}
 }
 </script>
-
 </body>
 </html>
