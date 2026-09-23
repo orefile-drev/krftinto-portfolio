@@ -3,91 +3,99 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KRFTINTO GHO</title>
-<meta name="theme-color" content="#b91c1c">
+<title>KRFTINTO GHO - Breakdown Rescue</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#0f0f0f;color:#fff}
-.header{background:#b91c1c;padding:25px;text-align:center}
-.logo{background:#fff;width:90px;height:90px;border-radius:20px;margin:0 auto 10px;font-size:60px;display:flex;align-items:center;justify-content:center}
-.card{background:#1e1e1e;margin:15px;padding:20px;border-radius:15px;border:1px solid #333}
-.btn{display:block;width:100%;padding:18px;border-radius:12px;text-align:center;font-weight:900;text-decoration:none;color:#fff;margin-top:12px;font-size:17px;border:none}
-.red{background:#dc2626} .green{background:#16a34a} .blue{background:#2563eb} .orange{background:#ea580c}
-input,select,textarea{width:100%;padding:14px;border-radius:10px;border:1px solid #444;background:#111;color:#fff;margin-top:10px;font-size:16px}
-label{font-size:13px;color:#aaa;margin-top:12px;display:block}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial} body{background:#0f0f0f;color:#fff}
+.top{background:#b91c1c;padding:12px;display:flex;justify-content:space-between;align-items:center}
+.top button{background:#000;color:#fff;border:1px solid #fff;padding:8px 14px;border-radius:20px;font-weight:900;font-size:12px}
+#map{height:38vh}
+.card{background:#1e1e1e;margin:8px;padding:12px;border-radius:14px;border:1px solid #333}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+.svc{background:#2a2a2a;border:2px solid #333;padding:10px;border-radius:10px;text-align:center;cursor:pointer}
+.svc.on{border-color:#f59e0b;background:#3d2f14}
+.btn{width:100%;padding:14px;border-radius:12px;font-weight:900;border:none;color:#fff;margin-top:8px;font-size:15px}
+.o{background:#ea580c} .g{background:#16a34a} .d{background:#000;border:1px solid #444}
+input,select{width:100%;padding:11px;border-radius:8px;background:#111;border:1px solid #444;color:#fff;margin-top:6px}
+.req{background:#111;padding:10px;border-radius:10px;margin-top:8px;border-left:4px solid #ea580c}
 </style>
 </head>
 <body>
-<div class="header">
-<div class="logo">🚛</div>
-<h1>KRFTINTO GHO</h1>
-<p>24/7 Tow & Road Rescue - Gaborone</p>
+<div class="top">
+<b>🚛 KRFTINTO GHO</b>
+<div><button onclick="showCust()">CUSTOMER</button> <button onclick="showMech()">MECHANIC</button></div>
 </div>
 
+<div id="map"></div>
+
+<div id="custView">
 <div class="card">
-<h2>🚨 Need Tow NOW?</h2>
-<a class="btn red" href="tel:+26772665835">📞 CALL 72 665 835</a>
-<a class="btn green" href="tel:+26775985570">📞 CALL 75 985 570</a>
+<div style="display:flex;justify-content:space-between"><small style="color:#aaa">SELECT BREAKDOWN SERVICE</small><b style="background:#fff;color:#111;padding:2px 10px;border-radius:20px" id="priceTag">P250</b></div>
+<div class="grid" style="margin-top:8px">
+<div class="svc on" onclick="pick(this,'Tow Truck',250,'🚛')"><div>🚛</div>Tow</div>
+<div class="svc" onclick="pick(this,'Mechanic',200,'🔧')"><div>🔧</div>Mech</div>
+<div class="svc" onclick="pick(this,'Tyre',120,'🛞')"><div>🛞</div>Tyre</div>
+<div class="svc" onclick="pick(this,'Battery',100,'🔋')"><div>🔋</div>Batt</div>
+<div class="svc" onclick="pick(this,'Fuel',150,'⛽')"><div>⛽</div>Fuel</div>
+<div class="svc" onclick="pick(this,'Rescue',300,'🚨')"><div>🚨</div>Rescue</div>
+</div>
+<input id="cName" placeholder="Your Name - e.g. Orefile">
+<input id="cPhone" placeholder="Phone 72xxxxxx">
+<input id="cLoc" readonly style="color:#4ade80" value="GPS: Getting...">
+<button class="btn o" onclick="requestNow()">🚀 REQUEST RESCUE NOW</button>
+<div style="display:flex;gap:6px"><div style="flex:1;background:#111;padding:8px;border-radius:8px;margin-top:6px;font-size:11px"><span style="color:#aaa">Nearest Team</span><br><span style="color:#f59e0b">2 Teams online<br>ETA 7-12 mins</span></div><div style="flex:1;background:#111;padding:8px;border-radius:8px;margin-top:6px;font-size:11px"><span style="color:#aaa">Payment</span><br><span style="color:#fff">Cash / Orange Money</span></div></div>
+</div>
+<div class="card" id="custTrack" style="display:none;border-color:#16a34a">
+<h3>🟢 Rescue Team Coming!</h3><p id="trackInfo" style="font-size:13px;margin-top:6px"></p><div id="trackMapInfo" style="background:#000;padding:8px;border-radius:8px;margin-top:6px;font-size:12px"></div>
+<button class="btn g" onclick="callMech()">📞 Call Rescue Team</button><button class="btn d" onclick="cancel()">Cancel Request</button>
+</div>
 </div>
 
-<div class="card" style="border:2px solid #ea580c">
-<h2>🔧 Request Mechanic / Tow</h2>
-<p style="color:#aaa;font-size:12px;margin-top:5px">Fill this when car broke down</p>
-
-<label>Your Name</label>
-<input id="name" placeholder="e.g. Orefile">
-
-<label>Car Type</label>
-<input id="car" placeholder="e.g. Toyota Hilux, BMW X5">
-
-<label>What Happened?</label>
-<select id="problem">
-<option>Car won't start</option>
-<option>Tyre burst / Flat</option>
-<option>Engine overheating</option>
-<option>Accident / Stuck</option>
-<option>Out of fuel</option>
-<option>Battery dead - Need Jump</option>
-<option>Need Tow to Garage</option>
-</select>
-
-<label>More Details</label>
-<textarea id="details" rows="2" placeholder="e.g. Near Metsimotlhaba mall, white car..."></textarea>
-
-<label>📍 Your Location</label>
-<input id="gps" readonly style="color:#4ade80" value="Getting GPS...">
-
-<button class="btn orange" onclick="sendRequest()">🚀 SEND BREAKDOWN REQUEST</button>
-
-<a class="btn blue" id="waBtn" href="#">💬 WhatsApp Direct</a>
-<p style="color:#666;font-size:11px;text-align:center;margin-top:10px">Request will go to KRFTINTO GHO WhatsApp</p>
+<div id="mechView" style="display:none">
+<div class="card" style="border-color:#f59e0b">
+<h3>🔧 MECHANIC CONTROL CENTER</h3>
+<label style="font-size:12px;color:#aaa"><input type="checkbox" id="online" checked onchange="toggleOnline()"> I'm ONLINE - Receive requests</label>
+<div style="background:#000;padding:8px;border-radius:8px;margin-top:8px;font-size:12px">Team: Orefile | Hilux 4x4 | <span id="mechStatus" style="color:#4ade80">ONLINE</span></div>
 </div>
-
-<div class="card" style="text-align:center">
-<div style="background:#fff;color:#111;padding:15px;border-radius:10px;font-weight:900">+267 72 665 835<br>+267 75 985 570<br>KRFTINTO GHO</div>
-<p style="color:#aaa;font-size:12px;margin-top:10px">Tow • Recovery • Jump Start • Tyre • Fuel</p>
+<div class="card"><h4>📋 Live Breakdown Requests</h4><div id="reqList"><p style="color:#666;font-size:13px;margin-top:8px">No requests yet. Stay online!</p></div><button class="btn d" onclick="clearAll()">Clear All</button></div>
 </div>
 
 <script>
-let lat="-24.56187", lng="25.82736", mapLink="";
-function update(){
-  mapLink=`https://www.google.com/maps?q=${lat},${lng}`;
-  document.getElementById('gps').value=`Lat:${lat} Lng:${lng}`;
-  document.getElementById('waBtn').href=`https://wa.me/26772665835?text=Hello%20KRFTINTO%20I%20need%20tow%20${mapLink}`;
-}
-navigator.geolocation.getCurrentPosition(p=>{
-  lat=p.coords.latitude.toFixed(5); lng=p.coords.longitude.toFixed(5); update();
-},()=>{update();});
-update();
+let lat=-24.56177,lng=25.82888,svc="Tow Truck",price=250,icon="🚛";
+let map=L.map('map').setView([lat,lng],14);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+let me=L.marker([lat,lng]).addTo(map), mech=L.marker([lat+0.01,lng+0.01]).addTo(map).bindPopup("Rescue Team");
 
-function sendRequest(){
-  const n=document.getElementById('name').value || "Customer";
-  const car=document.getElementById('car').value || "Not specified";
-  const prob=document.getElementById('problem').value;
-  const det=document.getElementById('details').value;
-  const msg=`🚨 NEW BREAKDOWN REQUEST%0A%0A👤 Name: ${n}%0A🚗 Car: ${car}%0A🔧 Problem: ${prob}%0A📝 Details: ${det}%0A%0A📍 LOCATION:%0A${mapLink}%0ALat:${lat} Lng:${lng}%0A%0APlease come ASAP!`;
-  window.open(`https://wa.me/26772665835?text=${msg}`,'_blank');
+navigator.geolocation.getCurrentPosition(p=>{lat=p.coords.latitude;lng=p.coords.longitude;me.setLatLng([lat,lng]);map.setView([lat,lng],14);document.getElementById('cLoc').value="GPS: "+lat.toFixed(5)+", "+lng.toFixed(5);});
+
+function pick(el,s,p,i){document.querySelectorAll('.svc').forEach(x=>x.classList.remove('on'));el.classList.add('on');svc=s;price=p;icon=i;document.getElementById('priceTag').innerText="P"+p;}
+function showCust(){document.getElementById('custView').style.display="block";document.getElementById('mechView').style.display="none";}
+function showMech(){document.getElementById('custView').style.display="none";document.getElementById('mechView').style.display="block";loadReqs();}
+function requestNow(){
+ let n=document.getElementById('cName').value||"Customer"; let ph=document.getElementById('cPhone').value;
+ if(!ph){alert("Please add phone number!");return;}
+ let req={id:Date.now(),name:n,phone:ph,service:svc,price:price,lat:lat,lng:lng,time:new Date().toLocaleTimeString()};
+ let all=JSON.parse(localStorage.getItem('krftinto_reqs')||"[]"); all.unshift(req); localStorage.setItem('krftinto_reqs',JSON.stringify(all));
+ document.getElementById('custTrack').style.display="block";
+ document.getElementById('trackInfo').innerHTML=`${icon} ${svc} for ${n} - P${price}<br>Team Orefile - 2.1km away - ETA 8 mins<br>Hilux 4x4 - 72 665 835`;
+ document.getElementById('trackMapInfo').innerHTML=`📍 Your location: <a href="https://www.google.com/maps?q=${lat},${lng}" target="_blank" style="color:#4ade80">Open in Google Maps</a><br>💰 Pay: P${price} Cash`;
+ let msg=`🚨 BREAKDOWN RESCUE REQUEST%0A${icon} ${svc} P${price}%0A👤 ${n} ${ph}%0A📍 https://www.google.com/maps?q=${lat},${lng}%0A%0ACheck Mechanic Dashboard`;
+ window.open(`https://wa.me/26772665835?text=${msg}`,'_blank');
 }
+function loadReqs(){
+ let all=JSON.parse(localStorage.getItem('krftinto_reqs')||"[]");
+ let html=""; all.forEach(r=>{
+ html+=`<div class="req"><b>${r.service} - P${r.price}</b> - ${r.time}<br><small>👤 ${r.name} - ${r.phone}</small><br><small>📍 ${r.lat.toFixed(4)},${r.lng.toFixed(4)}</small><br><div style="display:flex;gap:6px;margin-top:6px"><button class="btn g" style="padding:8px" onclick="acceptReq('${r.phone}','${r.name}')">✅ ACCEPT JOB</button><a class="btn o" style="padding:8px;text-align:center;text-decoration:none" href="https://www.google.com/maps?q=${r.lat},${r.lng}" target="_blank">🗺️ NAVIGATE</a></div></div>`;
+ });
+ document.getElementById('reqList').innerHTML=html||"<p style='color:#666'>No requests</p>";
+}
+function acceptReq(phone,name){ window.open(`https://wa.me/${phone}?text=Hi%20${name}%20KRFTINTO%20GHO%20here!%20I%20accepted%20your%20request!%20I'm%20coming%20now%20🚛%20ETA%208mins`,'_blank'); }
+function clearAll(){ localStorage.removeItem('krftinto_reqs'); loadReqs(); }
+function toggleOnline(){ let on=document.getElementById('online').checked; document.getElementById('mechStatus').innerText=on?"ONLINE":"OFFLINE"; document.getElementById('mechStatus').style.color=on?"#4ade80":"#ef4444"; }
+function cancel(){ document.getElementById('custTrack').style.display="none"; }
+function callMech(){ window.open('tel:+26772665835'); }
+setInterval(()=>{ if(document.getElementById('mechView').style.display!="none") loadReqs(); },3000);
 </script>
 </body>
 </html>
