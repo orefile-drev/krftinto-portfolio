@@ -3,101 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KRFTINTO GHO - 24/7 TOW</title>
-<link rel="manifest" href="manifest.json">
-<link rel="icon" href="app-icon.png">
-<link rel="apple-touch-icon" href="app-icon.png">
-<meta name="theme-color" content="#dc2626">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<title>KRFTINTO GHO - Tow & Rescue</title>
 <style>
-body{font-family:Arial,sans-serif;background:#1a120a;color:white;text-align:center;padding:12px;margin:0;}
-.car-box{background:#faf6f0;color:black;padding:20px;border-radius:15px;margin:20px auto;max-width:480px;}
-.car-box img{width:100%;border-radius:10px;}
-.btn{padding:12px 20px;border-radius:10px;border:none;font-weight:bold;cursor:pointer;margin:5px;}
-.btn-red{background:#dc2626;color:white;}
-.btn-green{background:#16a34a;color:white;}
-#map{width:100%;height:320px;border:2px solid #dc2626;border-radius:12px;margin:15px 0;}
-select,input{width:100%;padding:12px;border-radius:8px;margin:10px 0;border:none;font-size:16px;}
-.badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:bold;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#111;color:#fff}
+.header{background:#b91c1c;padding:20px;text-align:center}
+.card{background:#1f1f1f;border-radius:16px;padding:20px;margin:20px;border:1px solid #333}
+.btn{display:block;width:100%;padding:16px;background:#dc2626;color:#fff;text-align:center;border-radius:12px;font-weight:bold;font-size:18px;text-decoration:none;margin-top:12px}
+.btn-green{background:#16a34a}
+.btn-blue{background:#2563eb}
+.contact-box{background:#fff;color:#111;border-radius:12px;padding:15px;text-align:center;font-weight:bold;font-size:18px}
 </style>
 </head>
 <body>
-
-<h1>Welcome to Orefile's Portfolio</h1>
-
-<div class="car-box">
-<img src="my-car.jpg" alt="Hilux">
-<h2>My Toyota Hilux 4x4 2T Engine - Hi-Rugged</h2>
-<p>Hello, I'm Orefile - goCar lover, 4x4 guy, and building stuff from Gaborone. I drive a Toyota Hilux 4x4, 2 Tonne Engine.</p>
-<p><b>Contact Me:</b> +267 77 364 455 / +267 74 672 454</p>
+<div class="header">
+<h1>KRFTINTO GHO</h1>
+<p>24/7 Tow & Road Rescue - Gaborone</p>
 </div>
 
-<div class="car-box">
-<h2>📸 Gallery</h2>
-<img src="hilux2.jpg" style="width:100%;border-radius:12px;margin-bottom:10px;">
-<p>📍 Locating you in Gaborone...</p>
-<div id="map"></div>
-<p id="loc" style="font-size:13px;color:#555;"></p>
-<button class="btn btn-green" onclick="findMechanics()">🔧 Find Mechanics Near Me</button>
-<div id="mechanics" style="margin-top:15px;text-align:left;background:#fff3e0;padding:12px;border-radius:10px;display:none;color:black;border-left:5px solid #ff9800;">
-<b>Nearby Garages:</b><br>
-📍 Mogoditshane Auto - 1.2km - open 24h<br>
-📍 Gaborone Auto - 2.5km - green - Open<br>
-📍 Block 8 Quick Fix - JAWS - 4.2km - green - Open
-</div>
+<div class="card">
+<h2>🚨 Need Tow NOW?</h2>
+<a class="btn" href="tel:+26772665835">📞 CALL: 72 665 835</a>
+<a class="btn btn-green" href="tel:+26775985570">📞 CALL: 75 985 570</a>
+<a class="btn btn-blue" href="https://wa.me/26772665835?text=Hello%20KRFTINTO%20I%20need%20tow">💬 WhatsApp Location</a>
 </div>
 
-<div style="padding:12px;background:linear-gradient(135deg,#dc2626,#991b1b);color:white;text-align:center;border-radius:15px;margin:20px auto;max-width:480px;">
-<h2>🚨 REQUEST TOW TRUCK - 24/7</h2>
-<p style="color:#fecaca;">Breakdown? Accident? Battery dead? Hilux stuck?</p>
-<select id="problem">
-<option>Breakdown - Car won't start</option>
-<option>Accident - Need tow</option>
-<option>Flat tyre / Stuck in mud</option>
-<option>Battery dead</option>
-<option>Out of fuel</option>
-</select>
-<button class="btn" style="background:white;color:#dc2626;padding:15px 30px;width:100%;border:none;border-radius:10px;font-weight:bold;font-size:18px;" onclick="requestTow()">🚛 REQUEST NOW</button>
-<p id="status" style="margin-top:10px;font-weight:bold;"></p>
+<div class="card">
+<h2>📍 Location</h2>
+<p id="loc">Getting GPS...</p>
+</div>
+
+<div class="card">
+<h2>📞 Official Contacts</h2>
+<div class="contact-box">
++267 72 665 835 / +267 75 985 570<br>
+KRFTINTO GHO - Gaborone
+</div>
 </div>
 
 <script>
-var map = L.map('map').setView([-24.6282, 25.9231], 12);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-var youMarker;
-
-function findMechanics(){
- document.getElementById('mechanics').style.display='block';
- document.getElementById('loc').innerHTML='Found 3 mechanics near you!';
- if(navigator.geolocation){
-  navigator.geolocation.getCurrentPosition(function(p){
-   var lat = p.coords.latitude, lon = p.coords.longitude;
-   document.getElementById('loc').innerHTML='You: '+lat.toFixed(4)+', '+lon.toFixed(4)+' - Gaborone';
-   map.setView([lat, lon], 14);
-   if(youMarker) map.removeLayer(youMarker);
-   youMarker = L.marker([lat, lon]).addTo(map).bindPopup("YOU ARE HERE - Milan Beast").openPopup();
-   L.marker([-24.65, 2.18]).addTo(map).bindPopup("Jaws's Garage 2.5km");
-   L.marker([-24.61, 25.90]).addTo(map).bindPopup("Mogoditshane Auto 1.2km");
-   L.marker([-24.63, 25.95]).addTo(map).bindPopup("Block 8 Quick Fix 4.2km");
-  });
- }
-}
-
-if(navigator.geolocation){
- navigator.geolocation.getCurrentPosition(function(p){
-  var lat = p.coords.latitude, lon = p.coords.longitude;
-  map.setView([lat, lon], 13);
-  youMarker = L.marker([lat, lon]).addTo(map).bindPopup("YOU - KRFTINTO GHO").openPopup();
- });
-}
-
-function requestTow(){
- var problem = document.getElementById('problem').value;
- document.getElementById('status').innerHTML='Getting your location for tow truck...';
- if(navigator.geolocation){
-  navigator.geolocation.getCurrentPosition(function(pos){
-   var lat = pos.coords.latitude, lon = pos.coords.longitude;
-   var msg = `KRFTINTO GHO TOW REQUEST%0AProblem: ${problem}%0ALocation: https://maps.google.com/?q=${lat},${lon}%0AGPS: ${lat},${lon}`;
-   window.open(`https://wa.me/26777364455?text=${msg}`, '_blank');
-   document.getElementById('status').innerHTML='✅ Opening WhatsApp to driver
+navigator.geolocation.getCurrentPosition(p=>{
+document.getElementById('loc').innerText=`Lat:${p.coords.latitude.toFixed(5)} Lng:${p.coords.longitude.toFixed(5)}`
+})
+</script>
+</body>
+</html>
