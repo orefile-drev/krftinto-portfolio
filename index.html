@@ -2,63 +2,657 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KRFTINTO GHO</title>
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto}
-body{background:#000;color:#fff;height:100vh;overflow:hidden}
-:root{--blue:#0A84FF}
-#splash{position:fixed;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .5s;padding:20px}
-#splash h1{font-size:52px;font-weight:900;line-height:.9;text-align:center}
-#splash .w{color:#fff}#splash .b{color:var(--blue)}
-#splash.hide{opacity:0;pointer-events:none}
-.screen{display:none;flex-direction:column;height:100vh;background:#fff;color:#000}
-.screen.active{display:flex}
-.top-white{background:#fff;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee;position:sticky;top:0;z-index:10}
-.logo-yango{font-weight:900;font-size:22px}.logo-yango .white{color:#000}.logo-yango .blue{color:var(--blue)}
-#overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100}#overlay.show{display:block}
-#drawer{position:fixed;left:-90%;top:0;bottom:0;width:86%;max-width:360px;background:#fff;z-index:101;transition:left .32s;overflow-y:auto;border-radius:0 20px 20px 0}
-#drawer.open{left:0}
-.phone-wrap{padding:18px 16px;flex:1;display:flex;flex-direction:column}
-.phone-wrap h2{font-size:26px;font-weight:900}
-.phone-wrap p{color:#666;margin:8px 0 22px}
-.field{border:1.5px solid #ddd;border-radius:14px;padding:14px;display:flex;gap:10px;align-items:center}
-.field .cc{font-weight:700;font-size:18px}
-.field input{border:0;outline:0;font-size:18px;width:100%;font-weight:600}
-.btn-yango{margin-top:auto;background:#000;color:#fff;border:0;border-radius:14px;padding:18px;font-weight:800;font-size:16px;width:100%;cursor:pointer}
-.btn-yango.blue{background:var(--blue)}
-.btn-outline{border:1.5px solid #fff;color:#fff;background:transparent;border-radius:14px;padding:16px;font-weight:800;width:100%;margin-top:12px;cursor:pointer}
-.otp-boxes{display:flex;gap:8px;justify-content:center;margin:24px 0}
-.otp-boxes input{width:46px;height:54px;border:1.5px solid #ddd;border-radius:12px;text-align:center;font-size:22px;font-weight:800;outline:0}
-.prob-btn{padding:10px 14px;border-radius:20px;border:1.5px solid #ddd;background:#fff;font-size:13px;font-weight:600;cursor:pointer}
-.prob-btn.active{background:#000;color:#fff;border-color:#000}
-.town-row{padding:14px;border-bottom:1px solid #f2f2f2;display:flex;justify-content:space-between;align-items:center;cursor:pointer;background:#fff}
-.arrow-blue{background:var(--blue);color:#fff;width:34px;height:34px;border-radius:50%;display:grid;place-items:center}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f3f4f6;
+    color: #111827;
+}
+
+.app {
+    max-width: 430px;
+    min-height: 100vh;
+    margin: auto;
+    background: white;
+    position: relative;
+    overflow: hidden;
+}
+
+/* HEADER */
+.header {
+    background: #111827;
+    color: white;
+    padding: 22px;
+    text-align: center;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.subtitle {
+    font-size: 13px;
+    margin-top: 5px;
+    opacity: .8;
+}
+
+/* SCREENS */
+.screen {
+    display: none;
+    padding: 20px;
+    min-height: calc(100vh - 90px);
+}
+
+.screen.active {
+    display: block;
+}
+
+/* BUTTONS */
+button {
+    border: none;
+    cursor: pointer;
+}
+
+.primary {
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    background: #facc15;
+    color: #111827;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 12px;
+}
+
+.secondary {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    background: #111827;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* WELCOME */
+.welcome {
+    text-align: center;
+    padding-top: 80px;
+}
+
+.car-icon {
+    font-size: 75px;
+    margin-bottom: 20px;
+}
+
+.welcome h1 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.welcome p {
+    color: #6b7280;
+    line-height: 1.5;
+}
+
+/* CARDS */
+.card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 15px;
+    padding: 18px;
+    margin-top: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.05);
+}
+
+.card h3 {
+    margin-bottom: 7px;
+}
+
+.card p {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+/* PROBLEM GRID */
+.problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.problem {
+    padding: 18px 10px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.problem span {
+    display: block;
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+
+/* MAP */
+.map {
+    height: 230px;
+    background:
+        linear-gradient(rgba(255,255,255,.6), rgba(255,255,255,.6)),
+        repeating-linear-gradient(
+            45deg,
+            #d1d5db,
+            #d1d5db 2px,
+            #e5e7eb 2px,
+            #e5e7eb 30px
+        );
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+.pin {
+    position: absolute;
+    font-size: 32px;
+}
+
+.pin.you {
+    left: 45%;
+    top: 55%;
+}
+
+.pin.mechanic {
+    left: 70%;
+    top: 30%;
+}
+
+/* MECHANIC */
+.mechanic-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.avatar {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: #111827;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+}
+
+.rating {
+    color: #eab308;
+    margin-top: 4px;
+}
+
+.status {
+    display: inline-block;
+    padding: 7px 12px;
+    background: #dcfce7;
+    color: #166534;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* INPUT */
+input {
+    width: 100%;
+    padding: 14px;
+    margin-top: 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+/* NAVIGATION */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    max-width: 430px;
+    background: white;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-around;
+    padding: 12px 5px;
+}
+
+.nav-btn {
+    background: none;
+    color: #6b7280;
+    font-size: 12px;
+}
+
+.nav-btn.active {
+    color: #111827;
+    font-weight: bold;
+}
+
+/* ALERT */
+.alert {
+    background: #fef3c7;
+    border: 1px solid #fde68a;
+    padding: 14px;
+    border-radius: 12px;
+    margin-top: 15px;
+    font-size: 14px;
+}
 </style>
 </head>
+
 <body>
-<div id="splash"><h1><span class="w">KRFTINTO</span><br><span class="b">GHO</span></h1><div style="margin-top:10px;color:#666;font-size:12px;letter-spacing:1px">MECHANICS • 80+ TOWNS • BOTSWANA 🇧🇼</div><div style="width:100%;max-width:320px;margin-top:40px"><button class="btn-yango blue" onclick="startAs('customer')">I NEED A MECHANIC 🔧<br><small>Customer • Request help</small></button><button class="btn-outline" onclick="startAs('mechanic')">I AM A MECHANIC 🧑‍🔧<br><small>Earn money helping drivers</small></button></div></div>
-<div id="overlay" onclick="closeDrawer()"></div>
-<div id="drawer"><div style="padding:22px 16px 12px;text-align:center;border-bottom:1px solid #eee"><div style="width:72px;height:72px;border-radius:50%;background:#efefef;margin:0 auto 10px;display:grid;place-items:center;font-size:34px">👤</div><b id="drawerName">My Account</b><br><small id="drawerPhone" style="color:#666;font-size:14px">Guest • Login required</small><div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;margin-top:14px;font-size:11px;font-weight:600"><div>🕒<br>Orders</div><div>🎧<br>Support</div><div>📍<br>Addresses</div><div>⚙️<br>Settings</div></div></div><div style="margin:6px 12px;background:#eaf2ff;border-radius:16px;padding:12px">🎁 Discounts</div><div style="margin:6px 12px;background:#f6f6f6;border-radius:16px;padding:12px">💳 Payment - Cash</div><div style="margin:6px 12px;background:#f6f6f6;border-radius:16px;padding:12px">🔖 Improve maps</div><div style="margin:6px 12px;background:#f6f6f6;border-radius:16px;padding:12px">🛡️ Safety</div></div>
-<div id="sPhone" class="screen"><div class="top-white"><div class="logo-yango"><span class="white">KRFTINTO</span> <span class="blue">GHO</span></div><div style="font-size:12px;background:#000;color:#fff;padding:4px 10px;border-radius:20px" id="roleTag">CUSTOMER</div></div><div class="phone-wrap"><h2>Enter your phone number</h2><p>We will send a code to it to confirm it's you</p><div class="field"><div class="cc">🇧🇼 +267</div><input id="phoneInput" type="tel" inputmode="numeric" maxlength="8" oninput="checkPhone()"></div><button id="phoneBtn" class="btn-yango" style="opacity:.4" onclick="sendCode()">Continue</button></div></div>
-<div id="sOtp" class="screen"><div class="top-white"><div style="font-size:22px;cursor:pointer" onclick="showScreen('sPhone')">←</div><div class="logo-yango"><span class="white">KRFTINTO</span> <span class="blue">GHO</span></div><div style="width:22px"></div></div><div class="phone-wrap"><h2>Enter code from SMS</h2><p>Code sent to <b id="sentTo">+267</b> <span style="color:var(--blue);cursor:pointer" onclick="showScreen('sPhone')">Change</span></p><div class="otp-boxes"><input maxlength="1" id="o1" oninput="jump(1)"><input maxlength="1" id="o2" oninput="jump(2)"><input maxlength="1" id="o3" oninput="jump(3)"><input maxlength="1" id="o4" oninput="jump(4)"><input maxlength="1" id="o5" oninput="jump(5)"><input maxlength="1" id="o6" oninput="checkOtp()"></div><div id="otpMsg" style="text-align:center;color:#666;font-size:14px">Your code: <b id="testCode" style="color:var(--blue)"></b><br><small>(In real app this comes as SMS)</small></div><p style="text-align:center;margin-top:16px;color:#666;font-size:14px">Didn't get code? <span style="color:#000;font-weight:700;cursor:pointer" onclick="resend()">Resend</span></p><button class="btn-yango blue" onclick="verifyCode()">Confirm Code ✓</button></div></div>
-<div id="sMain" class="screen"><div class="top-white"><div style="display:flex;gap:12px;align-items:center"><div style="font-size:22px;cursor:pointer" onclick="openDrawer()">☰</div><div><div class="logo-yango"><span class="white">KRFTINTO</span> <span class="blue">GHO</span></div><div style="font-size:12px;color:#555">Your location → Gaborone • 80+ towns</div></div></div><div style="background:#efefef;color:#000;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:18px;cursor:pointer;border:1.5px solid #ddd" onclick="openDrawer()" id="topO">👤</div></div><div style="padding:14px 14px 6px"><div style="font-weight:800;font-size:16px;margin-bottom:10px">What is wrong with your car? 🔧</div><div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px"><button class="prob-btn" onclick="selectProb(this)">🚫 Engine won't start</button><button class="prob-btn" onclick="selectProb(this)">🔋 Battery dead</button><button class="prob-btn" onclick="selectProb(this)">🛞 Flat tyre</button><button class="prob-btn" onclick="selectProb(this)">🌡️ Overheating</button><button class="prob-btn" onclick="selectProb(this)">🛑 Brake</button><button class="prob-btn" onclick="selectProb(this)">🛢️ Oil leak</button><button class="prob-btn" onclick="selectProb(this)">⚙️ Gearbox</button><button class="prob-btn" onclick="selectProb(this)">⛽ Fuel</button><button class="prob-btn" onclick="selectProb(this)">💥 Accident</button><button class="prob-btn" onclick="selectProb(this)">🔑 Keys locked</button></div><textarea id="probText" placeholder="Describe what help you need..." style="width:100%;min-height:88px;border:1.5px solid #ddd;border-radius:14px;padding:12px;font-size:14px;outline:0"></textarea><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px"><div style="border:2px solid #000;background:#f7f7f7;border-radius:16px;padding:12px;text-align:center;cursor:pointer" onclick="openMap()">🚚<br><b>Towing</b><br><small>P346</small></div><div style="border:2px solid var(--blue);background:#eaf2ff;border-radius:16px;padding:12px;text-align:center;cursor:pointer" onclick="openMap()">🔧<br><b>Fix On-Site</b><br><small>P346</small></div></div></div><div style="margin:8px 14px;background:#f2f2f2;border-radius:14px;padding:12px;color:#666;font-size:14px">🔍 Search town...</div><div style="flex:1;overflow-y:auto"><div class="town-row" onclick="openMap()"><div><b>Gaborone</b><br><small>P346 • mechanic • 5 min</small></div><div class="arrow-blue">›</div></div><div class="town-row" onclick="openMap()"><div><b>Francistown</b><br><small>P520 • 5 min</small></div><div class="arrow-blue">›</div></div></div></div>
-<div id="sMech" class="screen"><div class="top-white"><div style="display:flex;gap:12px;align-items:center"><div style="font-size:22px" onclick="openDrawer()">☰</div><div><div class="logo-yango"><span class="white">KRFTINTO</span> <span class="blue">GHO</span></div><div style="font-size:12px;color:#555">Mechanic • <span style="color:green">● Online</span></div></div></div><div style="background:#efefef;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:18px;border:1.5px solid #ddd" id="mechO">👤</div></div><div style="padding:14px;background:#000;color:#fff;display:flex;justify-content:space-between"><div><small style="color:#888">Today</small><br><b style="font-size:22px">P0</b></div><div><small style="color:#888">Rating</small><br><b>⭐ 5.0</b></div><div><small style="color:#888">Jobs</small><br><b>0</b></div></div><div style="padding:14px"><div style="background:var(--blue);color:#fff;border-radius:16px;padding:14px;display:flex;justify-content:space-between;align-items:center"><div><b>🟢 You are Online</b><br><small>Receiving requests</small></div><div style="background:#fff;width:50px;height:28px;border-radius:20px;position:relative"><div style="background:#000;width:24px;height:24px;border-radius:50%;position:absolute;top:2px;right:2px"></div></div></div><div style="margin-top:16px;font-weight:800">🔔 New Request</div><div style="border:2px solid #000;border-radius:16px;padding:14px;margin-top:8px"><div style="display:flex;justify-content:space-between"><b>🚗 Engine won't start</b><span style="background:#000;color:#fff;padding:4px 8px;border-radius:8px;font-size:12px">P346</span></div><small style="color:#666">📍 BBS Mall • 2km • Customer: +267 7XXX<br>📝 "Can't start since morning"</small><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px"><button style="background:#f2f2f2;border:0;border-radius:12px;padding:12px;font-weight:700">Decline</button><button style="background:var(--blue);color:#fff;border:0;border-radius:12px;padding:12px;font-weight:800" onclick="alert('Job accepted!')">Accept ✓</button></div></div></div></div>
+
+<div class="app">
+
+<!-- HEADER -->
+<div class="header">
+    <div class="logo">KRFTINTO GHO</div>
+    <div class="subtitle">Mechanics when you need them</div>
+</div>
+
+
+<!-- WELCOME SCREEN -->
+<div id="welcome" class="screen active">
+
+    <div class="welcome">
+
+        <div class="car-icon">🚗🔧</div>
+
+        <h1>Welcome</h1>
+
+        <p>
+            Your car breaks down?<br>
+            Don't panic. Find a mechanic near you.
+        </p>
+
+        <button class="primary" onclick="showScreen('customer')">
+            👤 I'm a Customer
+        </button>
+
+        <button class="secondary" onclick="showScreen('mechanic')">
+            🔧 I'm a Mechanic
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- CUSTOMER HOME -->
+<div id="customer" class="screen">
+
+    <h2>Need a mechanic?</h2>
+
+    <p style="margin-top:7px;color:#6b7280;">
+        Tell us what's wrong with your vehicle.
+    </p>
+
+    <div class="problem-grid">
+
+        <div class="problem" onclick="requestHelp('Battery / Starting')">
+            <span>🔋</span>
+            Battery
+        </div>
+
+        <div class="problem" onclick="requestHelp('Flat Tyre')">
+            <span>🛞</span>
+            Flat Tyre
+        </div>
+
+        <div class="problem" onclick="requestHelp('Engine Problem')">
+            <span>🔧</span>
+            Engine
+        </div>
+
+        <div class="problem" onclick="requestHelp('Overheating')">
+            <span>🌡️</span>
+            Overheating
+        </div>
+
+        <div class="problem" onclick="requestHelp('Electrical Problem')">
+            <span>⚡</span>
+            Electrical
+        </div>
+
+        <div class="problem" onclick="requestHelp('Out of Fuel')">
+            <span>⛽</span>
+            Fuel
+        </div>
+
+    </div>
+
+    <button class="primary" onclick="requestHelp('Other Problem')">
+        🆘 Other Problem
+    </button>
+
+</div>
+
+
+<!-- SEARCHING -->
+<div id="searching" class="screen">
+
+    <h2>Finding mechanics...</h2>
+
+    <div class="map">
+
+        <div class="pin you">📍</div>
+        <div class="pin mechanic">🔧</div>
+
+    </div>
+
+    <div class="card">
+
+        <h3>📍 Your Location</h3>
+
+        <p id="locationText">
+            Searching for your location...
+        </p>
+
+        <div class="alert">
+            🔎 Looking for available mechanics near you.
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- MECHANIC FOUND -->
+<div id="found" class="screen">
+
+    <h2>Mechanic Found 🔧</h2>
+
+    <div class="card">
+
+        <div class="mechanic-profile">
+
+            <div class="avatar">👨‍🔧</div>
+
+            <div>
+                <h3>Thabo Motors</h3>
+                <div class="rating">★★★★★ 4.9</div>
+                <small>2.4 km away</small>
+            </div>
+
+        </div>
+
+        <button class="primary" onclick="trackMechanic()">
+            📍 Track Mechanic
+        </button>
+
+        <button class="secondary" onclick="callMechanic()">
+            📞 Call Mechanic
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- TRACKING -->
+<div id="tracking" class="screen">
+
+    <h2>Mechanic on the way 🚗</h2>
+
+    <div class="map">
+
+        <div class="pin you">📍</div>
+        <div class="pin mechanic" id="movingPin">🔧</div>
+
+    </div>
+
+    <div class="card">
+
+        <h3>Thabo Motors</h3>
+
+        <p>Mechanic is travelling to your location.</p>
+
+        <div class="alert">
+            ⏱️ Estimated arrival: <strong>8 minutes</strong>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- MECHANIC DASHBOARD -->
+<div id="mechanic" class="screen">
+
+    <h2>Mechanic Dashboard</h2>
+
+    <div class="card">
+
+        <span class="status">● AVAILABLE</span>
+
+        <h3 style="margin-top:12px;">
+            You are ready for jobs.
+        </h3>
+
+        <p>
+            Keep your status available to receive nearby breakdown requests.
+        </p>
+
+    </div>
+
+    <div id="jobRequest" class="card" style="display:none;">
+
+        <h3>🆘 New Job Request</h3>
+
+        <p style="margin-top:10px;">
+            <strong>Problem:</strong>
+            <span id="mechanicProblem"></span>
+        </p>
+
+        <p style="margin-top:7px;">
+            📍 Customer is approximately 2.4 km away.
+        </p>
+
+        <button class="primary" onclick="acceptJob()">
+            ✓ Accept Job
+        </button>
+
+        <button class="secondary" onclick="declineJob()">
+            ✕ Decline
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- MECHANIC JOB ACCEPTED -->
+<div id="jobAccepted" class="screen">
+
+    <h2>Job Accepted ✓</h2>
+
+    <div class="card">
+
+        <h3>Customer Breakdown</h3>
+
+        <p style="margin-top:10px;">
+            Problem: <strong id="acceptedProblem"></strong>
+        </p>
+
+        <p style="margin-top:10px;">
+            📍 Customer location available
+        </p>
+
+        <button class="primary" onclick="alert('Navigation would open here in the real app.')">
+            🧭 Navigate to Customer
+        </button>
+
+        <button class="secondary" onclick="completeJob()">
+            ✓ Complete Job
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+
+    <button class="nav-btn active" onclick="showScreen('welcome')">
+        🏠<br>Home
+    </button>
+
+    <button class="nav-btn" onclick="showScreen('customer')">
+        🚗<br>Request
+    </button>
+
+    <button class="nav-btn" onclick="showScreen('mechanic')">
+        🔧<br>Mechanic
+    </button>
+
+</div>
+
+</div>
+
+
 <script>
-let generatedCode=""; let userRole="customer";
-function startAs(role){userRole=role;document.getElementById('roleTag').innerText=role.toUpperCase();document.getElementById('splash').classList.add('hide');showScreen('sPhone');}
-function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
-function openDrawer(){document.getElementById('drawer').classList.add('open');document.getElementById('overlay').classList.add('show');}
-function closeDrawer(){document.getElementById('drawer').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
-function checkPhone(){let v=document.getElementById('phoneInput').value.replace(/\D/g,'');document.getElementById('phoneInput').value=v;document.getElementById('phoneBtn').style.opacity=v.length>=7?'1':'.4';}
-function sendCode(){let v=document.getElementById('phoneInput').value;if(v.length<7)return;generatedCode=Math.floor(100000+Math.random()*900000).toString();document.getElementById('sentTo').innerText='+267 '+v;document.getElementById('testCode').innerText=generatedCode;showScreen('sOtp');setTimeout(()=>document.getElementById('o1').focus(),300);}
-function jump(i){let el=document.getElementById('o'+i);if(el.value.length==1&&i<6)document.getElementById('o'+(i+1)).focus();if(i==6)checkOtp();}
-function checkOtp(){let code=['o1','o2','o3','o4','o5','o6'].map(id=>document.getElementById(id).value).join('');if(code.length==6)verifyCode();}
-function verifyCode(){let code=['o1','o2','o3','o4','o5','o6'].map(id=>document.getElementById(id).value).join('');if(code==generatedCode){let v=document.getElementById('phoneInput').value;localStorage.setItem('userPhone',v);localStorage.setItem('userRole',userRole);document.getElementById('drawerPhone').innerText='+267 '+v;document.getElementById('drawerName').innerText=userRole=='mechanic'?'Mechanic Account':'My Account';if(userRole=='mechanic'){showScreen('sMech');}else{showScreen('sMain');}}else{document.getElementById('otpMsg').innerHTML='<span style=color:red>Wrong code! Code is '+generatedCode+'</span>';}}
-function resend(){generatedCode=Math.floor(100000+Math.random()*900000).toString();document.getElementById('testCode').innerText=generatedCode;['o1','o2','o3','o4','o5','o6'].forEach(id=>document.getElementById(id).value='');document.getElementById('o1').focus();document.getElementById('otpMsg').innerHTML='New code: <b style=color:#0A84FF>'+generatedCode+'</b>';}
-function selectProb(el){el.classList.toggle('active');let t=document.getElementById('probText');let txt=el.innerText.replace(/[^A-Za-z ]/g,'').trim();if(el.classList.contains('active')){t.value=t.value?(t.value+', '+txt):txt;}}
-function openMap(){alert('Request sent! 🔧');}
-window.addEventListener('load',()=>{let s=localStorage.getItem('userPhone');if(s){document.getElementById('drawerPhone').innerText='+267 '+s;}});
+
+let currentProblem = "";
+
+
+/* CHANGE SCREEN */
+function showScreen(screenId) {
+
+    document.querySelectorAll(".screen").forEach(screen => {
+        screen.classList.remove("active");
+    });
+
+    document.getElementById(screenId).classList.add("active");
+
+    window.scrollTo(0,0);
+}
+
+
+/* CUSTOMER REQUEST */
+function requestHelp(problem) {
+
+    currentProblem = problem;
+
+    document.getElementById("locationText").innerText =
+        "Location detected. Looking for mechanics nearby...";
+
+    document.getElementById("mechanicProblem").innerText =
+        problem;
+
+    document.getElementById("jobRequest").style.display = "block";
+
+    showScreen("searching");
+
+    /* Demo delay */
+    setTimeout(function() {
+
+        showScreen("found");
+
+    }, 2000);
+}
+
+
+/* TRACK MECHANIC */
+function trackMechanic() {
+
+    showScreen("tracking");
+
+}
+
+
+/* CALL MECHANIC */
+function callMechanic() {
+
+    alert("Calling Thabo Motors...\n\nIn the real app this button will call the mechanic.");
+
+}
+
+
+/* ACCEPT JOB */
+function acceptJob() {
+
+    document.getElementById("acceptedProblem").innerText =
+        currentProblem;
+
+    showScreen("jobAccepted");
+
+}
+
+
+/* DECLINE JOB */
+function declineJob() {
+
+    document.getElementById("jobRequest").style.display =
+        "none";
+
+    alert("Job declined.");
+
+}
+
+
+/* COMPLETE JOB */
+function completeJob() {
+
+    alert("Job completed successfully!");
+
+    showScreen("mechanic");
+
+}
+
+
+/* DEMO LOCATION */
+if (navigator.geolocation) {
+
+    navigator.geolocation.getCurrentPosition(
+
+        function(position) {
+
+            console.log(
+                "Latitude:",
+                position.coords.latitude
+            );
+
+            console.log(
+                "Longitude:",
+                position.coords.longitude
+            );
+
+        },
+
+        function(error) {
+
+            console.log("Location permission not granted.");
+
+        }
+
+    );
+
+}
+
 </script>
+
 </body>
 </html>
