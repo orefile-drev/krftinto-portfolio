@@ -3,144 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>KRFTINTO GHO - Black + Blue</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<title>KRFTINTO GHO</title>
 <style>
-:root{--b:#0A0A0A;--bl:#0A84FF;--g:#F2F2F4}
 *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto}
-body{height:100vh;overflow:hidden;background:#fff}
-.screen{position:absolute;inset:0;background:#fff;z-index:100;display:none;flex-direction:column}
-.screen.on{display:flex}
-.logo{font-weight:900;font-size:54px;line-height:.85;text-align:center;color:#fff;letter-spacing:-2px}
-.logo span{color:var(--bl)}
-h1{font-weight:900;font-size:28px;line-height:.95;padding:20px}
-.h1b{color:var(--bl)}
-.btn{border:none;border-radius:18px;padding:18px;margin:16px 20px;font-weight:800;font-size:16px;cursor:pointer}
-.btnBl{background:var(--bl);color:#fff;box-shadow:0 8px 20px rgba(10,132,255,.35)}
-.phoneBox{margin:20px;border:2px solid var(--b);border-radius:18px;padding:16px;display:flex;gap:10px;align-items:center}
-.inp{border:none;outline:none;font-size:20px;flex:1}
-.topBar{padding:12px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--g)}
-.logoS{font-weight:900;font-size:22px;letter-spacing:-.5px}
-.logoS span{color:var(--bl)}
-.cards{display:flex;gap:10px;padding:14px}
-.card{flex:1;background:var(--g);border-radius:18px;padding:12px;text-align:center;border:2px solid transparent;cursor:pointer}
-.card.active{background:#E6F0FF;border-color:var(--bl)}
-.searchInput{margin:12px 16px;background:var(--g);border-radius:14px;padding:12px 14px;display:flex;gap:8px}
-.searchInput input{border:none;background:transparent;outline:none;flex:1;font-size:15px}
-.map{flex:1;position:relative;background:#E9EEF2}
-#map,#map2{height:100%;width:100%}
-.badge5{position:absolute;top:28%;left:54%;z-index:500;background:var(--b);color:#fff;border-radius:16px;padding:10px 14px;text-align:center;font-weight:900;border:2px solid var(--bl)}
-.sheet{position:absolute;bottom:0;left:0;right:0;background:#fff;border-radius:26px 26px 0 0;padding:16px;box-shadow:0 -10px 30px rgba(0,0,0,.14);z-index:600;max-height:60vh;overflow:auto}
-.row{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--g)}
-.taxis{display:flex;gap:10px;overflow:auto;padding:10px 0}
-.taxi{border:2px solid #eee;border-radius:16px;padding:10px 12px;min-width:105px;background:#fff;cursor:pointer}
-.taxi.active{background:var(--b);color:#fff;border-color:var(--bl)}
-.tGreen{background:var(--bl);color:#fff;font-size:9px;padding:3px 6px;border-radius:6px;font-weight:900}
-.req{width:100%;background:var(--bl);color:#fff;border:none;border-radius:16px;padding:17px;font-weight:900;font-size:17px}
-.back{position:absolute;top:12px;left:12px;z-index:700;background:#fff;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.15);cursor:pointer}
-.townList{max-height:280px;overflow:auto}
-.townItem{padding:12px 14px;border-bottom:1px solid #F2F2F4;display:flex;justify-content:space-between;cursor:pointer}
-.townItem:active{background:#F2F2F4}
+body{background:#000;color:#fff;height:100vh;overflow:hidden}
+:root{--blue:#0A84FF}
+#splash{position:fixed;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .5s;padding:20px}
+#splash h1{font-size:52px;font-weight:900;line-height:.9;text-align:center}
+#splash .w{color:#fff}#splash .b{color:var(--blue)}
+#splash.hide{opacity:0;pointer-events:none}
+.screen{display:none;flex-direction:column;height:100vh;background:#fff;color:#000}
+.screen.active{display:flex}
+.top-white{background:#fff;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee;position:sticky;top:0;z-index:10}
+.logo-yango{font-weight:900;font-size:22px}.logo-yango .white{color:#000}.logo-yango .blue{color:var(--blue)}
+#overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100}#overlay.show{display:block}
+#drawer{position:fixed;left:-90%;top:0;bottom:0;width:86%;max-width:360px;background:#fff;z-index:101;transition:left .32s;overflow-y:auto;border-radius:0 20px 20px 0}
+#drawer.open{left:0}
+.phone-wrap{padding:18px 16px;flex:1;display:flex;flex-direction:column}
+.phone-wrap h2{font-size:26px;font-weight:900}
+.phone-wrap p{color:#666;margin:8px 0 22px}
+.field{border:1.5px solid #ddd;border-radius:14px;padding:14px;display:flex;gap:10px;align-items:center}
+.field .cc{font-weight:700;font-size:18px}
+.field input{border:0;outline:0;font-size:18px;width:100%;font-weight:600}
+.btn-yango{margin-top:auto;background:#000;color:#fff;border:0;border-radius:14px;padding:18px;font-weight:800;font-size:16px;width:100%;cursor:pointer}
+.btn-yango.blue{background:var(--blue)}
+.btn-outline{border:1.5px solid #fff;color:#fff;background:transparent;border-radius:14px;padding:16px;font-weight:800;width:100%;margin-top:12px;cursor:pointer}
+.otp-boxes{display:flex;gap:8px;justify-content:center;margin:24px 0}
+.otp-boxes input{width:46px;height:54px;border:1.5px solid #ddd;border-radius:12px;text-align:center;font-size:22px;font-weight:800;outline:0}
+.prob-btn{padding:10px 14px;border-radius:20px;border:1.5px solid #ddd;background:#fff;font-size:13px;font-weight:600;cursor:pointer}
+.prob-btn.active{background:#000;color:#fff;border-color:#000}
+.town-row{padding:14px;border-bottom:1px solid #f2f2f2;display:flex;justify-content:space-between;align-items:center;cursor:pointer;background:#fff}
+.arrow-blue{background:var(--blue);color:#fff;width:34px;height:34px;border-radius:50%;display:grid;place-items:center}
 </style>
 </head>
 <body>
-
-<div id="sSplash" class="screen on" onclick="show('sPhone')" style="background:var(--b);justify-content:center;align-items:center">
-<div><div class="logo">KRFTINTO<br><span>GHO</span></div><div style="color:var(--bl);text-align:center;margin-top:14px;letter-spacing:4px;font-size:11px;font-weight:800">BLACK + BLUE • BOTSWANA</div><div style="color:#666;text-align:center;margin-top:8px;font-size:10px">80+ TOWNS • FULL MAP INSIDE</div><div style="color:#fff;text-align:center;margin-top:30px;font-size:11px;opacity:.5">TAP TO CONTINUE</div></div>
-</div>
-
-<div id="sPhone" class="screen">
-<div class="topBar"><div class="logoS">KRFTINTO <span>GHO</span></div><div style="background:var(--bl);color:#fff;padding:3px 8px;border-radius:8px;font-size:10px;font-weight:800">80+ TOWNS</div></div>
-<h1>TRUSTED AND<br>AFFORDABLE<br><span class="h1b">MECHANICS</span> IN BW 🔧</h1>
-<div style="padding:0 20px;color:#666;font-size:14px">Gaborone to Kasane, Ghanzi to Tsabong — all 80+ towns covered. Orange Money 72665835</div>
-<div style="flex:1"></div>
-<button class="btn btnBl" onclick="show('sPhone2')">Continue with phone number</button>
-</div>
-
-<div id="sPhone2" class="screen">
-<div class="topBar"><div class="logoS">KRFTINTO <span>GHO</span></div></div>
-<h1 style="font-size:24px">ENTER YOUR PHONE NUMBER</h1>
-<p style="padding:0 20px;color:#666;font-size:13px">We will send a code to it</p>
-<div class="phoneBox"><span>🇧🇼</span><span style="font-weight:800">+267</span><input class="inp" placeholder="72 665 835" id="ph"></div>
-<div style="flex:1"></div>
-<button class="btn btnBl" onclick="show('sHome')">Continue →</button>
-</div>
-
-<div id="sHome" class="screen">
-<div class="topBar"><span>☰</span><div><div class="logoS" style="font-size:18px">KRFTINTO <span>GHO</span></div><div style="font-size:10px;text-align:center;color:#666" id="locTxt">Your location → Gaborone • 80+ towns ready</div></div><div style="background:var(--bl);color:#fff;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:12px">O</div></div>
-<div class="cards"><div class="card active"><div style="font-size:36px">🚛</div><b>Towing</b><br><small>from 4 min • P346</small></div><div class="card" onclick="show('sReq')"><div style="font-size:36px">🔧</div><b>Fix On-Site</b><br><small>from 4 min • P346</small></div></div>
-<div class="searchInput"><span>🔍</span><input id="townSearch" placeholder="Search: Maun, Kasane, Ghanzi, Tsabong, Serowe..." oninput="filterTowns(this.value)"></div>
-<div style="margin:0 16px;background:var(--g);border-radius:14px;padding:12px 14px;display:flex;justify-content:space-between;font-weight:600;cursor:pointer" onclick="show('sReq')"><span id="whereTxt">📍 Where is your car? Choose town</span><span>›</span></div>
-<div class="townList" id="townList"></div>
-</div>
-
-<div id="sReq" class="screen">
-<div class="map"><div id="map"></div><div class="back" onclick="show('sHome')">←</div><div class="badge5">5<br><small style="color:var(--bl);font-size:10px">min</small></div><div style="position:absolute;bottom:170px;left:50%;transform:translateX(-50%);z-index:700;background:var(--b);color:#fff;border-radius:10px;padding:7px 10px;font-size:10px;font-weight:700" id="arriveTxt">arrive at 21:46 • P346</div></div>
-<div class="sheet">
-<div class="row"><span>📍</span><span style="font-weight:800;font-size:13px" id="fromTxt">South-East District → Metsimotlhabe</span></div>
-<div class="row"><span>🏁</span><span style="font-size:13px" id="toTxt">Mogoditshane • 15 min • Gaborone zone</span><span style="margin-left:auto;background:var(--bl);color:#fff;padding:5px 10px;border-radius:20px;font-size:10px;font-weight:800">Stops</span></div>
-<div class="taxis"><div class="taxi active"><div class="tGreen">5 min</div><div style="font-size:20px">🔧</div><div style="font-size:11px">Economy<br><b>P37</b></div></div><div class="taxi"><div class="tGreen">7 min</div><div style="font-size:20px">🚛</div><div style="font-size:11px">Fast Tow<br><b>P120</b></div></div><div class="taxi"><div style="font-size:10px;color:#999">8 min</div><div style="font-size:20px">⚙️</div><div style="font-size:11px">Pro Fix<br><b>P55</b></div></div><div class="taxi"><div style="font-size:10px;color:#999">12 min</div><div style="font-size:20px">🚚</div><div style="font-size:11px">Heavy<br><b>P250</b></div></div></div>
-<div style="display:flex;gap:8px;align-items:center;margin-top:8px"><button class="req" onclick="show('sSearching')">Request Mechanic Now</button></div>
-</div>
-</div>
-
-<div id="sSearching" class="screen">
-<div class="map"><div id="map2"></div><div style="position:absolute;top:18%;left:50%;transform:translateX(-50%);width:280px;height:280px;border:2px dashed var(--bl);border-radius:50%;z-index:400;opacity:.45"></div><div class="back" onclick="show('sReq')">←</div></div>
-<div class="sheet">
-<div><b id="nearbyTxt">Nearby mechanics in Metsimotlhabe ›</b><br><small style="color:#666">Picking a mechanic for you • 80+ towns active</small></div>
-<div style="display:flex;gap:8px;margin:14px 0"><button style="flex:1;background:var(--g);border:none;border-radius:14px;padding:14px;font-weight:800" onclick="show('sHome')">✖️ Cancel</button><button style="flex:1;background:var(--g);border:none;border-radius:14px;padding:14px;font-weight:800">⊞ Details</button></div>
-<div class="row"><span>🗺️</span><div><b>80+ towns on live map</b><br><small style="color:#666">Tap any pin: Maun, Kasane, Ghanzi, Tsabong, Francistown...</small></div><span>›</span></div>
-</div>
-</div>
-
+<div id="splash"><h1><span class="w">KRFTINTO</span><br><span class="b">GHO</span></h1><div style="margin-top:10px;color:#666;font-size:12px;letter-spacing:1px">MECHANICS • 80+ TOWNS • BOTSWANA 🇧🇼</div><div style="width:100%;max-width:320px;margin-top:40px"><button class="btn-yango blue" onclick="startAs('customer')">I NEED A MECHANIC 🔧<br><small>Customer • Request help</small></button><button class="btn-outline" onclick="startAs('mechanic')">I AM A MECHANIC 🧑‍🔧<br><small>Earn money helping drivers</small></button></div></div>
+<div id="overlay" onclick="closeDrawer()"></div>
+<div id="drawer"><div style="padding:22px 16px 12px;text-align:center;border-bottom:1px solid #eee"><div style="width:72px;height:72px;border-radius:50%;background:#efefef;margin:0 auto 10px;display:grid;place-items:center;font-size:34px">👤</div><b id="drawerName">My Account</b><br><small id="drawerPhone" style="color:#666;font-size:14px">Guest • Login required</small><div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;margin-top:14px;font-size:11px;font-weight:600"><div>🕒<br>Orders</div><div>🎧<br>Support</div><div>📍<br>Addresses</div><div>⚙️<br>Settings</div></div></div><div style="margin:6px 12px;background:#eaf2ff;border-radius:16px;padding:12px">🎁 Discounts</div><div style="margin:6px 12px;background:#f6f6f6;border-radius:16px;padding:12px">💳 Payment - Cash</div><div style="margin:6px 12px;background:#f6f6f6;border-radius:16px;padding:12px">🔖 Improve maps</div><div style="margin:6px 12px;background:#f6f6f6;border-radius:16px;padding:12px">🛡️ Safety</div></div>
+<div id="sPhone" class="screen"><div class="top-white"><div class="logo-yango"><span class="white">KRFTINTO</span> <span class="blue">GHO</span></div><div style="font-size:12px;background:#000;color:#fff;padding:4px 10px;border-radius:20px" id="roleTag">CUSTOMER</div></div><div class="phone-wrap"><h2>Enter your phone number</h2><p>We will send a code to it to confirm it's you</p><div class="field"><div class="cc">🇧🇼 +267</div><input id="phoneInput" type="tel" inputmode="numeric" maxlength="8" oninput="checkPhone()"></div><button id="phoneBtn" class="btn-yango" style="opacity:.4" onclick="sendCode()">Continue</button></div></div>
+<div id="sOtp" class="screen"><div class="top-white"><div style="font-size:22px;cursor:pointer" onclick="showScreen('sPhone')">←</div><div class="logo-yango"><span class="white">KRFTINTO</span> <span class="blue">GHO</span></div><div style="width:22px"></div></div><div class="phone-wrap"><h2>Enter code from SMS</h2><p>Code sent to <b id="sentTo">+267</b> <span style="color:var(--blue);cursor:pointer" onclick="showScreen('sPhone')">Change</span></p><div class="otp-boxes"><input maxlength="1" id="o1" oninput="jump(1)"><input maxlength="1" id="o2" oninput="jump(2)"><input maxlength="1" id="o3" oninput="jump(3)"><input maxlength="1" id="o4" oninput="jump(4)"><input maxlength="1" id="o5" oninput="jump(5)"><input maxlength="1" id="o6" oninput="checkOtp()"></div><div id="otpMsg" style="text-align:center;color:#666;font-size:14px">Your code: <b id="testCode" style="color:var(--blue)"></b><br><small>(In real app this comes as SMS)</small></div><p style="text-align:center;margin-top:16px;color:#666;font-size:14px">Didn't get code? <span style="color:#000;font-weight:700;cursor:pointer" onclick="resend()">Resend</span></p><button class="btn-yango blue" onclick="verifyCode()">Confirm Code ✓</button></div></div>
+<div id="sMain" class="screen"><div class="top-white"><div style="display:flex;gap:12px;align-items:center"><div style="font-size:22px;cursor:pointer" onclick="openDrawer()">☰</div><div><div class="logo-yango"><span class="white">KRFTINTO</span> <span class="blue">GHO</span></div><div style="font-size:12px;color:#555">Your location → Gaborone • 80+ towns</div></div></div><div style="background:#efefef;color:#000;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:18px;cursor:pointer;border:1.5px solid #ddd" onclick="openDrawer()" id="topO">👤</div></div><div style="padding:14px 14px 6px"><div style="font-weight:800;font-size:16px;margin-bottom:10px">What is wrong with your car? 🔧</div><div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px"><button class="prob-btn" onclick="selectProb(this)">🚫 Engine won't start</button><button class="prob-btn" onclick="selectProb(this)">🔋 Battery dead</button><button class="prob-btn" onclick="selectProb(this)">🛞 Flat tyre</button><button class="prob-btn" onclick="selectProb(this)">🌡️ Overheating</button><button class="prob-btn" onclick="selectProb(this)">🛑 Brake</button><button class="prob-btn" onclick="selectProb(this)">🛢️ Oil leak</button><button class="prob-btn" onclick="selectProb(this)">⚙️ Gearbox</button><button class="prob-btn" onclick="selectProb(this)">⛽ Fuel</button><button class="prob-btn" onclick="selectProb(this)">💥 Accident</button><button class="prob-btn" onclick="selectProb(this)">🔑 Keys locked</button></div><textarea id="probText" placeholder="Describe what help you need..." style="width:100%;min-height:88px;border:1.5px solid #ddd;border-radius:14px;padding:12px;font-size:14px;outline:0"></textarea><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px"><div style="border:2px solid #000;background:#f7f7f7;border-radius:16px;padding:12px;text-align:center;cursor:pointer" onclick="openMap()">🚚<br><b>Towing</b><br><small>P346</small></div><div style="border:2px solid var(--blue);background:#eaf2ff;border-radius:16px;padding:12px;text-align:center;cursor:pointer" onclick="openMap()">🔧<br><b>Fix On-Site</b><br><small>P346</small></div></div></div><div style="margin:8px 14px;background:#f2f2f2;border-radius:14px;padding:12px;color:#666;font-size:14px">🔍 Search town...</div><div style="flex:1;overflow-y:auto"><div class="town-row" onclick="openMap()"><div><b>Gaborone</b><br><small>P346 • mechanic • 5 min</small></div><div class="arrow-blue">›</div></div><div class="town-row" onclick="openMap()"><div><b>Francistown</b><br><small>P520 • 5 min</small></div><div class="arrow-blue">›</div></div></div></div>
+<div id="sMech" class="screen"><div class="top-white"><div style="display:flex;gap:12px;align-items:center"><div style="font-size:22px" onclick="openDrawer()">☰</div><div><div class="logo-yango"><span class="white">KRFTINTO</span> <span class="blue">GHO</span></div><div style="font-size:12px;color:#555">Mechanic • <span style="color:green">● Online</span></div></div></div><div style="background:#efefef;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:18px;border:1.5px solid #ddd" id="mechO">👤</div></div><div style="padding:14px;background:#000;color:#fff;display:flex;justify-content:space-between"><div><small style="color:#888">Today</small><br><b style="font-size:22px">P0</b></div><div><small style="color:#888">Rating</small><br><b>⭐ 5.0</b></div><div><small style="color:#888">Jobs</small><br><b>0</b></div></div><div style="padding:14px"><div style="background:var(--blue);color:#fff;border-radius:16px;padding:14px;display:flex;justify-content:space-between;align-items:center"><div><b>🟢 You are Online</b><br><small>Receiving requests</small></div><div style="background:#fff;width:50px;height:28px;border-radius:20px;position:relative"><div style="background:#000;width:24px;height:24px;border-radius:50%;position:absolute;top:2px;right:2px"></div></div></div><div style="margin-top:16px;font-weight:800">🔔 New Request</div><div style="border:2px solid #000;border-radius:16px;padding:14px;margin-top:8px"><div style="display:flex;justify-content:space-between"><b>🚗 Engine won't start</b><span style="background:#000;color:#fff;padding:4px 8px;border-radius:8px;font-size:12px">P346</span></div><small style="color:#666">📍 BBS Mall • 2km • Customer: +267 7XXX<br>📝 "Can't start since morning"</small><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px"><button style="background:#f2f2f2;border:0;border-radius:12px;padding:12px;font-weight:700">Decline</button><button style="background:var(--blue);color:#fff;border:0;border-radius:12px;padding:12px;font-weight:800" onclick="alert('Job accepted!')">Accept ✓</button></div></div></div></div>
 <script>
-const towns=[
-["Gaborone",-24.6282,25.9231,346],["Francistown",-21.1707,27.5079,520],["Molepolole",-24.4072,25.4958,380],["Maun",-19.9953,23.4181,650],["Mogoditshane",-24.6249,25.8648,340],["Serowe",-22.4,26.7167,480],["Kanye",-24.15,25.35,400],["Mahalapye",-23.1047,26.8134,450],["Mochudi",-24.3842,26.1494,360],["Lobatse",-25.2333,25.6833,390],["Palapye",-22.55,27.1333,470],["Ramotswa",-24.8741,25.8704,350],["Letlhakane",-21.4167,25.5833,580],["Tonota",-21.4333,27.4833,510],["Moshupa",-24.7769,25.4223,390],["Jwaneng",-24.6,24.7,420],["Bobonong",-21.97,28.4283,540],["Tutume",-20.5034,27.0373,550],["Thamaga",-24.7167,25.5333,370],["Gabane",-24.67,25.7853,340],["Metsimotlhabe",-24.5518,25.8089,340],["Mmopane",-24.55,25.85,340],["Tlokweng",-24.6667,25.9833,340],["Kopong",-24.4667,25.9,360],["Oodi",-24.5667,26.0333,350],["Gumare",-19.3675,22.1628,700],["Kasane",-17.8,25.15,750],["Ghanzi",-21.7,21.65,680],["Tsabong",-26.0333,22.4,720],["Nata",-20.2097,26.191,600],["Gweta",-20.1833,25.25,620],["Shakawe",-18.3647,21.85,780],["Kang",-23.6667,22.7833,600],["Good Hope",-25.4667,25.4333,410],["Mmathethe",-25.3,25.25,430],["Selebi-Phikwe",-21.9917,27.8371,520],["Lerala",-22.7833,27.7833,500],["Sowa",-20.5667,26.2,600],["Orapa",-21.2667,25.3667,570],["Rakops",-21.0333,24.4007,620],["Masunga",-20.6667,27.5167,540],["Lentsweletau",-24.25,25.8667,380],["Letlhakeng",-24.0969,25.034,400],["Khudumelapye",-23.9,24.75,450],["Takatokwane",-23.5,24.3,480],["Mabeleapodi",-22.3,26.7,470],["Sefhare",-22.9667,27.5,500],["Mmadinare",-21.9333,27.75,510],["Moletemane",-22.1,28.4,540],["Mathathane",-22.2,28.75,560],["Matsiloje",-21.3,27.9,530],["Shashe",-21.4,27.4,510],["Maunatlala",-22.6,27.6,490],["Mandunyane",-21.3,27.3,510],["Sebina",-20.85,27.2,540],["Nkange",-20.2,27.6,560],["Maitengwe",-20.2,27.2,570],["Moroka",-21,27,530],["Mosetse",-20.5333,26.7167,580],["Tonota",-21.4333,27.4833,510],["Mogapinyana",-22.4,27.4,480],["Paje",-22.2667,26.6,470],["Thabala",-22.8,26.8,460],["Chadibe",-22.1,27.8,510],["Gobojango",-21.8,28.8,560],["Tsetsebjwe",-22.4,28.3,540],["Mogapi",-21.7,28,520],["Dikgatlhong",-21.1,27.6,530],["Matshelagabedi",-21,27.8,540],["Shakawe",-18.3647,21.85,780],["Etsha",-19.2,22.3,700],["Sehithwa",-20.4667,22.7167,690],["Nokaneng",-19.6667,22.2667,710],["Kang",-23.6667,22.7833,600],["Lehutshe",-23.9,26.5,400],["Manyana",-24.7667,25.6,380],["Otse",-25.0333,25.75,390],["Mogobane",-24.9,25.7,360],["Otse",-25.0333,25.75,390]
-];
-let curTown=towns[20];
-function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));document.getElementById(id).classList.add('on');setTimeout(()=>{if(window.m) m.invalidateSize(); if(window.m2) m2.invalidateSize();},200);}
-function filterTowns(q){renderTowns(q.toLowerCase());}
-function renderTowns(filter=""){
-const list=document.getElementById('townList');
-list.innerHTML="";
-let filtered=towns.filter(t=>!filter||t[0].toLowerCase().includes(filter));
-let unique=[...new Map(filtered.map(t=>[t[0],t])).values()].slice(0,30);
-unique.forEach(t=>{
-let d=document.createElement('div');
-d.className='townItem';
-d.innerHTML=`<div><b>${t[0]}</b><br><small style="color:#999">P${t[3]} • mechanic • 5 min • Botswana</small></div><span style="background:var(--bl);color:#fff;padding:4px 8px;border-radius:8px;font-size:10px;font-weight:800">›</span>`;
-d.onclick=()=>{
-curTown=t;
-document.getElementById('whereTxt').innerText='📍 '+t[0]+' • P'+t[3];
-document.getElementById('fromTxt').innerText='Gaborone → '+t[0];
-document.getElementById('toTxt').innerText=t[0]+' • '+t[3]+' Pula • 15 min';
-document.getElementById('arriveTxt').innerText='arrive at 21:46 • P'+t[3];
-document.getElementById('nearbyTxt').innerText='Nearby mechanics in '+t[0]+' ›';
-document.getElementById('locTxt').innerText='Your location → '+t[0];
-m.setView([t[1],t[2]],13);
-m2.setView([t[1],t[2]],12);
-show('sReq');
-};
-list.appendChild(d);
-});
-}
-let m=L.map('map',{zoomControl:false,attributionControl:false}).setView([-24.55,25.85],8);
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(m);
-let m2=L.map('map2',{zoomControl:false,attributionControl:false}).setView([-24.55,25.85],8);
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(m2);
-towns.forEach(t=>{
-let ic=L.divIcon({html:`<div style="background:#111;border:2px solid #fff;width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,.3)">🔧</div>`,iconSize:[26,26],className:''});
-L.marker([t[1],t[2]],{icon:ic}).addTo(m).on('click',()=>{
-curTown=t;
-document.getElementById('whereTxt').innerText='📍 '+t[0];
-m.setView([t[1],t[2]],13);
-show('sReq');
-});
-L.marker([t[1],t[2]],{icon:ic}).addTo(m2);
-});
-renderTowns();
-L.polyline([[-24.6282,25.9231],[-24.5518,25.8089]],{color:'#0A84FF',weight:5,dashArray:'8 8'}).addTo(m);
+let generatedCode=""; let userRole="customer";
+function startAs(role){userRole=role;document.getElementById('roleTag').innerText=role.toUpperCase();document.getElementById('splash').classList.add('hide');showScreen('sPhone');}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function openDrawer(){document.getElementById('drawer').classList.add('open');document.getElementById('overlay').classList.add('show');}
+function closeDrawer(){document.getElementById('drawer').classList.remove('open');document.getElementById('overlay').classList.remove('show');}
+function checkPhone(){let v=document.getElementById('phoneInput').value.replace(/\D/g,'');document.getElementById('phoneInput').value=v;document.getElementById('phoneBtn').style.opacity=v.length>=7?'1':'.4';}
+function sendCode(){let v=document.getElementById('phoneInput').value;if(v.length<7)return;generatedCode=Math.floor(100000+Math.random()*900000).toString();document.getElementById('sentTo').innerText='+267 '+v;document.getElementById('testCode').innerText=generatedCode;showScreen('sOtp');setTimeout(()=>document.getElementById('o1').focus(),300);}
+function jump(i){let el=document.getElementById('o'+i);if(el.value.length==1&&i<6)document.getElementById('o'+(i+1)).focus();if(i==6)checkOtp();}
+function checkOtp(){let code=['o1','o2','o3','o4','o5','o6'].map(id=>document.getElementById(id).value).join('');if(code.length==6)verifyCode();}
+function verifyCode(){let code=['o1','o2','o3','o4','o5','o6'].map(id=>document.getElementById(id).value).join('');if(code==generatedCode){let v=document.getElementById('phoneInput').value;localStorage.setItem('userPhone',v);localStorage.setItem('userRole',userRole);document.getElementById('drawerPhone').innerText='+267 '+v;document.getElementById('drawerName').innerText=userRole=='mechanic'?'Mechanic Account':'My Account';if(userRole=='mechanic'){showScreen('sMech');}else{showScreen('sMain');}}else{document.getElementById('otpMsg').innerHTML='<span style=color:red>Wrong code! Code is '+generatedCode+'</span>';}}
+function resend(){generatedCode=Math.floor(100000+Math.random()*900000).toString();document.getElementById('testCode').innerText=generatedCode;['o1','o2','o3','o4','o5','o6'].forEach(id=>document.getElementById(id).value='');document.getElementById('o1').focus();document.getElementById('otpMsg').innerHTML='New code: <b style=color:#0A84FF>'+generatedCode+'</b>';}
+function selectProb(el){el.classList.toggle('active');let t=document.getElementById('probText');let txt=el.innerText.replace(/[^A-Za-z ]/g,'').trim();if(el.classList.contains('active')){t.value=t.value?(t.value+', '+txt):txt;}}
+function openMap(){alert('Request sent! 🔧');}
+window.addEventListener('load',()=>{let s=localStorage.getItem('userPhone');if(s){document.getElementById('drawerPhone').innerText='+267 '+s;}});
 </script>
 </body>
 </html>
