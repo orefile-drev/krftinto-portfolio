@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>KRFTINTO GHO</title>
 
 <style>
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -218,6 +221,16 @@ input {
     font-size: 15px;
 }
 
+textarea {
+    width: 100%;
+    padding: 14px;
+    margin-top: 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    font-size: 15px;
+    resize: vertical;
+}
+
 label {
     display: block;
     margin-top: 12px;
@@ -226,6 +239,13 @@ label {
 
 .auth-message {
     margin-top: 15px;
+    text-align: center;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.problem-status {
+    margin-top: 12px;
     text-align: center;
     color: #6b7280;
     font-size: 14px;
@@ -273,40 +293,64 @@ label {
     margin-top: 15px;
     font-weight: bold;
 }
+
 </style>
 </head>
+
 
 <body>
 
 <div class="app">
 
+
 <!-- HEADER -->
+
 <div class="header">
-    <div class="logo">KRFTINTO GHO</div>
-    <div class="subtitle">Mechanics when you need them</div>
+
+    <div class="logo">
+        KRFTINTO GHO
+    </div>
+
+    <div class="subtitle">
+        Mechanics when you need them
+    </div>
+
 </div>
 
 
 <!-- WELCOME -->
+
 <div id="welcome" class="screen active">
 
     <div class="welcome">
 
-        <div class="car-icon">🚗🔧</div>
+        <div class="car-icon">
+            🚗🔧
+        </div>
 
-        <h1>Welcome</h1>
+        <h1>
+            Welcome
+        </h1>
 
         <p>
             Your car breaks down?<br>
             Don't panic. Find a mechanic near you.
         </p>
 
-        <button class="primary" onclick="showScreen('login')">
+        <button
+            class="primary"
+            onclick="showScreen('login')">
+
             👤 I'm a Customer
+
         </button>
 
-        <button class="secondary" onclick="showScreen('login')">
+        <button
+            class="secondary"
+            onclick="showScreen('login')">
+
             🔧 I'm a Mechanic
+
         </button>
 
     </div>
@@ -314,18 +358,27 @@ label {
 </div>
 
 
+
 <!-- LOGIN / REGISTER -->
+
 <div id="login" class="screen">
 
-    <h2>KRFTINTO GHO Account</h2>
+    <h2>
+        KRFTINTO GHO Account
+    </h2>
 
     <p style="margin-top:7px;color:#6b7280;">
+
         Sign in or create your account.
+
     </p>
+
 
     <div class="card">
 
-        <label for="email">Email</label>
+        <label for="email">
+            Email
+        </label>
 
         <input
             type="email"
@@ -334,7 +387,10 @@ label {
             autocomplete="email"
         >
 
-        <label for="password">Password</label>
+
+        <label for="password">
+            Password
+        </label>
 
         <input
             type="password"
@@ -343,101 +399,253 @@ label {
             autocomplete="current-password"
         >
 
-        <button class="primary" onclick="registerUser()">
+
+        <button
+            class="primary"
+            onclick="registerUser()">
+
             Create Account
+
         </button>
 
-        <button class="secondary" onclick="loginUser()">
+
+        <button
+            class="secondary"
+            onclick="loginUser()">
+
             Login
+
         </button>
 
-        <p id="authMessage" class="auth-message"></p>
+
+        <p
+            id="authMessage"
+            class="auth-message">
+        </p>
 
     </div>
 
-    <button class="secondary" onclick="showScreen('welcome')">
+
+    <button
+        class="secondary"
+        onclick="showScreen('welcome')">
+
         ← Back
+
     </button>
 
 </div>
+
 
 
 <!-- CUSTOMER HOME -->
+
 <div id="customer" class="screen">
 
-    <h2>Need a mechanic?</h2>
+    <h2>
+        Need a mechanic?
+    </h2>
 
     <p style="margin-top:7px;color:#6b7280;">
+
         Tell us what's wrong with your vehicle.
+
     </p>
+
 
     <div class="problem-grid">
 
-        <div class="problem" onclick="requestHelp('Battery / Starting')">
+
+        <div
+            class="problem"
+            onclick="requestHelp('Battery / Starting')">
+
             <span>🔋</span>
+
             Battery
+
         </div>
 
-        <div class="problem" onclick="requestHelp('Flat Tyre')">
+
+        <div
+            class="problem"
+            onclick="requestHelp('Flat Tyre')">
+
             <span>🛞</span>
+
             Flat Tyre
+
         </div>
 
-        <div class="problem" onclick="requestHelp('Engine Problem')">
+
+        <div
+            class="problem"
+            onclick="requestHelp('Engine Problem')">
+
             <span>🔧</span>
+
             Engine
+
         </div>
 
-        <div class="problem" onclick="requestHelp('Overheating')">
+
+        <div
+            class="problem"
+            onclick="requestHelp('Overheating')">
+
             <span>🌡️</span>
+
             Overheating
+
         </div>
 
-        <div class="problem" onclick="requestHelp('Electrical Problem')">
+
+        <div
+            class="problem"
+            onclick="requestHelp('Electrical Problem')">
+
             <span>⚡</span>
+
             Electrical
+
         </div>
 
-        <div class="problem" onclick="requestHelp('Out of Fuel')">
+
+        <div
+            class="problem"
+            onclick="requestHelp('Out of Fuel')">
+
             <span>⛽</span>
+
             Fuel
+
         </div>
 
     </div>
 
-    <button class="primary" onclick="requestHelp('Other Problem')">
+
+    <button
+        class="primary"
+        onclick="openOtherProblem()">
+
         🆘 Other Problem
+
     </button>
 
-    <button class="logout" onclick="logoutUser()">
+
+    <button
+        class="logout"
+        onclick="logoutUser()">
+
         Logout
+
     </button>
 
 </div>
 
 
-<!-- SEARCHING -->
-<div id="searching" class="screen">
 
-    <h2>Finding mechanics...</h2>
+<!-- OTHER PROBLEM -->
 
-    <div class="map">
+<div id="otherProblem" class="screen">
 
-        <div class="pin you">📍</div>
-        <div class="pin mechanic">🔧</div>
+    <h2>
+        Other Problem 🆘
+    </h2>
 
-    </div>
+    <p style="margin-top:7px;color:#6b7280;">
+
+        Tell us what is wrong with your vehicle.
+
+    </p>
+
 
     <div class="card">
 
-        <h3>📍 Your Location</h3>
+        <label for="problemDescription">
 
-        <p id="locationText">
-            Searching for your location...
+            Describe the problem
+
+        </label>
+
+
+        <textarea
+            id="problemDescription"
+            rows="6"
+            maxlength="500"
+            placeholder="Example: My car won't start and I hear a clicking sound..."
+        ></textarea>
+
+
+        <button
+            class="primary"
+            onclick="sendOtherProblem()">
+
+            🚗 Send Request
+
+        </button>
+
+
+        <p
+            id="problemStatus"
+            class="problem-status">
         </p>
 
+    </div>
+
+
+    <button
+        class="secondary"
+        onclick="showScreen('customer')">
+
+        ← Back
+
+    </button>
+
+</div>
+
+
+
+<!-- SEARCHING -->
+
+<div id="searching" class="screen">
+
+    <h2>
+        Finding mechanics...
+    </h2>
+
+
+    <div class="map">
+
+        <div class="pin you">
+            📍
+        </div>
+
+        <div class="pin mechanic">
+            🔧
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            📍 Your Location
+        </h3>
+
+
+        <p id="locationText">
+
+            Waiting for your location...
+
+        </p>
+
+
         <div class="alert">
+
             🔎 Looking for available mechanics near you.
+
         </div>
 
     </div>
@@ -445,31 +653,60 @@ label {
 </div>
 
 
+
 <!-- MECHANIC FOUND -->
+
 <div id="found" class="screen">
 
-    <h2>Mechanic Found 🔧</h2>
+    <h2>
+        Mechanic Found 🔧
+    </h2>
+
 
     <div class="card">
 
         <div class="mechanic-profile">
 
-            <div class="avatar">👨‍🔧</div>
+
+            <div class="avatar">
+                👨‍🔧
+            </div>
+
 
             <div>
-                <h3>Thabo Motors</h3>
-                <div class="rating">★★★★★ 4.9</div>
-                <small>2.4 km away</small>
+
+                <h3>
+                    Thabo Motors
+                </h3>
+
+                <div class="rating">
+                    ★★★★★ 4.9
+                </div>
+
+                <small>
+                    2.4 km away
+                </small>
+
             </div>
 
         </div>
 
-        <button class="primary" onclick="trackMechanic()">
+
+        <button
+            class="primary"
+            onclick="trackMechanic()">
+
             📍 Track Mechanic
+
         </button>
 
-        <button class="secondary" onclick="callMechanic()">
+
+        <button
+            class="secondary"
+            onclick="callMechanic()">
+
             📞 Call Mechanic
+
         </button>
 
     </div>
@@ -477,29 +714,51 @@ label {
 </div>
 
 
+
 <!-- TRACKING -->
+
 <div id="tracking" class="screen">
 
-    <h2>Mechanic on the way 🚗</h2>
+    <h2>
+        Mechanic on the way 🚗
+    </h2>
+
 
     <div class="map">
 
-        <div class="pin you">📍</div>
-        <div class="pin mechanic" id="movingPin">🔧</div>
+        <div class="pin you">
+            📍
+        </div>
+
+        <div
+            class="pin mechanic"
+            id="movingPin">
+
+            🔧
+
+        </div>
 
     </div>
 
+
     <div class="card">
 
-        <h3>Thabo Motors</h3>
+        <h3>
+            Thabo Motors
+        </h3>
 
         <p>
             Mechanic is travelling to your location.
         </p>
 
+
         <div class="alert">
+
             ⏱️ Estimated arrival:
-            <strong>8 minutes</strong>
+            <strong>
+                8 minutes
+            </strong>
+
         </div>
 
     </div>
@@ -507,44 +766,84 @@ label {
 </div>
 
 
+
 <!-- MECHANIC DASHBOARD -->
+
 <div id="mechanic" class="screen">
 
-    <h2>Mechanic Dashboard</h2>
+    <h2>
+        Mechanic Dashboard
+    </h2>
+
 
     <div class="card">
 
-        <span class="status">● AVAILABLE</span>
+        <span class="status">
+            ● AVAILABLE
+        </span>
+
 
         <h3 style="margin-top:12px;">
+
             You are ready for jobs.
+
         </h3>
 
+
         <p>
-            Keep your status available to receive nearby breakdown requests.
+
+            Keep your status available to receive
+            nearby breakdown requests.
+
         </p>
 
     </div>
 
-    <div id="jobRequest" class="card" style="display:none;">
 
-        <h3>🆘 New Job Request</h3>
+    <div
+        id="jobRequest"
+        class="card"
+        style="display:none;">
+
+        <h3>
+            🆘 New Job Request
+        </h3>
+
 
         <p style="margin-top:10px;">
-            <strong>Problem:</strong>
+
+            <strong>
+                Problem:
+            </strong>
+
             <span id="mechanicProblem"></span>
+
         </p>
+
 
         <p style="margin-top:7px;">
-            📍 Customer is approximately 2.4 km away.
+
+            📍 Customer is approximately
+            2.4 km away.
+
         </p>
 
-        <button class="primary" onclick="acceptJob()">
+
+        <button
+            class="primary"
+            onclick="acceptJob()">
+
             ✓ Accept Job
+
         </button>
 
-        <button class="secondary" onclick="declineJob()">
+
+        <button
+            class="secondary"
+            onclick="declineJob()">
+
             ✕ Decline
+
         </button>
 
     </div>
@@ -552,32 +851,54 @@ label {
 </div>
 
 
+
 <!-- MECHANIC JOB ACCEPTED -->
+
 <div id="jobAccepted" class="screen">
 
-    <h2>Job Accepted ✓</h2>
+    <h2>
+        Job Accepted ✓
+    </h2>
+
 
     <div class="card">
 
-        <h3>Customer Breakdown</h3>
+        <h3>
+            Customer Breakdown
+        </h3>
+
 
         <p style="margin-top:10px;">
+
             Problem:
+
             <strong id="acceptedProblem"></strong>
+
         </p>
 
+
         <p style="margin-top:10px;">
+
             📍 Customer location available
+
         </p>
+
 
         <button
             class="primary"
             onclick="alert('Navigation will be connected in the next stage.')">
+
             🧭 Navigate to Customer
+
         </button>
 
-        <button class="secondary" onclick="completeJob()">
+
+        <button
+            class="secondary"
+            onclick="completeJob()">
+
             ✓ Complete Job
+
         </button>
 
     </div>
@@ -585,75 +906,139 @@ label {
 </div>
 
 
+
 <!-- BOTTOM NAV -->
+
 <div class="bottom-nav">
 
-    <button class="nav-btn active" onclick="showScreen('welcome')">
-        🏠<br>Home
+
+    <button
+        class="nav-btn active"
+        onclick="showScreen('welcome')">
+
+        🏠<br>
+        Home
+
     </button>
 
-    <button class="nav-btn" onclick="showScreen('customer')">
-        🚗<br>Request
+
+    <button
+        class="nav-btn"
+        onclick="showScreen('customer')">
+
+        🚗<br>
+        Request
+
     </button>
 
-    <button class="nav-btn" onclick="showScreen('mechanic')">
-        🔧<br>Mechanic
+
+    <button
+        class="nav-btn"
+        onclick="showScreen('mechanic')">
+
+        🔧<br>
+        Mechanic
+
     </button>
 
 </div>
 
+
 </div>
 
 
-<!-- EXISTING APP JAVASCRIPT -->
+
+<!-- NORMAL JAVASCRIPT -->
+
 <script>
 
 let currentProblem = "";
 
 
 /* CHANGE SCREEN */
+
 function showScreen(screenId) {
 
-    document.querySelectorAll(".screen").forEach(screen => {
-        screen.classList.remove("active");
-    });
+    document
+        .querySelectorAll(".screen")
+        .forEach(screen => {
+
+            screen.classList.remove("active");
+
+        });
+
 
     const selectedScreen =
         document.getElementById(screenId);
 
+
     if (selectedScreen) {
+
         selectedScreen.classList.add("active");
+
     }
 
+
     window.scrollTo(0, 0);
+
 }
 
 
-/* CUSTOMER REQUEST */
+
+/* NORMAL CUSTOMER REQUEST */
+
 function requestHelp(problem) {
 
     currentProblem = problem;
 
+
     document.getElementById("locationText").innerText =
         "Location detected. Looking for mechanics nearby...";
+
 
     document.getElementById("mechanicProblem").innerText =
         problem;
 
+
     document.getElementById("jobRequest").style.display =
         "block";
 
+
     showScreen("searching");
+
 
     setTimeout(function() {
 
         showScreen("found");
 
     }, 2000);
+
 }
 
 
+
+/* OPEN OTHER PROBLEM */
+
+function openOtherProblem() {
+
+    document
+        .getElementById("problemDescription")
+        .value = "";
+
+
+    document
+        .getElementById("problemStatus")
+        .innerText = "";
+
+
+    showScreen("otherProblem");
+
+}
+
+
+
 /* TRACK MECHANIC */
+
 function trackMechanic() {
 
     showScreen("tracking");
@@ -661,7 +1046,9 @@ function trackMechanic() {
 }
 
 
+
 /* CALL MECHANIC */
+
 function callMechanic() {
 
     alert(
@@ -672,76 +1059,63 @@ function callMechanic() {
 }
 
 
+
 /* ACCEPT JOB */
+
 function acceptJob() {
 
-    document.getElementById("acceptedProblem").innerText =
-        currentProblem;
+    document
+        .getElementById("acceptedProblem")
+        .innerText = currentProblem;
+
 
     showScreen("jobAccepted");
 
 }
 
 
+
 /* DECLINE JOB */
+
 function declineJob() {
 
-    document.getElementById("jobRequest").style.display =
-        "none";
+    document
+        .getElementById("jobRequest")
+        .style.display = "none";
+
 
     alert("Job declined.");
 
 }
 
 
+
 /* COMPLETE JOB */
+
 function completeJob() {
 
-    alert("Job completed successfully!");
+    alert(
+        "Job completed successfully!"
+    );
+
 
     showScreen("mechanic");
-
-}
-
-
-/* DEMO LOCATION */
-if (navigator.geolocation) {
-
-    navigator.geolocation.getCurrentPosition(
-
-        function(position) {
-
-            console.log(
-                "Latitude:",
-                position.coords.latitude
-            );
-
-            console.log(
-                "Longitude:",
-                position.coords.longitude
-            );
-
-        },
-
-        function() {
-
-            console.log(
-                "Location permission not granted."
-            );
-
-        }
-
-    );
 
 }
 
 </script>
 
 
+
 <!-- FIREBASE -->
+
 <script type="module">
 
-import { auth } from "./firebase-config.js";
+import {
+    auth,
+    db
+} from "./firebase-config.js";
+
 
 import {
     createUserWithEmailAndPassword,
@@ -750,17 +1124,34 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
+import {
+    collection,
+    addDoc,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+
 /* CREATE ACCOUNT */
+
 window.registerUser = async function() {
 
     const email =
-        document.getElementById("email").value.trim();
+        document
+            .getElementById("email")
+            .value
+            .trim();
+
 
     const password =
-        document.getElementById("password").value;
+        document
+            .getElementById("password")
+            .value;
+
 
     const message =
-        document.getElementById("authMessage");
+        document
+            .getElementById("authMessage");
 
 
     if (!email || !password) {
@@ -769,6 +1160,7 @@ window.registerUser = async function() {
             "Please enter your email and password.";
 
         return;
+
     }
 
 
@@ -778,6 +1170,7 @@ window.registerUser = async function() {
             "Password must be at least 6 characters.";
 
         return;
+
     }
 
 
@@ -793,26 +1186,40 @@ window.registerUser = async function() {
             password
         );
 
+
         message.innerText =
             "Account created successfully!";
 
+
         showScreen("customer");
+
 
     } catch (error) {
 
         console.error(error);
 
-        if (error.code === "auth/email-already-in-use") {
+
+        if (
+            error.code ===
+            "auth/email-already-in-use"
+        ) {
 
             message.innerText =
                 "This email already has an account. Please login.";
 
-        } else if (error.code === "auth/invalid-email") {
+        }
+
+        else if (
+            error.code ===
+            "auth/invalid-email"
+        ) {
 
             message.innerText =
                 "Please enter a valid email address.";
 
-        } else {
+        }
+
+        else {
 
             message.innerText =
                 "Could not create account. Please try again.";
@@ -824,17 +1231,27 @@ window.registerUser = async function() {
 };
 
 
+
 /* LOGIN */
+
 window.loginUser = async function() {
 
     const email =
-        document.getElementById("email").value.trim();
+        document
+            .getElementById("email")
+            .value
+            .trim();
+
 
     const password =
-        document.getElementById("password").value;
+        document
+            .getElementById("password")
+            .value;
+
 
     const message =
-        document.getElementById("authMessage");
+        document
+            .getElementById("authMessage");
 
 
     if (!email || !password) {
@@ -843,6 +1260,7 @@ window.loginUser = async function() {
             "Please enter your email and password.";
 
         return;
+
     }
 
 
@@ -858,14 +1276,18 @@ window.loginUser = async function() {
             password
         );
 
+
         message.innerText =
             "Login successful!";
 
+
         showScreen("customer");
+
 
     } catch (error) {
 
         console.error(error);
+
 
         message.innerText =
             "Login failed. Check your email and password.";
@@ -875,20 +1297,236 @@ window.loginUser = async function() {
 };
 
 
+
+/* OTHER PROBLEM → FIRESTORE */
+
+window.sendOtherProblem = async function() {
+
+    const user =
+        auth.currentUser;
+
+
+    const description =
+        document
+            .getElementById("problemDescription")
+            .value
+            .trim();
+
+
+    const status =
+        document
+            .getElementById("problemStatus");
+
+
+    if (!user) {
+
+        status.innerText =
+            "Please login before sending a request.";
+
+        showScreen("login");
+
+        return;
+
+    }
+
+
+    if (!description) {
+
+        status.innerText =
+            "Please describe your vehicle problem.";
+
+        return;
+
+    }
+
+
+    if (description.length < 5) {
+
+        status.innerText =
+            "Please give a little more information.";
+
+        return;
+
+    }
+
+
+    status.innerText =
+        "Getting your location...";
+
+
+    if (!navigator.geolocation) {
+
+        status.innerText =
+            "Location is not available on this device.";
+
+        return;
+
+    }
+
+
+    navigator.geolocation.getCurrentPosition(
+
+        async function(position) {
+
+            try {
+
+                status.innerText =
+                    "Sending your request...";
+
+
+                const latitude =
+                    position.coords.latitude;
+
+
+                const longitude =
+                    position.coords.longitude;
+
+
+                const requestData = {
+
+                    customerId:
+                        user.uid,
+
+                    customerEmail:
+                        user.email,
+
+                    problemType:
+                        "Other",
+
+                    problemDescription:
+                        description,
+
+                    latitude:
+                        latitude,
+
+                    longitude:
+                        longitude,
+
+                    status:
+                        "pending",
+
+                    mechanicId:
+                        null,
+
+                    createdAt:
+                        serverTimestamp()
+
+                };
+
+
+                const requestRef =
+                    await addDoc(
+                        collection(
+                            db,
+                            "requests"
+                        ),
+                        requestData
+                    );
+
+
+                console.log(
+                    "Request created:",
+                    requestRef.id
+                );
+
+
+                currentProblem =
+                    "Other: " + description;
+
+
+                document
+                    .getElementById(
+                        "locationText"
+                    )
+                    .innerText =
+                    "Request sent. Looking for available mechanics nearby...";
+
+
+                document
+                    .getElementById(
+                        "mechanicProblem"
+                    )
+                    .innerText =
+                    currentProblem;
+
+
+                document
+                    .getElementById(
+                        "problemStatus"
+                    )
+                    .innerText =
+                    "✅ Request sent successfully!";
+
+
+                showScreen("searching");
+
+
+            } catch (error) {
+
+                console.error(error);
+
+
+                status.innerText =
+                    "Could not send request. Please try again.";
+
+            }
+
+        },
+
+
+        function(error) {
+
+            console.error(error);
+
+
+            status.innerText =
+                "Location permission is required to find nearby mechanics.";
+
+        },
+
+
+        {
+
+            enableHighAccuracy: true,
+
+            timeout: 10000,
+
+            maximumAge: 30000
+
+        }
+
+    );
+
+};
+
+
+
 /* LOGOUT */
+
 window.logoutUser = async function() {
 
     try {
 
         await signOut(auth);
 
+
         showScreen("welcome");
 
-        document.getElementById("email").value = "";
 
-        document.getElementById("password").value = "";
+        document
+            .getElementById("email")
+            .value = "";
 
-        document.getElementById("authMessage").innerText = "";
+
+        document
+            .getElementById("password")
+            .value = "";
+
+
+        document
+            .getElementById("authMessage")
+            .innerText = "";
+
 
     } catch (error) {
 
@@ -901,4 +1539,5 @@ window.logoutUser = async function() {
 </script>
 
 </body>
-    </html>
+
+</html>
