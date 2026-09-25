@@ -212,6 +212,11 @@ button {
     font-weight: bold;
 }
 
+.status-offline {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
 input {
     width: 100%;
     padding: 14px;
@@ -284,6 +289,11 @@ label {
     font-size: 14px;
 }
 
+.success-alert {
+    background: #dcfce7;
+    border-color: #bbf7d0;
+}
+
 .logout {
     background: #ef4444;
     color: white;
@@ -294,16 +304,22 @@ label {
     font-weight: bold;
 }
 
+.small-text {
+    color: #6b7280;
+    font-size: 13px;
+    margin-top: 7px;
+}
+
+.hidden {
+    display: none !important;
+}
+
 </style>
 </head>
-
 
 <body>
 
 <div class="app">
-
-
-<!-- HEADER -->
 
 <div class="header">
 
@@ -328,9 +344,7 @@ label {
             🚗🔧
         </div>
 
-        <h1>
-            Welcome
-        </h1>
+        <h1>Welcome</h1>
 
         <p>
             Your car breaks down?<br>
@@ -339,7 +353,7 @@ label {
 
         <button
             class="primary"
-            onclick="showScreen('login')">
+            onclick="chooseRole('customer')">
 
             👤 I'm a Customer
 
@@ -347,7 +361,7 @@ label {
 
         <button
             class="secondary"
-            onclick="showScreen('login')">
+            onclick="chooseRole('mechanic')">
 
             🔧 I'm a Mechanic
 
@@ -358,23 +372,26 @@ label {
 </div>
 
 
-
-<!-- LOGIN / REGISTER -->
+<!-- LOGIN -->
 
 <div id="login" class="screen">
 
-    <h2>
+    <h2 id="loginTitle">
         KRFTINTO GHO Account
     </h2>
 
     <p style="margin-top:7px;color:#6b7280;">
-
         Sign in or create your account.
-
     </p>
 
-
     <div class="card">
+
+        <div class="alert">
+            Account type:
+            <strong id="selectedRoleText">
+                Customer
+            </strong>
+        </div>
 
         <label for="email">
             Email
@@ -387,7 +404,6 @@ label {
             autocomplete="email"
         >
 
-
         <label for="password">
             Password
         </label>
@@ -399,7 +415,6 @@ label {
             autocomplete="current-password"
         >
 
-
         <button
             class="primary"
             onclick="registerUser()">
@@ -407,7 +422,6 @@ label {
             Create Account
 
         </button>
-
 
         <button
             class="secondary"
@@ -417,14 +431,9 @@ label {
 
         </button>
 
-
-        <p
-            id="authMessage"
-            class="auth-message">
-        </p>
+        <p id="authMessage" class="auth-message"></p>
 
     </div>
-
 
     <button
         class="secondary"
@@ -437,8 +446,7 @@ label {
 </div>
 
 
-
-<!-- CUSTOMER HOME -->
+<!-- CUSTOMER -->
 
 <div id="customer" class="screen">
 
@@ -447,82 +455,66 @@ label {
     </h2>
 
     <p style="margin-top:7px;color:#6b7280;">
-
         Tell us what's wrong with your vehicle.
-
     </p>
 
-
     <div class="problem-grid">
-
 
         <div
             class="problem"
             onclick="requestHelp('Battery / Starting')">
 
             <span>🔋</span>
-
             Battery
 
         </div>
-
 
         <div
             class="problem"
             onclick="requestHelp('Flat Tyre')">
 
             <span>🛞</span>
-
             Flat Tyre
 
         </div>
-
 
         <div
             class="problem"
             onclick="requestHelp('Engine Problem')">
 
             <span>🔧</span>
-
             Engine
 
         </div>
-
 
         <div
             class="problem"
             onclick="requestHelp('Overheating')">
 
             <span>🌡️</span>
-
             Overheating
 
         </div>
-
 
         <div
             class="problem"
             onclick="requestHelp('Electrical Problem')">
 
             <span>⚡</span>
-
             Electrical
 
         </div>
-
 
         <div
             class="problem"
             onclick="requestHelp('Out of Fuel')">
 
             <span>⛽</span>
-
             Fuel
 
         </div>
 
     </div>
-
 
     <button
         class="primary"
@@ -531,7 +523,6 @@ label {
         🆘 Other Problem
 
     </button>
-
 
     <button
         class="logout"
@@ -544,7 +535,6 @@ label {
 </div>
 
 
-
 <!-- OTHER PROBLEM -->
 
 <div id="otherProblem" class="screen">
@@ -554,20 +544,14 @@ label {
     </h2>
 
     <p style="margin-top:7px;color:#6b7280;">
-
         Tell us what is wrong with your vehicle.
-
     </p>
-
 
     <div class="card">
 
         <label for="problemDescription">
-
             Describe the problem
-
         </label>
-
 
         <textarea
             id="problemDescription"
@@ -575,7 +559,6 @@ label {
             maxlength="500"
             placeholder="Example: My car won't start and I hear a clicking sound..."
         ></textarea>
-
 
         <button
             class="primary"
@@ -585,14 +568,9 @@ label {
 
         </button>
 
-
-        <p
-            id="problemStatus"
-            class="problem-status">
-        </p>
+        <p id="problemStatus" class="problem-status"></p>
 
     </div>
-
 
     <button
         class="secondary"
@@ -605,7 +583,6 @@ label {
 </div>
 
 
-
 <!-- SEARCHING -->
 
 <div id="searching" class="screen">
@@ -613,7 +590,6 @@ label {
     <h2>
         Finding mechanics...
     </h2>
-
 
     <div class="map">
 
@@ -627,31 +603,35 @@ label {
 
     </div>
 
-
     <div class="card">
 
         <h3>
             📍 Your Location
         </h3>
 
-
         <p id="locationText">
-
             Waiting for your location...
-
         </p>
 
-
         <div class="alert">
-
             🔎 Looking for available mechanics near you.
+        </div>
 
+        <div id="waitingRequestMessage" class="alert">
+            Your request has been sent. We will show you when a mechanic accepts it.
         </div>
 
     </div>
 
-</div>
+    <button
+        class="secondary"
+        onclick="cancelCustomerRequest()">
 
+        Cancel Request
+
+    </button>
+
+</div>
 
 
 <!-- MECHANIC FOUND -->
@@ -662,35 +642,37 @@ label {
         Mechanic Found 🔧
     </h2>
 
-
     <div class="card">
 
         <div class="mechanic-profile">
-
 
             <div class="avatar">
                 👨‍🔧
             </div>
 
-
             <div>
 
-                <h3>
-                    Thabo Motors
+                <h3 id="foundMechanicName">
+                    Your Mechanic
                 </h3>
 
                 <div class="rating">
-                    ★★★★★ 4.9
+                    ★★★★★
                 </div>
 
                 <small>
-                    2.4 km away
+                    Mechanic accepted your request
                 </small>
 
             </div>
 
         </div>
 
+        <div class="alert success-alert">
+
+            ✅ A mechanic has accepted your breakdown request.
+
+        </div>
 
         <button
             class="primary"
@@ -699,7 +681,6 @@ label {
             📍 Track Mechanic
 
         </button>
-
 
         <button
             class="secondary"
@@ -714,7 +695,6 @@ label {
 </div>
 
 
-
 <!-- TRACKING -->
 
 <div id="tracking" class="screen">
@@ -723,48 +703,37 @@ label {
         Mechanic on the way 🚗
     </h2>
 
-
     <div class="map">
 
         <div class="pin you">
             📍
         </div>
 
-        <div
-            class="pin mechanic"
-            id="movingPin">
-
+        <div class="pin mechanic">
             🔧
-
         </div>
 
     </div>
 
-
     <div class="card">
 
-        <h3>
-            Thabo Motors
+        <h3 id="trackingMechanicName">
+            Your Mechanic
         </h3>
 
         <p>
-            Mechanic is travelling to your location.
+            Your mechanic has accepted the job.
         </p>
-
 
         <div class="alert">
 
-            ⏱️ Estimated arrival:
-            <strong>
-                8 minutes
-            </strong>
+            🚗 Mechanic is travelling to your location.
 
         </div>
 
     </div>
 
 </div>
-
 
 
 <!-- MECHANIC DASHBOARD -->
@@ -775,30 +744,35 @@ label {
         Mechanic Dashboard
     </h2>
 
-
     <div class="card">
 
         <span class="status">
             ● AVAILABLE
         </span>
 
-
         <h3 style="margin-top:12px;">
-
             You are ready for jobs.
-
         </h3>
 
-
         <p>
-
-            Keep your status available to receive
-            nearby breakdown requests.
-
+            New customer requests will appear below automatically.
         </p>
 
     </div>
 
+    <div
+        id="noJobs"
+        class="card">
+
+        <h3>
+            🔎 Waiting for requests
+        </h3>
+
+        <p>
+            We will automatically show new breakdown requests here.
+        </p>
+
+    </div>
 
     <div
         id="jobRequest"
@@ -808,7 +782,6 @@ label {
         <h3>
             🆘 New Job Request
         </h3>
-
 
         <p style="margin-top:10px;">
 
@@ -820,14 +793,16 @@ label {
 
         </p>
 
+        <p style="margin-top:10px;">
 
-        <p style="margin-top:7px;">
-
-            📍 Customer is approximately
-            2.4 km away.
+            📍 Customer location received.
 
         </p>
 
+        <p
+            id="mechanicDistance"
+            class="small-text">
+        </p>
 
         <button
             class="primary"
@@ -836,7 +811,6 @@ label {
             ✓ Accept Job
 
         </button>
-
 
         <button
             class="secondary"
@@ -848,11 +822,18 @@ label {
 
     </div>
 
+    <button
+        class="logout"
+        onclick="logoutUser()">
+
+        Logout
+
+    </button>
+
 </div>
 
 
-
-<!-- MECHANIC JOB ACCEPTED -->
+<!-- ACCEPTED JOB -->
 
 <div id="jobAccepted" class="screen">
 
@@ -860,13 +841,11 @@ label {
         Job Accepted ✓
     </h2>
 
-
     <div class="card">
 
         <h3>
             Customer Breakdown
         </h3>
-
 
         <p style="margin-top:10px;">
 
@@ -876,22 +855,17 @@ label {
 
         </p>
 
-
         <p style="margin-top:10px;">
-
-            📍 Customer location available
-
+            📍 Customer location available.
         </p>
-
 
         <button
             class="primary"
-            onclick="alert('Navigation will be connected in the next stage.')">
+            onclick="navigateToCustomer()">
 
             🧭 Navigate to Customer
 
         </button>
-
 
         <button
             class="secondary"
@@ -906,35 +880,31 @@ label {
 </div>
 
 
-
 <!-- BOTTOM NAV -->
 
 <div class="bottom-nav">
 
-
     <button
         class="nav-btn active"
-        onclick="showScreen('welcome')">
+        onclick="goHome()">
 
         🏠<br>
         Home
 
     </button>
 
-
     <button
         class="nav-btn"
-        onclick="showScreen('customer')">
+        onclick="openRequestPage()">
 
         🚗<br>
         Request
 
     </button>
 
-
     <button
         class="nav-btn"
-        onclick="showScreen('mechanic')">
+        onclick="openMechanicPage()">
 
         🔧<br>
         Mechanic
@@ -943,19 +913,24 @@ label {
 
 </div>
 
-
 </div>
 
-
-
-<!-- NORMAL JAVASCRIPT -->
 
 <script>
 
 let currentProblem = "";
+let selectedRole = "customer";
+
+let currentRequestId = null;
+let currentRequestData = null;
+
+let unsubscribeMechanicRequests = null;
+let unsubscribeCustomerRequest = null;
+
+let declinedRequests = new Set();
 
 
-/* CHANGE SCREEN */
+/* SCREEN */
 
 function showScreen(screenId) {
 
@@ -967,10 +942,8 @@ function showScreen(screenId) {
 
         });
 
-
     const selectedScreen =
         document.getElementById(screenId);
-
 
     if (selectedScreen) {
 
@@ -978,133 +951,780 @@ function showScreen(screenId) {
 
     }
 
-
     window.scrollTo(0, 0);
-
 }
 
 
+/* ROLE */
 
-/* NORMAL CUSTOMER REQUEST */
+window.chooseRole = function(role) {
 
-function requestHelp(problem) {
+    selectedRole = role;
+
+    const roleText =
+        document.getElementById("selectedRoleText");
+
+    if (role === "mechanic") {
+
+        roleText.innerText = "Mechanic";
+
+    } else {
+
+        roleText.innerText = "Customer";
+
+    }
+
+    showScreen("login");
+};
+
+
+/* CUSTOMER REQUEST */
+
+window.requestHelp = async function(problem) {
 
     currentProblem = problem;
 
+    await createCustomerRequest(
+        problem,
+        problem
+    );
+};
+
+
+/* CREATE CUSTOMER REQUEST */
+
+async function createCustomerRequest(
+    problemType,
+    description
+) {
+
+    const user = auth.currentUser;
+
+    if (!user) {
+
+        document.getElementById("authMessage").innerText =
+            "Please login first.";
+
+        showScreen("login");
+
+        return;
+
+    }
 
     document.getElementById("locationText").innerText =
-        "Location detected. Looking for mechanics nearby...";
-
-
-    document.getElementById("mechanicProblem").innerText =
-        problem;
-
-
-    document.getElementById("jobRequest").style.display =
-        "block";
-
+        "Getting your location...";
 
     showScreen("searching");
 
+    if (!navigator.geolocation) {
 
-    setTimeout(function() {
+        document.getElementById("locationText").innerText =
+            "Location is not available on this device.";
 
-        showScreen("found");
+        return;
 
-    }, 2000);
+    }
+
+    navigator.geolocation.getCurrentPosition(
+
+        async function(position) {
+
+            try {
+
+                const latitude =
+                    position.coords.latitude;
+
+                const longitude =
+                    position.coords.longitude;
+
+                const requestData = {
+
+                    customerId:
+                        user.uid,
+
+                    customerEmail:
+                        user.email,
+
+                    problemType:
+                        problemType,
+
+                    problemDescription:
+                        description,
+
+                    latitude:
+                        latitude,
+
+                    longitude:
+                        longitude,
+
+                    status:
+                        "pending",
+
+                    mechanicId:
+                        null,
+
+                    createdAt:
+                        serverTimestamp()
+
+                };
+
+                const requestRef =
+                    await addDoc(
+                        collection(db, "requests"),
+                        requestData
+                    );
+
+                currentRequestId =
+                    requestRef.id;
+
+                currentRequestData =
+                    requestData;
+
+                document.getElementById(
+                    "locationText"
+                ).innerText =
+                    "Location detected. Request sent successfully.";
+
+                startCustomerRequestListener(
+                    requestRef.id
+                );
+
+            } catch (error) {
+
+                console.error(error);
+
+                document.getElementById(
+                    "locationText"
+                ).innerText =
+                    "Could not send request. Please try again.";
+
+            }
+
+        },
+
+        function(error) {
+
+            console.error(error);
+
+            document.getElementById(
+                "locationText"
+            ).innerText =
+                "Location permission is required to find nearby mechanics.";
+
+        },
+
+        {
+
+            enableHighAccuracy: true,
+
+            timeout: 10000,
+
+            maximumAge: 30000
+
+        }
+
+    );
 
 }
 
 
+/* OTHER PROBLEM */
 
-/* OPEN OTHER PROBLEM */
-
-function openOtherProblem() {
+window.openOtherProblem = function() {
 
     document
         .getElementById("problemDescription")
         .value = "";
 
-
     document
         .getElementById("problemStatus")
         .innerText = "";
 
-
     showScreen("otherProblem");
-
-}
-
+};
 
 
-/* TRACK MECHANIC */
+/* SEND OTHER PROBLEM */
 
-function trackMechanic() {
+window.sendOtherProblem = async function() {
 
-    showScreen("tracking");
+    const description =
+        document
+            .getElementById("problemDescription")
+            .value
+            .trim();
 
-}
+    const status =
+        document
+            .getElementById("problemStatus");
 
+    const user =
+        auth.currentUser;
 
+    if (!user) {
 
-/* CALL MECHANIC */
+        status.innerText =
+            "Please login before sending a request.";
 
-function callMechanic() {
+        showScreen("login");
 
-    alert(
-        "Calling Thabo Motors...\n\n" +
-        "Real mechanic calling will be connected later."
+        return;
+
+    }
+
+    if (!description) {
+
+        status.innerText =
+            "Please describe your vehicle problem.";
+
+        return;
+
+    }
+
+    if (description.length < 5) {
+
+        status.innerText =
+            "Please give a little more information.";
+
+        return;
+
+    }
+
+    status.innerText =
+        "Sending your request...";
+
+    currentProblem =
+        "Other: " + description;
+
+    await createCustomerRequest(
+        "Other",
+        description
     );
 
+};
+
+
+/* CUSTOMER REAL-TIME REQUEST */
+
+function startCustomerRequestListener(requestId) {
+
+    if (unsubscribeCustomerRequest) {
+
+        unsubscribeCustomerRequest();
+
+    }
+
+    unsubscribeCustomerRequest =
+        onSnapshot(
+
+            doc(db, "requests", requestId),
+
+            function(snapshot) {
+
+                if (!snapshot.exists()) {
+
+                    return;
+
+                }
+
+                const data =
+                    snapshot.data();
+
+                currentRequestData =
+                    data;
+
+                if (
+                    data.status === "accepted"
+                    &&
+                    data.mechanicId
+                ) {
+
+                    document.getElementById(
+                        "foundMechanicName"
+                    ).innerText =
+                        "Mechanic accepted your request";
+
+                    document.getElementById(
+                        "trackingMechanicName"
+                    ).innerText =
+                        "Your Mechanic";
+
+                    showScreen("found");
+
+                }
+
+                if (
+                    data.status === "completed"
+                ) {
+
+                    alert(
+                        "Your mechanic marked the job as completed."
+                    );
+
+                    showScreen("customer");
+
+                }
+
+                if (
+                    data.status === "cancelled"
+                ) {
+
+                    alert(
+                        "Your request was cancelled."
+                    );
+
+                    showScreen("customer");
+
+                }
+
+            },
+
+            function(error) {
+
+                console.error(
+                    "Customer listener error:",
+                    error
+                );
+
+            }
+
+        );
+
 }
 
+
+/* MECHANIC REQUEST LISTENER */
+
+function startMechanicListener() {
+
+    if (unsubscribeMechanicRequests) {
+
+        unsubscribeMechanicRequests();
+
+    }
+
+    const requestsQuery =
+        query(
+
+            collection(db, "requests"),
+
+            where("status", "==", "pending"),
+
+            where("mechanicId", "==", null)
+
+        );
+
+    unsubscribeMechanicRequests =
+        onSnapshot(
+
+            requestsQuery,
+
+            function(snapshot) {
+
+                const requests =
+                    snapshot.docs.filter(
+                        item =>
+                            !declinedRequests.has(
+                                item.id
+                            )
+                    );
+
+                if (requests.length === 0) {
+
+                    document.getElementById(
+                        "jobRequest"
+                    ).style.display =
+                        "none";
+
+                    document.getElementById(
+                        "noJobs"
+                    ).style.display =
+                        "block";
+
+                    return;
+
+                }
+
+                const firstRequest =
+                    requests[0];
+
+                currentRequestId =
+                    firstRequest.id;
+
+                currentRequestData =
+                    firstRequest.data();
+
+                const data =
+                    currentRequestData;
+
+                currentProblem =
+                    data.problemDescription ||
+                    data.problemType ||
+                    "Vehicle problem";
+
+                document.getElementById(
+                    "mechanicProblem"
+                ).innerText =
+                    currentProblem;
+
+                document.getElementById(
+                    "mechanicDistance"
+                ).innerText =
+                    "📍 Customer location available.";
+
+                document.getElementById(
+                    "jobRequest"
+                ).style.display =
+                    "block";
+
+                document.getElementById(
+                    "noJobs"
+                ).style.display =
+                    "none";
+
+            },
+
+            function(error) {
+
+                console.error(
+                    "Mechanic listener error:",
+                    error
+                );
+
+            }
+
+        );
+
+}
 
 
 /* ACCEPT JOB */
 
-function acceptJob() {
+window.acceptJob = async function() {
 
-    document
-        .getElementById("acceptedProblem")
-        .innerText = currentProblem;
+    if (!currentRequestId) {
+
+        alert("No job selected.");
+
+        return;
+
+    }
+
+    const user =
+        auth.currentUser;
+
+    if (!user) {
+
+        alert("Please login again.");
+
+        return;
+
+    }
+
+    try {
+
+        await updateDoc(
+
+            doc(
+                db,
+                "requests",
+                currentRequestId
+            ),
+
+            {
+
+                status:
+                    "accepted",
+
+                mechanicId:
+                    user.uid,
+
+                mechanicEmail:
+                    user.email,
+
+                acceptedAt:
+                    serverTimestamp()
+
+            }
+
+        );
+
+        document.getElementById(
+            "acceptedProblem"
+        ).innerText =
+            currentProblem;
+
+        document.getElementById(
+            "jobRequest"
+        ).style.display =
+            "none";
+
+        showScreen("jobAccepted");
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "This request may already have been accepted by another mechanic."
+        );
+
+    }
+
+};
 
 
-    showScreen("jobAccepted");
+/* DECLINE */
 
-}
+window.declineJob = function() {
 
+    if (currentRequestId) {
 
+        declinedRequests.add(
+            currentRequestId
+        );
 
-/* DECLINE JOB */
+    }
 
-function declineJob() {
+    document.getElementById(
+        "jobRequest"
+    ).style.display =
+        "none";
 
-    document
-        .getElementById("jobRequest")
-        .style.display = "none";
+    document.getElementById(
+        "noJobs"
+    ).style.display =
+        "block";
 
-
-    alert("Job declined.");
-
-}
-
+};
 
 
 /* COMPLETE JOB */
 
-function completeJob() {
+window.completeJob = async function() {
+
+    if (!currentRequestId) {
+
+        showScreen("mechanic");
+
+        return;
+
+    }
+
+    try {
+
+        await updateDoc(
+
+            doc(
+                db,
+                "requests",
+                currentRequestId
+            ),
+
+            {
+
+                status:
+                    "completed",
+
+                completedAt:
+                    serverTimestamp()
+
+            }
+
+        );
+
+        alert(
+            "Job completed successfully!"
+        );
+
+        currentRequestId = null;
+        currentRequestData = null;
+        currentProblem = "";
+
+        showScreen("mechanic");
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Could not complete the job."
+        );
+
+    }
+
+};
+
+
+/* NAVIGATION */
+
+window.trackMechanic = function() {
+
+    showScreen("tracking");
+
+};
+
+
+window.callMechanic = function() {
 
     alert(
-        "Job completed successfully!"
+        "The mechanic has accepted your request. Phone calling will be connected in the next stage."
     );
 
+};
+
+
+window.navigateToCustomer = function() {
+
+    if (
+        currentRequestData &&
+        currentRequestData.latitude &&
+        currentRequestData.longitude
+    ) {
+
+        const lat =
+            currentRequestData.latitude;
+
+        const lng =
+            currentRequestData.longitude;
+
+        window.open(
+            "https://www.google.com/maps/dir/?api=1&destination=" +
+            lat +
+            "," +
+            lng,
+            "_blank"
+        );
+
+    } else {
+
+        alert(
+            "Customer location is not available."
+        );
+
+    }
+
+};
+
+
+window.cancelCustomerRequest = async function() {
+
+    if (!currentRequestId) {
+
+        showScreen("customer");
+
+        return;
+
+    }
+
+    try {
+
+        await updateDoc(
+
+            doc(
+                db,
+                "requests",
+                currentRequestId
+            ),
+
+            {
+
+                status:
+                    "cancelled"
+
+            }
+
+        );
+
+        currentRequestId = null;
+
+        showScreen("customer");
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Could not cancel the request."
+        );
+
+    }
+
+};
+
+
+window.goHome = function() {
+
+    if (auth.currentUser) {
+
+        if (selectedRole === "mechanic") {
+
+            showScreen("mechanic");
+
+        } else {
+
+            showScreen("customer");
+
+        }
+
+    } else {
+
+        showScreen("welcome");
+
+    }
+
+};
+
+
+window.openRequestPage = function() {
+
+    if (!auth.currentUser) {
+
+        showScreen("login");
+
+        return;
+
+    }
+
+    if (selectedRole !== "customer") {
+
+        showScreen("mechanic");
+
+        return;
+
+    }
+
+    showScreen("customer");
+
+};
+
+
+window.openMechanicPage = function() {
+
+    if (!auth.currentUser) {
+
+        showScreen("login");
+
+        return;
+
+    }
+
+    if (selectedRole !== "mechanic") {
+
+        alert(
+            "This account is registered as a customer."
+        );
+
+        return;
+
+    }
 
     showScreen("mechanic");
 
-}
+};
+
 
 </script>
-
 
 
 <!-- FIREBASE -->
@@ -1127,12 +1747,18 @@ import {
 import {
     collection,
     addDoc,
+    doc,
+    setDoc,
+    getDoc,
+    updateDoc,
+    query,
+    where,
+    onSnapshot,
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-
-/* CREATE ACCOUNT */
+/* REGISTER */
 
 window.registerUser = async function() {
 
@@ -1142,12 +1768,10 @@ window.registerUser = async function() {
             .value
             .trim();
 
-
     const password =
         document
             .getElementById("password")
             .value;
-
 
     const message =
         document
@@ -1180,10 +1804,39 @@ window.registerUser = async function() {
 
     try {
 
-        await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
+        const result =
+            await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+
+
+        const user =
+            result.user;
+
+
+        await setDoc(
+
+            doc(
+                db,
+                "users",
+                user.uid
+            ),
+
+            {
+
+                email:
+                    user.email,
+
+                role:
+                    selectedRole,
+
+                createdAt:
+                    serverTimestamp()
+
+            }
+
         );
 
 
@@ -1191,7 +1844,17 @@ window.registerUser = async function() {
             "Account created successfully!";
 
 
-        showScreen("customer");
+        if (selectedRole === "mechanic") {
+
+            startMechanicListener();
+
+            showScreen("mechanic");
+
+        } else {
+
+            showScreen("customer");
+
+        }
 
 
     } catch (error) {
@@ -1231,7 +1894,6 @@ window.registerUser = async function() {
 };
 
 
-
 /* LOGIN */
 
 window.loginUser = async function() {
@@ -1242,12 +1904,10 @@ window.loginUser = async function() {
             .value
             .trim();
 
-
     const password =
         document
             .getElementById("password")
             .value;
-
 
     const message =
         document
@@ -1270,24 +1930,104 @@ window.loginUser = async function() {
 
     try {
 
-        await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-        );
+        const result =
+            await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+
+
+        const user =
+            result.user;
+
+
+        const userDoc =
+            await getDoc(
+
+                doc(
+                    db,
+                    "users",
+                    user.uid
+                )
+
+            );
+
+
+        let role =
+            "customer";
+
+
+        if (userDoc.exists()) {
+
+            const data =
+                userDoc.data();
+
+            role =
+                data.role || "customer";
+
+        } else {
+
+            /*
+             Existing Firebase accounts created
+             before roles were added are treated
+             as customers.
+            */
+
+            await setDoc(
+
+                doc(
+                    db,
+                    "users",
+                    user.uid
+                ),
+
+                {
+
+                    email:
+                        user.email,
+
+                    role:
+                        "customer",
+
+                    createdAt:
+                        serverTimestamp()
+
+                },
+
+                {
+                    merge: true
+                }
+
+            );
+
+        }
+
+
+        selectedRole =
+            role;
 
 
         message.innerText =
             "Login successful!";
 
 
-        showScreen("customer");
+        if (role === "mechanic") {
+
+            startMechanicListener();
+
+            showScreen("mechanic");
+
+        } else {
+
+            showScreen("customer");
+
+        }
 
 
     } catch (error) {
 
         console.error(error);
-
 
         message.innerText =
             "Login failed. Check your email and password.";
@@ -1297,217 +2037,42 @@ window.loginUser = async function() {
 };
 
 
-
-/* OTHER PROBLEM → FIRESTORE */
-
-window.sendOtherProblem = async function() {
-
-    const user =
-        auth.currentUser;
-
-
-    const description =
-        document
-            .getElementById("problemDescription")
-            .value
-            .trim();
-
-
-    const status =
-        document
-            .getElementById("problemStatus");
-
-
-    if (!user) {
-
-        status.innerText =
-            "Please login before sending a request.";
-
-        showScreen("login");
-
-        return;
-
-    }
-
-
-    if (!description) {
-
-        status.innerText =
-            "Please describe your vehicle problem.";
-
-        return;
-
-    }
-
-
-    if (description.length < 5) {
-
-        status.innerText =
-            "Please give a little more information.";
-
-        return;
-
-    }
-
-
-    status.innerText =
-        "Getting your location...";
-
-
-    if (!navigator.geolocation) {
-
-        status.innerText =
-            "Location is not available on this device.";
-
-        return;
-
-    }
-
-
-    navigator.geolocation.getCurrentPosition(
-
-        async function(position) {
-
-            try {
-
-                status.innerText =
-                    "Sending your request...";
-
-
-                const latitude =
-                    position.coords.latitude;
-
-
-                const longitude =
-                    position.coords.longitude;
-
-
-                const requestData = {
-
-                    customerId:
-                        user.uid,
-
-                    customerEmail:
-                        user.email,
-
-                    problemType:
-                        "Other",
-
-                    problemDescription:
-                        description,
-
-                    latitude:
-                        latitude,
-
-                    longitude:
-                        longitude,
-
-                    status:
-                        "pending",
-
-                    mechanicId:
-                        null,
-
-                    createdAt:
-                        serverTimestamp()
-
-                };
-
-
-                const requestRef =
-                    await addDoc(
-                        collection(
-                            db,
-                            "requests"
-                        ),
-                        requestData
-                    );
-
-
-                console.log(
-                    "Request created:",
-                    requestRef.id
-                );
-
-
-                currentProblem =
-                    "Other: " + description;
-
-
-                document
-                    .getElementById(
-                        "locationText"
-                    )
-                    .innerText =
-                    "Request sent. Looking for available mechanics nearby...";
-
-
-                document
-                    .getElementById(
-                        "mechanicProblem"
-                    )
-                    .innerText =
-                    currentProblem;
-
-
-                document
-                    .getElementById(
-                        "problemStatus"
-                    )
-                    .innerText =
-                    "✅ Request sent successfully!";
-
-
-                showScreen("searching");
-
-
-            } catch (error) {
-
-                console.error(error);
-
-
-                status.innerText =
-                    "Could not send request. Please try again.";
-
-            }
-
-        },
-
-
-        function(error) {
-
-            console.error(error);
-
-
-            status.innerText =
-                "Location permission is required to find nearby mechanics.";
-
-        },
-
-
-        {
-
-            enableHighAccuracy: true,
-
-            timeout: 10000,
-
-            maximumAge: 30000
-
-        }
-
-    );
-
-};
-
-
-
 /* LOGOUT */
 
 window.logoutUser = async function() {
 
     try {
 
+        if (unsubscribeMechanicRequests) {
+
+            unsubscribeMechanicRequests();
+
+            unsubscribeMechanicRequests =
+                null;
+
+        }
+
+
+        if (unsubscribeCustomerRequest) {
+
+            unsubscribeCustomerRequest();
+
+            unsubscribeCustomerRequest =
+                null;
+
+        }
+
+
         await signOut(auth);
+
+
+        currentRequestId = null;
+
+        currentRequestData = null;
+
+        currentProblem = "";
+
+        declinedRequests.clear();
 
 
         showScreen("welcome");
@@ -1540,4 +2105,4 @@ window.logoutUser = async function() {
 
 </body>
 
-</html>
+            </html>
