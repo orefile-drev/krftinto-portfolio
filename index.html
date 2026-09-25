@@ -25,9 +25,9 @@ body {
     background: white;
     position: relative;
     overflow: hidden;
+    padding-bottom: 70px;
 }
 
-/* HEADER */
 .header {
     background: #111827;
     color: white;
@@ -47,7 +47,6 @@ body {
     opacity: .8;
 }
 
-/* SCREENS */
 .screen {
     display: none;
     padding: 20px;
@@ -58,7 +57,6 @@ body {
     display: block;
 }
 
-/* BUTTONS */
 button {
     border: none;
     cursor: pointer;
@@ -86,7 +84,6 @@ button {
     margin-top: 10px;
 }
 
-/* WELCOME */
 .welcome {
     text-align: center;
     padding-top: 80px;
@@ -107,7 +104,6 @@ button {
     line-height: 1.5;
 }
 
-/* CARDS */
 .card {
     background: white;
     border: 1px solid #e5e7eb;
@@ -126,7 +122,6 @@ button {
     font-size: 14px;
 }
 
-/* PROBLEM GRID */
 .problem-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -149,7 +144,6 @@ button {
     margin-bottom: 8px;
 }
 
-/* MAP */
 .map {
     height: 230px;
     background:
@@ -182,7 +176,6 @@ button {
     top: 30%;
 }
 
-/* MECHANIC */
 .mechanic-profile {
     display: flex;
     align-items: center;
@@ -216,7 +209,6 @@ button {
     font-weight: bold;
 }
 
-/* INPUT */
 input {
     width: 100%;
     padding: 14px;
@@ -226,7 +218,19 @@ input {
     font-size: 15px;
 }
 
-/* NAVIGATION */
+label {
+    display: block;
+    margin-top: 12px;
+    font-weight: bold;
+}
+
+.auth-message {
+    margin-top: 15px;
+    text-align: center;
+    color: #6b7280;
+    font-size: 14px;
+}
+
 .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -237,6 +241,7 @@ input {
     display: flex;
     justify-content: space-around;
     padding: 12px 5px;
+    z-index: 100;
 }
 
 .nav-btn {
@@ -250,7 +255,6 @@ input {
     font-weight: bold;
 }
 
-/* ALERT */
 .alert {
     background: #fef3c7;
     border: 1px solid #fde68a;
@@ -258,6 +262,16 @@ input {
     border-radius: 12px;
     margin-top: 15px;
     font-size: 14px;
+}
+
+.logout {
+    background: #ef4444;
+    color: white;
+    width: 100%;
+    padding: 13px;
+    border-radius: 10px;
+    margin-top: 15px;
+    font-weight: bold;
 }
 </style>
 </head>
@@ -273,7 +287,7 @@ input {
 </div>
 
 
-<!-- WELCOME SCREEN -->
+<!-- WELCOME -->
 <div id="welcome" class="screen active">
 
     <div class="welcome">
@@ -287,15 +301,63 @@ input {
             Don't panic. Find a mechanic near you.
         </p>
 
-        <button class="primary" onclick="showScreen('customer')">
+        <button class="primary" onclick="showScreen('login')">
             👤 I'm a Customer
         </button>
 
-        <button class="secondary" onclick="showScreen('mechanic')">
+        <button class="secondary" onclick="showScreen('login')">
             🔧 I'm a Mechanic
         </button>
 
     </div>
+
+</div>
+
+
+<!-- LOGIN / REGISTER -->
+<div id="login" class="screen">
+
+    <h2>KRFTINTO GHO Account</h2>
+
+    <p style="margin-top:7px;color:#6b7280;">
+        Sign in or create your account.
+    </p>
+
+    <div class="card">
+
+        <label for="email">Email</label>
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            autocomplete="email"
+        >
+
+        <label for="password">Password</label>
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+        >
+
+        <button class="primary" onclick="registerUser()">
+            Create Account
+        </button>
+
+        <button class="secondary" onclick="loginUser()">
+            Login
+        </button>
+
+        <p id="authMessage" class="auth-message"></p>
+
+    </div>
+
+    <button class="secondary" onclick="showScreen('welcome')">
+        ← Back
+    </button>
 
 </div>
 
@@ -345,6 +407,10 @@ input {
 
     <button class="primary" onclick="requestHelp('Other Problem')">
         🆘 Other Problem
+    </button>
+
+    <button class="logout" onclick="logoutUser()">
+        Logout
     </button>
 
 </div>
@@ -427,10 +493,13 @@ input {
 
         <h3>Thabo Motors</h3>
 
-        <p>Mechanic is travelling to your location.</p>
+        <p>
+            Mechanic is travelling to your location.
+        </p>
 
         <div class="alert">
-            ⏱️ Estimated arrival: <strong>8 minutes</strong>
+            ⏱️ Estimated arrival:
+            <strong>8 minutes</strong>
         </div>
 
     </div>
@@ -493,14 +562,17 @@ input {
         <h3>Customer Breakdown</h3>
 
         <p style="margin-top:10px;">
-            Problem: <strong id="acceptedProblem"></strong>
+            Problem:
+            <strong id="acceptedProblem"></strong>
         </p>
 
         <p style="margin-top:10px;">
             📍 Customer location available
         </p>
 
-        <button class="primary" onclick="alert('Navigation would open here in the real app.')">
+        <button
+            class="primary"
+            onclick="alert('Navigation will be connected in the next stage.')">
             🧭 Navigate to Customer
         </button>
 
@@ -533,6 +605,7 @@ input {
 </div>
 
 
+<!-- EXISTING APP JAVASCRIPT -->
 <script>
 
 let currentProblem = "";
@@ -545,9 +618,14 @@ function showScreen(screenId) {
         screen.classList.remove("active");
     });
 
-    document.getElementById(screenId).classList.add("active");
+    const selectedScreen =
+        document.getElementById(screenId);
 
-    window.scrollTo(0,0);
+    if (selectedScreen) {
+        selectedScreen.classList.add("active");
+    }
+
+    window.scrollTo(0, 0);
 }
 
 
@@ -562,11 +640,11 @@ function requestHelp(problem) {
     document.getElementById("mechanicProblem").innerText =
         problem;
 
-    document.getElementById("jobRequest").style.display = "block";
+    document.getElementById("jobRequest").style.display =
+        "block";
 
     showScreen("searching");
 
-    /* Demo delay */
     setTimeout(function() {
 
         showScreen("found");
@@ -586,7 +664,10 @@ function trackMechanic() {
 /* CALL MECHANIC */
 function callMechanic() {
 
-    alert("Calling Thabo Motors...\n\nIn the real app this button will call the mechanic.");
+    alert(
+        "Calling Thabo Motors...\n\n" +
+        "Real mechanic calling will be connected later."
+    );
 
 }
 
@@ -642,9 +723,11 @@ if (navigator.geolocation) {
 
         },
 
-        function(error) {
+        function() {
 
-            console.log("Location permission not granted.");
+            console.log(
+                "Location permission not granted."
+            );
 
         }
 
@@ -655,11 +738,167 @@ if (navigator.geolocation) {
 </script>
 
 
+<!-- FIREBASE -->
 <script type="module">
-  import { auth } from "./firebase-config.js";
 
-  console.log("KRFTINTO GHO Firebase connected successfully.");
+import { auth } from "./firebase-config.js";
+
+import {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+
+/* CREATE ACCOUNT */
+window.registerUser = async function() {
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    const message =
+        document.getElementById("authMessage");
+
+
+    if (!email || !password) {
+
+        message.innerText =
+            "Please enter your email and password.";
+
+        return;
+    }
+
+
+    if (password.length < 6) {
+
+        message.innerText =
+            "Password must be at least 6 characters.";
+
+        return;
+    }
+
+
+    message.innerText =
+        "Creating your account...";
+
+
+    try {
+
+        await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+        message.innerText =
+            "Account created successfully!";
+
+        showScreen("customer");
+
+    } catch (error) {
+
+        console.error(error);
+
+        if (error.code === "auth/email-already-in-use") {
+
+            message.innerText =
+                "This email already has an account. Please login.";
+
+        } else if (error.code === "auth/invalid-email") {
+
+            message.innerText =
+                "Please enter a valid email address.";
+
+        } else {
+
+            message.innerText =
+                "Could not create account. Please try again.";
+
+        }
+
+    }
+
+};
+
+
+/* LOGIN */
+window.loginUser = async function() {
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    const message =
+        document.getElementById("authMessage");
+
+
+    if (!email || !password) {
+
+        message.innerText =
+            "Please enter your email and password.";
+
+        return;
+    }
+
+
+    message.innerText =
+        "Signing in...";
+
+
+    try {
+
+        await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+        message.innerText =
+            "Login successful!";
+
+        showScreen("customer");
+
+    } catch (error) {
+
+        console.error(error);
+
+        message.innerText =
+            "Login failed. Check your email and password.";
+
+    }
+
+};
+
+
+/* LOGOUT */
+window.logoutUser = async function() {
+
+    try {
+
+        await signOut(auth);
+
+        showScreen("welcome");
+
+        document.getElementById("email").value = "";
+
+        document.getElementById("password").value = "";
+
+        document.getElementById("authMessage").innerText = "";
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+
+};
+
 </script>
 
 </body>
-</html>
+    </html>
